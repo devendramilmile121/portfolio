@@ -3,6 +3,13 @@ import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
 
 export const Hero = () => {
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
@@ -30,12 +37,22 @@ export const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button variant="default" size="lg" className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300">
+            <Button 
+              variant="default" 
+              size="lg" 
+              className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300"
+              onClick={() => scrollToSection('contact')}
+            >
               <Mail className="mr-2 h-5 w-5" />
               Get In Touch
             </Button>
             
-            <Button variant="outline" size="lg" className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300"
+              onClick={() => scrollToSection('projects')}
+            >
               <ExternalLink className="mr-2 h-5 w-5" />
               View Projects
             </Button>
