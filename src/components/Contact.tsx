@@ -27,8 +27,8 @@ export const Contact = () => {
     {
       icon: Github,
       label: "GitHub",
-      username: "devendramilmile",
-      url: "https://github.com/devendramilmile"
+      username: "devendramilmile121",
+      url: "https://github.com/devendramilmile121"
     },
     {
       icon: Linkedin,
@@ -39,8 +39,8 @@ export const Contact = () => {
     {
       icon: ExternalLink,
       label: "NPM Profile",
-      username: "devendramilmile121",
-      url: "https://www.npmjs.com/~devendramilmile121"
+      username: "devendramilmile",
+      url: "https://www.npmjs.com/~devendramilmile"
     }
   ];
 
