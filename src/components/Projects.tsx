@@ -83,8 +83,8 @@ export const Projects = () => {
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardHeader>
-                <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 max-w-[120px] truncate">
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-4">
+                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 w-fit">
                     {project.type}
                   </Badge>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
