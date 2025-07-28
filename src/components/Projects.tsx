@@ -115,16 +115,38 @@ export const Projects = () => {
                   </ul>
                 </div>
                 
-                <div className="flex flex-wrap gap-2 mb-6">
-                  {project.technologies.map((tech) => (
-                    <Badge 
-                      key={tech}
-                      variant="secondary" 
-                      className="bg-secondary/20 text-secondary-foreground border border-secondary/30"
-                    >
-                      {tech}
-                    </Badge>
-                  ))}
+                <div className="mb-6">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
+                    {project.technologies.slice(0, 3).map((tech) => (
+                      <Badge 
+                        key={tech}
+                        variant="secondary" 
+                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                    {project.technologies.length > 3 && (
+                      <Badge 
+                        variant="outline" 
+                        className="border-muted text-muted-foreground text-xs px-2 py-1"
+                      >
+                        +{project.technologies.length - 3} more
+                      </Badge>
+                    )}
+                  </div>
+                  {/* Show all technologies on larger screens */}
+                  <div className="hidden lg:flex flex-wrap gap-2 mt-2">
+                    {project.technologies.slice(3).map((tech) => (
+                      <Badge 
+                        key={tech}
+                        variant="secondary" 
+                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1"
+                      >
+                        {tech}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
                 
                 {project.links && (
