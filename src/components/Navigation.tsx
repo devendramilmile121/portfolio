@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { ThemeSwitch } from "@/components/ThemeSwitch";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -54,25 +55,30 @@ export const Navigation = () => {
                 {item.label}
               </button>
             ))}
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="border-primary/30 hover:border-primary hover:bg-primary/10"
-              onClick={() => scrollToSection('contact')}
-            >
-              Hire Me
-            </Button>
+            <div className="flex items-center gap-3">
+              <ThemeSwitch />
+              <Button 
+                variant="outline" 
+                size="sm"
+                className="border-primary/30 hover:border-primary hover:bg-primary/10"
+                onClick={() => scrollToSection('contact')}
+              >
+                Hire Me
+              </Button>
+            </div>
           </div>
 
-          {/* Mobile Menu Button */}
-          <Button
-            variant="ghost"
-            size="sm"
-            className="md:hidden"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </Button>
+          {/* Mobile Menu Button and Theme Switch */}
+          <div className="flex items-center gap-3 md:hidden">
+            <ThemeSwitch />
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </Button>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
