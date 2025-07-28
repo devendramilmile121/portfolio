@@ -37,6 +37,12 @@ export function ThemeProvider({
     root.classList.add(`theme-${theme}`)
   }, [theme])
 
+  // Apply initial theme on mount
+  useEffect(() => {
+    const root = window.document.documentElement
+    root.classList.add(`theme-${theme}`)
+  }, [])
+
   const value = {
     theme,
     setTheme: (theme: Theme) => {
