@@ -84,7 +84,7 @@ export const Projects = () => {
             >
               <CardHeader>
                 <div className="flex justify-between items-start mb-4">
-                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5">
+                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 max-w-[120px] truncate">
                     {project.type}
                   </Badge>
                   <div className="flex items-center gap-1 text-sm text-muted-foreground">
