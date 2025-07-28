@@ -20,7 +20,7 @@ export const Footer = () => {
           {/* Social Links */}
           <div className="flex items-center space-x-6">
             <a 
-              href="https://github.com/devendramilmile" 
+              href="https://github.com/devendramilmile121" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
