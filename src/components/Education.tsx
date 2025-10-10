@@ -21,6 +21,12 @@ export const Education = () => {
 
   const certifications = [
     {
+      title: "Microsoft Certified: Azure Fundamentals",
+      provider: "Microsoft",
+      date: "Sep 2025",
+      link: "https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C"
+    },
+    {
       title: "Angular Architecture. How to Build Scalable Web Applications",
       provider: "Udemy",
       date: "Nov 2022",
@@ -51,10 +57,23 @@ export const Education = () => {
     {
       title: "Career Essentials in GitHub Professional Certificate",
       provider: "LinkedIn",
-      date: "June 2024",
+      date: "Jun 2024",
       link: "https://lnkd.in/d6YwfzpD"
     }
   ];
+
+  const sortedCertifications = [...certifications].sort((a, b) => {
+    const parseDate = (dateStr: string) => {
+      const [month, year] = dateStr.split(' ');
+      const monthMap: { [key: string]: number } = {
+        'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+        'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+      };
+      return new Date(parseInt(year), monthMap[month]);
+    };
+    
+    return parseDate(b.date).getTime() - parseDate(a.date).getTime();
+  });
 
   return (
     <section className="py-20 px-6 bg-secondary/5">
@@ -109,7 +128,7 @@ export const Education = () => {
             </div>
             
             <div className="space-y-4">
-              {certifications.map((cert, index) => (
+              {sortedCertifications.map((cert, index) => (
                 <Card 
                   key={cert.title}
                   className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500"
