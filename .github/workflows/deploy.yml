@@ -13,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Validate GA secret
+        run: |
+          if [ -z "${{ secrets.VITE_GA_MEASUREMENT_ID }}" ]; then
+            echo "VITE_GA_MEASUREMENT_ID secret is missing. Aborting."
+            exit 1
+          fi
       - name: Checkout code
         uses: actions/checkout@v4
 
