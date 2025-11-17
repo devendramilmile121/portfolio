@@ -9,8 +9,6 @@ import { useEffect } from "react";
 
 const queryClient = new QueryClient();
 
-const isProd = import.meta.env.MODE === "production";
-const basename = isProd ? "/portfolio" : undefined;
 const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 
@@ -43,7 +41,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename={basename}>
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
