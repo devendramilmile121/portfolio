@@ -9,6 +9,7 @@ import {
 import { useTheme } from '@/hooks/use-theme'
 
 const themes = [
+  { name: 'GitHub Dark', value: 'github', color: 'bg-gray-900' },
   { name: 'Dark Blue', value: 'dark', color: 'bg-blue-600' },
   { name: 'Sunny Yellow', value: 'yellow', color: 'bg-yellow-500' },
   { name: 'Nature Green', value: 'green', color: 'bg-green-600' },

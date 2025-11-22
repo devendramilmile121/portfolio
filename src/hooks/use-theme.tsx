@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'dark' | 'yellow' | 'green' | 'white'
+type Theme = 'github' | 'dark' | 'yellow' | 'green' | 'white'
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -14,7 +14,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'dark',
+  theme: 'github',
   setTheme: () => null,
 }
 
@@ -22,7 +22,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'dark',
+  defaultTheme = 'github',
   storageKey = 'portfolio-theme',
   ...props
 }: ThemeProviderProps) {
@@ -33,7 +33,7 @@ export function ThemeProvider({
   useEffect(() => {
     const root = window.document.documentElement
 
-    root.classList.remove('theme-dark', 'theme-yellow', 'theme-green', 'theme-white')
+    root.classList.remove('theme-github', 'theme-dark', 'theme-yellow', 'theme-green', 'theme-white')
     root.classList.add(`theme-${theme}`)
   }, [theme])
 

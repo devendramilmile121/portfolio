@@ -8,32 +8,32 @@ All colors MUST be HSL.
 
 @layer base {
 
-  /* Default theme fallback */
+  /* Default theme fallback - GitHub Dark */
   :root {
-    --background: 220 26% 8%;
-    --foreground: 210 40% 98%;
-    --card: 220 26% 10%;
-    --card-foreground: 210 40% 98%;
-    --popover: 220 26% 10%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 200 100% 60%;
-    --primary-foreground: 220 26% 8%;
-    --secondary: 220 26% 14%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 220 26% 14%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 195 100% 50%;
-    --accent-foreground: 220 26% 8%;
+    --background: 0 0% 6%;
+    --foreground: 0 0% 88%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 88%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 88%;
+    --primary: 0 0% 92%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 88%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 58%;
+    --accent: 0 0% 100%;
+    --accent-foreground: 0 0% 6%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 26% 18%;
-    --input: 220 26% 18%;
-    --ring: 200 100% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
+    --ring: 0 0% 92%;
     --radius: 0.75rem;
-    --gradient-primary: linear-gradient(135deg, hsl(200 100% 60%), hsl(195 100% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(220 26% 10%), hsl(220 26% 12%));
-    --shadow-glow: 0 0 40px hsl(200 100% 60% / 0.15);
-    --shadow-card: 0 8px 32px hsl(220 26% 6% / 0.8);
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 92%), hsl(0 0% 100%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 12%));
+    --shadow-glow: 0 0 40px hsl(0 0% 92% / 0.1);
+    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.6);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -45,7 +45,34 @@ All colors MUST be HSL.
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
   
-  /* Dark Blue Theme (Default) */
+  /* GitHub Dark Theme (Default) */
+  .theme-github {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 88%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 88%;
+    --popover: 0 0% 10%;
+    --popover-foreground: 0 0% 88%;
+    --primary: 0 0% 92%;
+    --primary-foreground: 0 0% 6%;
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 88%;
+    --muted: 0 0% 16%;
+    --muted-foreground: 0 0% 58%;
+    --accent: 0 0% 100%;
+    --accent-foreground: 0 0% 6%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 14%;
+    --input: 0 0% 14%;
+    --ring: 0 0% 92%;
+    --gradient-primary: linear-gradient(135deg, hsl(0 0% 92%), hsl(0 0% 100%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 12%));
+    --shadow-glow: 0 0 40px hsl(0 0% 92% / 0.1);
+    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.6);
+  }
+
+  /* Dark Blue Theme */
   .theme-dark {
     --background: 220 26% 8%;
     --foreground: 210 40% 98%;
