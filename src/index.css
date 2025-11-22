@@ -186,4 +186,68 @@ All colors MUST be HSL.
     @apply bg-background text-foreground;
     transition: background-color 0.3s ease, color 0.3s ease;
   }
+
+  /* Smooth animations */
+  @keyframes gradient-shift {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  @keyframes text-shimmer {
+    0% {
+      background-position: -1000px 0;
+    }
+    100% {
+      background-position: 1000px 0;
+    }
+  }
+
+  /* Smooth scroll behavior */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Stagger animation delays */
+  .animate-delay-100 {
+    animation-delay: 100ms;
+  }
+  .animate-delay-200 {
+    animation-delay: 200ms;
+  }
+  .animate-delay-300 {
+    animation-delay: 300ms;
+  }
+  .animate-delay-400 {
+    animation-delay: 400ms;
+  }
+  .animate-delay-500 {
+    animation-delay: 500ms;
+  }
+  .animate-delay-600 {
+    animation-delay: 600ms;
+  }
+
+  /* Enhanced hover effects */
+  button, a, [role="button"] {
+    @apply transition-all duration-300 ease-out;
+  }
+
+  /* Cards animation */
+  .card-animate {
+    @apply animate-fade-in-up transition-all duration-500 hover:shadow-glow;
+  }
+
+  /* Glow effect on hover */
+  .glow-on-hover:hover {
+    @apply shadow-glow;
+  }
+
+  /* Smooth transitions for theme */
+  * {
+    @apply transition-colors duration-300;
+  }
 }

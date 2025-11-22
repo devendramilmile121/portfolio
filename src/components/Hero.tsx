@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBg from "@/assets/hero-bg.webp";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Hero = () => {
@@ -44,23 +44,23 @@ export const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
             {heroData.name}
           </h1>
           
-          <h2 className="text-2xl md:text-3xl font-semibold text-muted-foreground mb-4">
+          <h2 className="text-2xl md:text-3xl font-semibold text-muted-foreground mb-4 animate-fade-in-up animate-delay-100">
             {heroData.title}
           </h2>
           
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-200">
             {heroData.description}
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in-up animate-delay-300">
             <Button 
               variant="default" 
               size="lg" 
-              className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300"
+              className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300 hover:scale-105 active:scale-95"
               onClick={() => scrollToSection('contact')}
             >
               <Mail className="mr-2 h-5 w-5" />
@@ -70,7 +70,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg" 
-              className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300"
+              className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:scale-105 active:scale-95"
               onClick={() => scrollToSection('projects')}
             >
               <ExternalLink className="mr-2 h-5 w-5" />
@@ -79,8 +79,8 @@ export const Hero = () => {
           </div>
           
           {/* Social Links */}
-          <div className="flex justify-center space-x-6">
-            {heroData.social.map((social) => {
+          <div className="flex justify-center space-x-6 animate-fade-in-up animate-delay-400">
+            {heroData.social.map((social, index) => {
               const IconComponent = getSocialIcon(social.name);
               return (
                 <a 
@@ -88,7 +88,8 @@ export const Hero = () => {
                   href={social.url}
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
+                  className="text-muted-foreground hover:text-primary transition-all duration-300 transform hover:scale-125 hover:rotate-6"
+                  style={{ animationDelay: `${(index + 4) * 100}ms` }}
                 >
                   <IconComponent className="h-6 w-6" />
                 </a>
@@ -97,7 +98,7 @@ export const Hero = () => {
           </div>
           
           {/* Location */}
-          <p className="text-sm text-muted-foreground mt-8">
+          <p className="text-sm text-muted-foreground mt-8 animate-fade-in-up animate-delay-500">
             📍 {heroData.contact.location} | 📞 {heroData.contact.phone}
           </p>
         </div>

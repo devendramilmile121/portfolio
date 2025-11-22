@@ -29,10 +29,10 @@ export const Education = () => {
     <section className="py-20 px-6 bg-secondary/5">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
             Education & Certifications
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
             Continuous learning and professional development in modern technologies and best practices.
           </p>
         </div>
@@ -40,8 +40,8 @@ export const Education = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Education Section */}
           <div>
-            <div className="flex items-center gap-3 mb-8">
-              <GraduationCap className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-3 mb-8 animate-fade-in-left animate-delay-200">
+              <GraduationCap className="h-6 w-6 text-primary animate-float" />
               <h3 className="text-2xl font-bold text-foreground">Education</h3>
             </div>
             
@@ -49,21 +49,22 @@ export const Education = () => {
               {education.map((edu, index) => (
                 <Card 
                   key={edu.degree}
-                  className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500"
+                  className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 animate-slide-up hover:translate-x-1"
+                  style={{ animationDelay: `${(index + 2) * 100}ms` }}
                 >
                   <CardHeader>
                     <div className="flex justify-between items-start mb-2">
-                      <Badge variant="outline" className="border-primary/30 text-primary bg-primary/5">
+                      <Badge variant="outline" className="border-primary/30 text-primary bg-primary/5 hover:scale-110 transition-transform duration-300">
                         {edu.type}
                       </Badge>
-                      <span className="text-sm text-muted-foreground">{edu.period}</span>
+                      <span className="text-sm text-muted-foreground hover:text-primary transition-colors duration-300">{edu.period}</span>
                     </div>
-                    <CardTitle className="text-lg text-primary">
+                    <CardTitle className="text-lg text-primary hover:text-accent transition-colors duration-300">
                       {edu.degree}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground">{edu.institution}</p>
+                    <p className="text-muted-foreground hover:text-foreground transition-colors duration-300">{edu.institution}</p>
                   </CardContent>
                 </Card>
               ))}
@@ -72,8 +73,8 @@ export const Education = () => {
           
           {/* Certifications Section */}
           <div>
-            <div className="flex items-center gap-3 mb-8">
-              <Award className="h-6 w-6 text-primary" />
+            <div className="flex items-center gap-3 mb-8 animate-fade-in-right animate-delay-200">
+              <Award className="h-6 w-6 text-primary animate-float" style={{ animationDelay: '0.5s' }} />
               <h3 className="text-2xl font-bold text-foreground">Certifications</h3>
             </div>
             
@@ -81,15 +82,16 @@ export const Education = () => {
               {sortedCertifications.map((cert, index) => (
                 <Card 
                   key={cert.title}
-                  className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500"
+                  className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 animate-slide-up hover:translate-x-1"
+                  style={{ animationDelay: `${(index + 2) * 100}ms` }}
                 >
                   <CardContent className="p-6">
                     <div className="flex justify-between items-start mb-3">
                       <div className="flex-1">
-                        <h4 className="font-semibold text-foreground mb-1 leading-tight">
+                        <h4 className="font-semibold text-foreground mb-1 leading-tight hover:text-primary transition-colors duration-300">
                           {cert.title}
                         </h4>
-                        <p className="text-sm text-muted-foreground mb-2">
+                        <p className="text-sm text-muted-foreground mb-2 hover:text-foreground transition-colors duration-300">
                           {cert.provider} • {cert.date}
                         </p>
                       </div>
@@ -97,7 +99,7 @@ export const Education = () => {
                         <Button 
                           variant="ghost" 
                           size="sm"
-                          className="text-primary hover:text-primary hover:bg-primary/10 ml-2"
+                          className="text-primary hover:text-primary hover:bg-primary/10 ml-2 hover:scale-110 transition-transform duration-300"
                           asChild
                         >
                           <a href={cert.link} target="_blank" rel="noopener noreferrer">

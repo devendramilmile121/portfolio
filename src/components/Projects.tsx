@@ -15,10 +15,10 @@ export const Projects = () => {
     <section className="py-20 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
             Featured Projects
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
             Showcase of impactful projects spanning enterprise platforms, open source contributions, and innovative solutions.
           </p>
         </div>
@@ -27,21 +27,21 @@ export const Projects = () => {
           {projects.map((project, index) => (
             <Card 
               key={project.title}
-              className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 transform hover:scale-[1.02]"
+              className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 transform hover:scale-[1.02] animate-bounce-in"
               style={{ animationDelay: `${index * 150}ms` }}
             >
               <CardHeader>
                 <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-4">
-                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 w-fit">
+                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 w-fit hover:scale-110 transition-transform duration-300">
                     {project.type}
                   </Badge>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Calendar className="h-4 w-4" />
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
+                    <Calendar className="h-4 w-4 animate-pulse" />
                     {project.period}
                   </div>
                 </div>
                 
-                <CardTitle className="text-xl md:text-2xl text-primary mb-3">
+                <CardTitle className="text-xl md:text-2xl text-primary mb-3 hover:text-accent transition-colors duration-300">
                   {project.title}
                 </CardTitle>
                 
@@ -55,8 +55,8 @@ export const Projects = () => {
                   <h4 className="font-semibold text-foreground mb-3">Key Achievements:</h4>
                   <ul className="space-y-2">
                     {project.highlights.map((highlight, idx) => (
-                      <li key={idx} className="text-muted-foreground flex items-start gap-2">
-                        <span className="text-primary mt-2 text-xs">•</span>
+                      <li key={idx} className="text-muted-foreground flex items-start gap-2 hover:translate-x-1 transition-transform duration-300">
+                        <span className="text-primary mt-1 text-xs animate-pulse-slow">•</span>
                         <span>{highlight}</span>
                       </li>
                     ))}
@@ -65,11 +65,12 @@ export const Projects = () => {
                 
                 <div className="mb-6">
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {project.technologies.slice(0, 3).map((tech) => (
+                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
                       <Badge 
                         key={tech}
                         variant="secondary" 
-                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1"
+                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1 hover:scale-110 hover:shadow-glow/30 transition-all duration-300 cursor-pointer"
+                        style={{ animationDelay: `${(index * 150) + (techIndex * 50)}ms` }}
                       >
                         {tech}
                       </Badge>
@@ -77,7 +78,7 @@ export const Projects = () => {
                     {project.technologies.length > 3 && (
                       <Badge 
                         variant="outline" 
-                        className="border-muted text-muted-foreground text-xs px-2 py-1"
+                        className="border-muted text-muted-foreground text-xs px-2 py-1 hover:border-primary hover:text-primary transition-colors duration-300"
                       >
                         +{project.technologies.length - 3} more
                       </Badge>
@@ -85,11 +86,12 @@ export const Projects = () => {
                   </div>
                   {/* Show all technologies on larger screens */}
                   <div className="hidden lg:flex flex-wrap gap-2 mt-2">
-                    {project.technologies.slice(3).map((tech) => (
+                    {project.technologies.slice(3).map((tech, techIndex) => (
                       <Badge 
                         key={tech}
                         variant="secondary" 
-                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1"
+                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1 hover:scale-110 hover:shadow-glow/30 transition-all duration-300 cursor-pointer"
+                        style={{ animationDelay: `${(index * 150) + (3 * 50) + (techIndex * 50)}ms` }}
                       >
                         {tech}
                       </Badge>
