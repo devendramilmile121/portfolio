@@ -1,14 +1,53 @@
+# Robots.txt for devendramilmile.com - Full Stack Developer Portfolio
+# This file tells search engines how to crawl and index the site
+
+# Allow all search engines to crawl the entire site
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /.git
+Disallow: /node_modules
+
+# Specific rules for Google (Googlebot)
 User-agent: Googlebot
 Allow: /
+Crawl-delay: 0
+Request-rate: 1 req / 1s
 
+# Specific rules for Bing (Bingbot)
 User-agent: Bingbot
 Allow: /
+Crawl-delay: 1
+Request-rate: 1 req / 2s
 
+# Specific rules for Yandex
+User-agent: YandexBot
+Allow: /
+Crawl-delay: 1
+
+# Allow social media bots to crawl for link previews
 User-agent: Twitterbot
 Allow: /
 
 User-agent: facebookexternalhit
 Allow: /
 
-User-agent: *
+User-agent: LinkedInBot
 Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# Prevent crawling of sensitive files and directories
+Disallow: *.zip
+Disallow: *.pdf
+Disallow: *.doc*
+Disallow: /private
+Disallow: /temp
+
+# Sitemap locations for better indexing
+Sitemap: https://devendramilmile.com/sitemap.xml
+
+# Request rate and visit times
+Request-rate: 1 req / 1s
+Visit-time: 0000-2400
