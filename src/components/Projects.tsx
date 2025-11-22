@@ -65,33 +65,12 @@ export const Projects = () => {
                 
                 <div className="mb-6">
                   <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {project.technologies.slice(0, 3).map((tech, techIndex) => (
+                    {project.technologies.map((tech, techIndex) => (
                       <Badge 
                         key={tech}
                         variant="secondary" 
                         className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1 hover:scale-110 hover:shadow-glow/30 transition-all duration-300 cursor-pointer"
                         style={{ animationDelay: `${(index * 150) + (techIndex * 50)}ms` }}
-                      >
-                        {tech}
-                      </Badge>
-                    ))}
-                    {project.technologies.length > 3 && (
-                      <Badge 
-                        variant="outline" 
-                        className="border-muted text-muted-foreground text-xs px-2 py-1 hover:border-primary hover:text-primary transition-colors duration-300"
-                      >
-                        +{project.technologies.length - 3} more
-                      </Badge>
-                    )}
-                  </div>
-                  {/* Show all technologies on larger screens */}
-                  <div className="hidden lg:flex flex-wrap gap-2 mt-2">
-                    {project.technologies.slice(3).map((tech, techIndex) => (
-                      <Badge 
-                        key={tech}
-                        variant="secondary" 
-                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1 hover:scale-110 hover:shadow-glow/30 transition-all duration-300 cursor-pointer"
-                        style={{ animationDelay: `${(index * 150) + (3 * 50) + (techIndex * 50)}ms` }}
                       >
                         {tech}
                       </Badge>
