@@ -1,52 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CalendarDays, MapPin } from "lucide-react";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Experience = () => {
-  const experiences = [
-    {
-      company: "Epam Systems",
-      role: "Software Engineer",
-      period: "Nov 2024 - Present",
-      location: "Pune",
-      description: [
-        "Developed a modular Angular micro frontend application used across products",
-        "Maintained a shared Angular library to enable code reuse and consistency",
-        "Contributed to .NET Core API development with YARP reverse proxy integration",
-        "Created custom service aggregators to expose unified endpoints",
-        "Worked closely with cross-functional teams in agile sprints"
-      ],
-      technologies: ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript"]
-    },
-    {
-      company: "Nitor Infotech",
-      role: "Lead Software Engineer", 
-      period: "Aug 2021 - Nov 2024",
-      location: "Pune",
-      description: [
-        "Delivered multiple full-stack projects using Angular, .NET Core, and SQL Server",
-        "Built reusable UI components using Angular Material and PrimeNG",
-        "Improved backend performance by implementing caching and gzip compression",
-        "Actively engaged in agile ceremonies and team collaboration",
-        "Earned recognition for timely deliveries and high-quality work"
-      ],
-      technologies: ["Angular", ".NET Core", "SQL Server", "Angular Material", "PrimeNG"]
-    },
-    {
-      company: "smartData Enterprises (I) Ltd.",
-      role: "Associate Level 3",
-      period: "Feb 2019 - Aug 2021", 
-      location: "Nagpur",
-      description: [
-        "Developed full-stack features for healthcare and service-based apps",
-        "Created a custom PDF form builder and appointment calendar module",
-        "Interfaced with clients to gather requirements and clarify expectations",
-        "Participated in sprint planning and contributed to task estimations",
-        "Acted as the communication bridge between clients and the dev team"
-      ],
-      technologies: ["Full Stack Development", "Healthcare Apps", "PDF Generation", "Client Management"]
-    }
-  ];
+  const { config, loading } = usePortfolioConfig();
+
+  if (loading || !config) return null;
+
+  const experiences = config.experience;
 
   return (
     <section className="py-20 px-6 bg-secondary/5">

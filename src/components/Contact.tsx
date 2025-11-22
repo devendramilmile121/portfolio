@@ -1,58 +1,43 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Mail, Phone, MapPin, Github, Linkedin, ExternalLink } from "lucide-react";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Contact = () => {
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "milmiledh@gmail.com",
-      link: "mailto:milmiledh@gmail.com"
-    },
-    {
-      icon: Phone,
-      label: "Phone",
-      value: "+91 7263967111",
-      link: "tel:+917263967111"
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Pune, India"
-    }
-  ];
+  const { config, loading } = usePortfolioConfig();
 
-  const socialLinks = [
-    {
-      icon: Github,
-      label: "GitHub",
-      username: "devendramilmile121",
-      url: "https://github.com/devendramilmile121"
-    },
-    {
-      icon: Linkedin,
-      label: "LinkedIn",
-      username: "devendramilmile",
-      url: "https://linkedin.com/in/devendramilmile"
-    },
-    {
-      icon: ExternalLink,
-      label: "NPM Profile",
-      username: "devendramilmile",
-      url: "https://www.npmjs.com/~devendramilmile"
+  if (loading || !config) return null;
+
+  const contactData = config.contact;
+
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'mail':
+        return Mail;
+      case 'phone':
+        return Phone;
+      case 'mapPin':
+        return MapPin;
+      case 'github':
+        return Github;
+      case 'linkedin':
+        return Linkedin;
+      case 'externalLink':
+        return ExternalLink;
+      default:
+        return Mail;
     }
-  ];
+  };
 
   return (
     <section className="py-20 px-6">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Let's Connect
+            {contactData.heading}
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Ready to collaborate on your next project? Let's discuss how we can build something amazing together.
+            {contactData.description}
           </p>
         </div>
         
@@ -63,8 +48,8 @@ export const Contact = () => {
               <h3 className="text-2xl font-bold text-foreground mb-8">Get In Touch</h3>
               
               <div className="space-y-6">
-                {contactInfo.map((contact) => {
-                  const IconComponent = contact.icon;
+                {contactData.info.map((contact) => {
+                  const IconComponent = getIconComponent(contact.icon);
                   const content = (
                     <Card className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 transform hover:scale-105">
                       <CardContent className="p-6">
@@ -99,8 +84,8 @@ export const Contact = () => {
               <h3 className="text-2xl font-bold text-foreground mb-8">Professional Profiles</h3>
               
               <div className="space-y-6">
-                {socialLinks.map((social) => {
-                  const IconComponent = social.icon;
+                {contactData.social.map((social) => {
+                  const IconComponent = getIconComponent(social.icon);
                   return (
                     <Card 
                       key={social.label}

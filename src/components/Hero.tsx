@@ -1,12 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import heroBg from "@/assets/hero-bg.jpg";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Hero = () => {
+  const { config, loading } = usePortfolioConfig();
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  if (loading || !config) return null;
+
+  const heroData = config.hero;
+
+  const getSocialIcon = (iconName: string) => {
+    switch (iconName) {
+      case 'github':
+        return Github;
+      case 'linkedin':
+        return Linkedin;
+      case 'email':
+      case 'mail':
+        return Mail;
+      default:
+        return Mail;
     }
   };
 
@@ -24,16 +45,15 @@ export const Hero = () => {
       <div className="relative z-10 container mx-auto px-6 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent">
-            Devendra Milmile
+            {heroData.name}
           </h1>
           
           <h2 className="text-2xl md:text-3xl font-semibold text-muted-foreground mb-4">
-            Full Stack Developer
+            {heroData.title}
           </h2>
           
           <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-            6 years of expertise in Angular & .NET Core development. 
-            Building scalable web applications with modern micro frontend architecture.
+            {heroData.description}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -44,7 +64,7 @@ export const Hero = () => {
               onClick={() => scrollToSection('contact')}
             >
               <Mail className="mr-2 h-5 w-5" />
-              Get In Touch
+              {heroData.ctaPrimary}
             </Button>
             
             <Button 
@@ -54,39 +74,31 @@ export const Hero = () => {
               onClick={() => scrollToSection('projects')}
             >
               <ExternalLink className="mr-2 h-5 w-5" />
-              View Projects
+              {heroData.ctaSecondary}
             </Button>
           </div>
           
           {/* Social Links */}
           <div className="flex justify-center space-x-6">
-            <a 
-              href="https://github.com/devendramilmile" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
-            >
-              <Github className="h-6 w-6" />
-            </a>
-            <a 
-              href="https://linkedin.com/in/devendramilmile" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
-            >
-              <Linkedin className="h-6 w-6" />
-            </a>
-            <a 
-              href="mailto:milmiledh@gmail.com"
-              className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
-            >
-              <Mail className="h-6 w-6" />
-            </a>
+            {heroData.social.map((social) => {
+              const IconComponent = getSocialIcon(social.name);
+              return (
+                <a 
+                  key={social.name}
+                  href={social.url}
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300 transform hover:scale-110"
+                >
+                  <IconComponent className="h-6 w-6" />
+                </a>
+              );
+            })}
           </div>
           
           {/* Location */}
           <p className="text-sm text-muted-foreground mt-8">
-            📍 Pune, India | 📞 +91 7263967111
+            📍 {heroData.contact.location} | 📞 {heroData.contact.phone}
           </p>
         </div>
       </div>

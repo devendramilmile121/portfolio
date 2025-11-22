@@ -2,65 +2,15 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { GraduationCap, Award, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Education = () => {
-  const education = [
-    {
-      degree: "Master of Computer Application",
-      institution: "Shri Ramdeo Baba College of Engineering and Management",
-      period: "Jun 2016 - Jun 2019",
-      type: "Masters Degree"
-    },
-    {
-      degree: "Bachelor of Computer Application", 
-      institution: "College of Management and Computer Science",
-      period: "Jun 2012 - Jun 2016",
-      type: "Bachelors Degree"
-    }
-  ];
+  const { config, loading } = usePortfolioConfig();
 
-  const certifications = [
-    {
-      title: "Microsoft Certified: Azure Fundamentals",
-      provider: "Microsoft",
-      date: "Sep 2025",
-      link: "https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C"
-    },
-    {
-      title: "Angular Architecture. How to Build Scalable Web Applications",
-      provider: "Udemy",
-      date: "Nov 2022",
-      link: "https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"
-    },
-    {
-      title: "AZ-900: Microsoft Azure Fundamentals Exam Prep 2023",
-      provider: "Udemy", 
-      date: "May 2023",
-      link: "https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"
-    },
-    {
-      title: ".NET Core Microservices - The Complete Guide (.NET 8 MVC)",
-      provider: "Udemy",
-      date: "Dec 2022", 
-      link: "https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"
-    },
-    {
-      title: "Cloud Fundamentals: AWS Services for C# Developers",
-      provider: "Dometrain",
-      date: "May 2023"
-    },
-    {
-      title: "AWS Cloud Practitioner",
-      provider: "GeeksforGeeks",
-      date: "May 2024"
-    },
-    {
-      title: "Career Essentials in GitHub Professional Certificate",
-      provider: "LinkedIn",
-      date: "Jun 2024",
-      link: "https://lnkd.in/d6YwfzpD"
-    }
-  ];
+  if (loading || !config) return null;
+
+  const education = config.education.degrees;
+  const certifications = config.education.certifications;
 
   const sortedCertifications = [...certifications].sort((a, b) => {
     const parseDate = (dateStr: string) => {

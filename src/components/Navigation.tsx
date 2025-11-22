@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeSwitch } from "@/components/ThemeSwitch";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const { config, loading } = usePortfolioConfig();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,14 +26,9 @@ export const Navigation = () => {
     }
   };
 
-  const navItems = [
-    { label: "Home", id: "hero" },
-    { label: "Skills", id: "skills" },
-    { label: "Experience", id: "experience" },
-    { label: "Projects", id: "projects" },
-    { label: "Education", id: "education" },
-    { label: "Contact", id: "contact" }
-  ];
+  if (loading || !config) return null;
+
+  const navItems = config.navigation;
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40`}>

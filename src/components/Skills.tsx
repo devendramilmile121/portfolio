@@ -1,33 +1,13 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Skills = () => {
-  const skillCategories = [
-    {
-      title: "Frontend",
-      skills: ["Angular", "TypeScript", "HTML5", "CSS/SCSS", "React JS", "Angular Material", "PrimeNG"]
-    },
-    {
-      title: "Backend", 
-      skills: [".NET Core", "C#", "Entity Framework", "YARP", "Microservices", "RESTful APIs"]
-    },
-    {
-      title: "Database",
-      skills: ["SQL Server", "Database Design", "Performance Optimization"]
-    },
-    {
-      title: "Cloud & DevOps",
-      skills: ["Azure", "AWS", "CI/CD", "GitHub Actions", "Docker"]
-    },
-    {
-      title: "Tools & Libraries",
-      skills: ["AmCharts5", "Survey.js", "Angular Gridster2", "JWT Authentication", "Swagger"]
-    },
-    {
-      title: "Methodologies",
-      skills: ["Agile", "Scrum", "Code Reviews", "Team Leadership", "Client Communication"]
-    }
-  ];
+  const { config, loading } = usePortfolioConfig();
+
+  if (loading || !config) return null;
+
+  const skillCategories = config.skills;
 
   return (
     <section className="py-20 px-6">

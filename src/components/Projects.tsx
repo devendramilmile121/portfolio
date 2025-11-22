@@ -2,66 +2,14 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ExternalLink, Github, Calendar } from "lucide-react";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 
 export const Projects = () => {
-  const projects = [
-    {
-      title: "CLARIO - Public API Platform",
-      period: "Dec 2024 - Present",
-      description: "Developed a Public API using .NET 8 with YARP reverse proxy, enabling efficient routing and service composition. Built notification rule engine and Expression Designer Library for dynamic trigger creation.",
-      highlights: [
-        "Custom Swagger UI for improved API documentation",
-        "Notification rule engine with micro frontend architecture",
-        "Expression Designer Library with visual editor",
-        "YARP reverse proxy implementation"
-      ],
-      technologies: [".NET 8", "YARP", "Micro Frontend", "Swagger", "API Design"],
-      type: "Enterprise Platform"
-    },
-    {
-      title: "UNIDO DIPS",
-      period: "Sep 2021 - Nov 2024",
-      description: "Full-stack web application with comprehensive features including multi-language support, external surveys, and JWT authentication. Led a team of 3 developers and 1 QA.",
-      highlights: [
-        "Multi-language support implementation",
-        "Survey.js integration for external surveys",
-        "JWT authentication in web APIs",
-        "Team leadership and project delivery"
-      ],
-      technologies: ["Angular", ".NET Core", "Survey.js", "JWT", "Multi-language"],
-      type: "Enterprise Application"
-    },
-    {
-      title: "SymphonyAI Platform",
-      period: "Jan 2022 - Oct 2024",
-      description: "Angular library project for reusable components and navigation system across SymphonyAI products. Built drag-and-drop dashboard with configurable charts.",
-      highlights: [
-        "25% increase in customer engagement",
-        "Drag-and-drop dashboard using Angular Gridster2",
-        "Configurable charts with AmCharts5",
-        "Dynamic menu system with JSON configuration"
-      ],
-      technologies: ["Angular", "Angular Gridster2", "AmCharts5", "TypeScript", "Library Development"],
-      type: "Product Platform"
-    },
-    {
-      title: "ngx-custom-carousel",
-      period: "Apr 2024 - Present",
-      description: "Open source Angular carousel component with custom template rendering. Features semantic versioning and automated CI/CD pipeline.",
-      highlights: [
-        "Published to NPM repository",
-        "Semantic versioning implementation",
-        "CI/CD with GitHub Actions",
-        "Custom Angular template rendering"
-      ],
-      technologies: ["Angular", "NPM", "GitHub Actions", "TypeScript", "Open Source"],
-      type: "Open Source",
-      links: {
-        npm: "https://www.npmjs.com/package/ngx-custom-carousel",
-        github: "https://github.com/devendramilmile/ngx-custom-carousel"
-      }
-    }
-  ];
+  const { config, loading } = usePortfolioConfig();
+
+  if (loading || !config) return null;
+
+  const projects = config.projects;
 
   return (
     <section className="py-20 px-6">
