@@ -1,0 +1,284 @@
+{
+  "hero": {
+    "name": "Devendra Milmile",
+    "title": "Full Stack Developer",
+    "description": "6 years of expertise in Angular & .NET Core development. Building scalable web applications with modern micro frontend architecture.",
+    "ctaPrimary": "Get In Touch",
+    "ctaSecondary": "View Projects",
+    "contact": {
+      "location": "Pune, India",
+      "phone": "+91 7263967111"
+    },
+    "social": [
+      {
+        "name": "github",
+        "url": "https://github.com/devendramilmile121"
+      },
+      {
+        "name": "linkedin",
+        "url": "https://linkedin.com/in/devendramilmile"
+      },
+      {
+        "name": "email",
+        "url": "mailto:milmiledh@gmail.com"
+      }
+    ]
+  },
+  "navigation": [
+    { "label": "Home", "id": "hero" },
+    { "label": "Skills", "id": "skills" },
+    { "label": "Experience", "id": "experience" },
+    { "label": "Projects", "id": "projects" },
+    { "label": "Education", "id": "education" },
+    { "label": "Contact", "id": "contact" }
+  ],
+  "skills": [
+    {
+      "title": "Frontend",
+      "skills": ["Angular", "TypeScript", "HTML5", "CSS/SCSS", "React JS", "Angular Material", "PrimeNG"]
+    },
+    {
+      "title": "Backend",
+      "skills": [".NET Core", "C#", "Entity Framework", "YARP", "Microservices", "RESTful APIs"]
+    },
+    {
+      "title": "Database",
+      "skills": ["SQL Server", "Database Design", "Performance Optimization"]
+    },
+    {
+      "title": "Cloud & DevOps",
+      "skills": ["Azure", "AWS", "CI/CD", "GitHub Actions", "Docker"]
+    },
+    {
+      "title": "Tools & Libraries",
+      "skills": ["AmCharts5", "Survey.js", "Angular Gridster2", "JWT Authentication", "Swagger"]
+    },
+    {
+      "title": "Methodologies",
+      "skills": ["Agile", "Scrum", "Code Reviews", "Team Leadership", "Client Communication"]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Epam Systems",
+      "role": "Software Engineer",
+      "period": "Nov 2024 - Present",
+      "location": "Pune",
+      "description": [
+        "Developed a modular Angular micro frontend application used across products",
+        "Maintained a shared Angular library to enable code reuse and consistency",
+        "Contributed to .NET Core API development with YARP reverse proxy integration",
+        "Created custom service aggregators to expose unified endpoints",
+        "Worked closely with cross-functional teams in agile sprints"
+      ],
+      "technologies": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript"]
+    },
+    {
+      "company": "Nitor Infotech",
+      "role": "Lead Software Engineer",
+      "period": "Aug 2021 - Nov 2024",
+      "location": "Pune",
+      "description": [
+        "Delivered multiple full-stack projects using Angular, .NET Core, and SQL Server",
+        "Built reusable UI components using Angular Material and PrimeNG",
+        "Improved backend performance by implementing caching and gzip compression",
+        "Actively engaged in agile ceremonies and team collaboration",
+        "Earned recognition for timely deliveries and high-quality work"
+      ],
+      "technologies": ["Angular", ".NET Core", "SQL Server", "Angular Material", "PrimeNG"]
+    },
+    {
+      "company": "smartData Enterprises (I) Ltd.",
+      "role": "Associate Level 3",
+      "period": "Feb 2019 - Aug 2021",
+      "location": "Nagpur",
+      "description": [
+        "Developed full-stack features for healthcare and service-based apps",
+        "Created a custom PDF form builder and appointment calendar module",
+        "Interfaced with clients to gather requirements and clarify expectations",
+        "Participated in sprint planning and contributed to task estimations",
+        "Acted as the communication bridge between clients and the dev team"
+      ],
+      "technologies": ["Full Stack Development", "Healthcare Apps", "PDF Generation", "Client Management"]
+    }
+  ],
+  "projects": [
+    {
+      "title": "CLARIO - Public API Platform",
+      "period": "Dec 2024 - Present",
+      "description": "Developed a Public API using .NET 8 with YARP reverse proxy, enabling efficient routing and service composition. Built notification rule engine and Expression Designer Library for dynamic trigger creation.",
+      "highlights": [
+        "Custom Swagger UI for improved API documentation",
+        "Notification rule engine with micro frontend architecture",
+        "Expression Designer Library with visual editor",
+        "YARP reverse proxy implementation"
+      ],
+      "technologies": [".NET 8", "YARP", "Micro Frontend", "Swagger", "API Design"],
+      "type": "Enterprise Platform"
+    },
+    {
+      "title": "UNIDO DIPS",
+      "period": "Sep 2021 - Nov 2024",
+      "description": "Full-stack web application with comprehensive features including multi-language support, external surveys, and JWT authentication. Led a team of 3 developers and 1 QA.",
+      "highlights": [
+        "Multi-language support implementation",
+        "Survey.js integration for external surveys",
+        "JWT authentication in web APIs",
+        "Team leadership and project delivery"
+      ],
+      "technologies": ["Angular", ".NET Core", "Survey.js", "JWT", "Multi-language"],
+      "type": "Enterprise Application"
+    },
+    {
+      "title": "SymphonyAI Platform",
+      "period": "Jan 2022 - Oct 2024",
+      "description": "Angular library project for reusable components and navigation system across SymphonyAI products. Built drag-and-drop dashboard with configurable charts.",
+      "highlights": [
+        "25% increase in customer engagement",
+        "Drag-and-drop dashboard using Angular Gridster2",
+        "Configurable charts with AmCharts5",
+        "Dynamic menu system with JSON configuration"
+      ],
+      "technologies": ["Angular", "Angular Gridster2", "AmCharts5", "TypeScript", "Library Development"],
+      "type": "Product Platform"
+    },
+    {
+      "title": "ngx-custom-carousel",
+      "period": "Apr 2024 - Present",
+      "description": "Open source Angular carousel component with custom template rendering. Features semantic versioning and automated CI/CD pipeline.",
+      "highlights": [
+        "Published to NPM repository",
+        "Semantic versioning implementation",
+        "CI/CD with GitHub Actions",
+        "Custom Angular template rendering"
+      ],
+      "technologies": ["Angular", "NPM", "GitHub Actions", "TypeScript", "Open Source"],
+      "type": "Open Source",
+      "links": {
+        "npm": "https://www.npmjs.com/package/ngx-custom-carousel",
+        "github": "https://github.com/devendramilmile/ngx-custom-carousel"
+      }
+    }
+  ],
+  "education": {
+    "degrees": [
+      {
+        "degree": "Master of Computer Application",
+        "institution": "Shri Ramdeo Baba College of Engineering and Management",
+        "period": "Jun 2016 - Jun 2019",
+        "type": "Masters Degree"
+      },
+      {
+        "degree": "Bachelor of Computer Application",
+        "institution": "College of Management and Computer Science",
+        "period": "Jun 2012 - Jun 2016",
+        "type": "Bachelors Degree"
+      }
+    ],
+    "certifications": [
+      {
+        "title": "Microsoft Certified: Azure Fundamentals",
+        "provider": "Microsoft",
+        "date": "Sep 2025",
+        "link": "https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C"
+      },
+      {
+        "title": "Angular Architecture. How to Build Scalable Web Applications",
+        "provider": "Udemy",
+        "date": "Nov 2022",
+        "link": "https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"
+      },
+      {
+        "title": "AZ-900: Microsoft Azure Fundamentals Exam Prep 2023",
+        "provider": "Udemy",
+        "date": "May 2023",
+        "link": "https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"
+      },
+      {
+        "title": ".NET Core Microservices - The Complete Guide (.NET 8 MVC)",
+        "provider": "Udemy",
+        "date": "Dec 2022",
+        "link": "https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"
+      },
+      {
+        "title": "Cloud Fundamentals: AWS Services for C# Developers",
+        "provider": "Dometrain",
+        "date": "May 2023"
+      },
+      {
+        "title": "AWS Cloud Practitioner",
+        "provider": "GeeksforGeeks",
+        "date": "May 2024"
+      },
+      {
+        "title": "Career Essentials in GitHub Professional Certificate",
+        "provider": "LinkedIn",
+        "date": "Jun 2024",
+        "link": "https://lnkd.in/d6YwfzpD"
+      }
+    ]
+  },
+  "contact": {
+    "heading": "Let's Connect",
+    "description": "Ready to collaborate on your next project? Let's discuss how we can build something amazing together.",
+    "info": [
+      {
+        "label": "Email",
+        "value": "milmiledh@gmail.com",
+        "link": "mailto:milmiledh@gmail.com",
+        "icon": "mail"
+      },
+      {
+        "label": "Phone",
+        "value": "+91 7263967111",
+        "link": "tel:+917263967111",
+        "icon": "phone"
+      },
+      {
+        "label": "Location",
+        "value": "Pune, India",
+        "icon": "mapPin"
+      }
+    ],
+    "social": [
+      {
+        "label": "GitHub",
+        "username": "devendramilmile121",
+        "url": "https://github.com/devendramilmile121",
+        "icon": "github"
+      },
+      {
+        "label": "LinkedIn",
+        "username": "devendramilmile",
+        "url": "https://linkedin.com/in/devendramilmile",
+        "icon": "linkedin"
+      },
+      {
+        "label": "NPM Profile",
+        "username": "devendramilmile",
+        "url": "https://www.npmjs.com/~devendramilmile",
+        "icon": "externalLink"
+      }
+    ]
+  },
+  "footer": {
+    "name": "Devendra Milmile",
+    "title": "Full Stack Developer • Angular & .NET Core Expert",
+    "copyright": "All rights reserved.",
+    "builtWith": "Built with React, TypeScript & Tailwind CSS",
+    "social": [
+      {
+        "name": "github",
+        "url": "https://github.com/devendramilmile121"
+      },
+      {
+        "name": "linkedin",
+        "url": "https://linkedin.com/in/devendramilmile"
+      },
+      {
+        "name": "email",
+        "url": "mailto:milmiledh@gmail.com"
+      }
+    ]
+  }
+}
