@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeSwitch } from "@/components/ThemeSwitch";
@@ -7,28 +8,95 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('hero');
   const { config, loading } = usePortfolioConfig();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      
+      // Update active section based on scroll position
+      if (isHomePage) {
+        const sections = ['hero', 'skills', 'experience', 'projects', 'education', 'contact'];
+        for (const sectionId of sections) {
+          const element = document.getElementById(sectionId);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            // Check if section is in viewport (with some offset for header)
+            if (rect.top <= 100 && rect.bottom >= 100) {
+              setActiveSection(sectionId);
+              break;
+            }
+          }
+        }
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isHomePage]);
+
+  // Handle hash navigation from URL
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (isHomePage) {
+        const hash = window.location.hash.slice(1); // Remove # from hash
+        if (hash) {
+          setActiveSection(hash);
+          // Scroll to the section
+          setTimeout(() => {
+            const element = document.getElementById(hash);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }, 100);
+        }
+      }
+    };
+
+    // Handle initial hash on page load
+    handleHashChange();
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [isHomePage]);
 
   const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsOpen(false);
+    // Update URL with hash
+    window.history.pushState(null, '', `#${sectionId}`);
+    setActiveSection(sectionId);
+    
+    // If not on home page, navigate to home first
+    if (!isHomePage) {
+      navigate('/');
+      // Wait for navigation to complete, then scroll
+      setTimeout(() => {
+        const element = document.getElementById(sectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+          setIsOpen(false);
+        }
+      }, 100);
+    } else {
+      // Already on home page, just scroll
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setIsOpen(false);
+      }
     }
   };
 
   if (loading || !config) return null;
 
   const navItems = config.navigation;
+
+  const isNavItemActive = (itemId: string) => {
+    return activeSection === itemId && isHomePage;
+  };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40`}>
@@ -45,11 +113,25 @@ export const Navigation = () => {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-muted-foreground hover:text-primary transition-colors duration-300 font-medium"
+                className={`transition-colors duration-300 font-medium ${
+                  isNavItemActive(item.id)
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
               >
                 {item.label}
               </button>
             ))}
+            <Link
+              to="/blogs"
+              className={`transition-colors duration-300 font-medium ${
+                location.pathname === '/blogs'
+                  ? 'text-primary'
+                  : 'text-muted-foreground hover:text-primary'
+              }`}
+            >
+              Blog
+            </Link>
             <div className="flex items-center gap-3">
               <ThemeSwitch />
               <Button 
@@ -84,11 +166,25 @@ export const Navigation = () => {
                 <button
                   key={item.id}
                   onClick={() => scrollToSection(item.id)}
-                  className="text-left text-muted-foreground hover:text-primary transition-colors duration-300 font-medium py-2"
+                  className={`text-left transition-colors duration-300 font-medium py-2 ${
+                    isNavItemActive(item.id)
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
                 >
                   {item.label}
                 </button>
               ))}
+              <Link
+                to="/blogs"
+                className={`text-left transition-colors duration-300 font-medium py-2 ${
+                  location.pathname === '/blogs'
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
+              >
+                Blog
+              </Link>
               <Button 
                 variant="outline" 
                 size="sm"
