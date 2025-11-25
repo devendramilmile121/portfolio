@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import rehypeHighlight from "rehype-highlight";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Calendar, Clock } from "lucide-react";
@@ -215,11 +214,27 @@ export default function BlogDetail() {
   const [loading, setLoading] = useState(true);
   const [readingTime, setReadingTime] = useState(0);
   const { theme } = useTheme();
+  const [rehypePlugins, setRehypePlugins] = useState<any[]>([]);
 
   // Load highlight.js theme based on current theme
   useEffect(() => {
     loadHighlightTheme(theme);
   }, [theme]);
+
+  // Lazy-load rehype-highlight only when this page mounts to avoid bundling it into the main vendor chunk
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const mod = await import('rehype-highlight');
+        if (mounted) setRehypePlugins([mod.default ? mod.default : mod]);
+      } catch (e) {
+        // Failed to load highlighting - continue without it
+        console.warn('rehype-highlight failed to load', e);
+      }
+    })();
+    return () => { mounted = false; };
+  }, []);
 
   useEffect(() => {
     if (!slug) return;
@@ -312,7 +327,7 @@ export default function BlogDetail() {
             <div className={`prose max-w-none ${theme === "dark" ? "prose-invert" : ""}`}>
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
-                rehypePlugins={[rehypeHighlight]}
+                rehypePlugins={rehypePlugins}
                 components={markdownComponents}
               >
                 {blog.body}

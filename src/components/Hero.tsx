@@ -1,10 +1,29 @@
 import { Button } from "@/components/ui/button";
 import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 import heroBg from "@/assets/hero-bg.webp";
+import heroBg480 from "@/assets/hero-bg-480.webp";
+import heroBg768 from "@/assets/hero-bg-768.webp";
+import heroBg1200 from "@/assets/hero-bg-1200.webp";
+import heroBg1920 from "@/assets/hero-bg-1920.webp";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
+import { useEffect } from 'react';
 
 export const Hero = () => {
   const { config, loading } = usePortfolioConfig();
+
+  useEffect(() => {
+    // Preload hero background to improve LCP (only for first paint)
+    try {
+      const link = document.createElement('link');
+      link.rel = 'preload';
+      link.as = 'image';
+      link.href = heroBg;
+      document.head.appendChild(link);
+      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
+    } catch (e) {
+      // ignore
+    }
+  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -34,12 +53,22 @@ export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      >
-        <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
-      </div>
+      <picture className="absolute inset-0 w-full h-full">
+        <source
+          srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
+          type="image/webp"
+        />
+        <img
+          src={heroBg1200}
+          alt="Hero background"
+          className="absolute inset-0 w-full h-full object-cover"
+          width={1920}
+          height={1080}
+          loading="eager"
+        />
+      </picture>
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">

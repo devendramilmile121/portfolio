@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && shx cp dist/index.html dist/404.html",
+    "build": "vite build && node -e \"require('fs').copyFileSync('dist/index.html','dist/404.html')\"",
     "build:dev": "vite build --mode development",
+  "images:optimize": "node scripts/optimize-images.cjs",
+  "analyze": "cross-env ANALYZE=true vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "deploy": "vite build && npx gh-pages -d dist"
@@ -86,6 +88,8 @@
     "tailwindcss": "^3.4.11",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
-    "vite": "^7.0.6"
+    "vite": "^7.0.6",
+    "sharp": "^0.32.0",
+    "cross-env": "^7.0.3"
   }
 }
