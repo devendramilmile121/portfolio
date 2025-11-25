@@ -130,7 +130,7 @@ export const Navigation = () => {
                   : 'text-muted-foreground hover:text-primary'
               }`}
             >
-              Blog
+              Blogs
             </Link>
             <div className="flex items-center gap-3">
               <ThemeSwitch />
@@ -183,7 +183,7 @@ export const Navigation = () => {
                     : 'text-muted-foreground hover:text-primary'
                 }`}
               >
-                Blog
+                Blogs
               </Link>
               <Button 
                 variant="outline" 

@@ -44,7 +44,7 @@ export const Footer = () => {
               to="/blogs"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"
             >
-              Blog
+              Blogs
             </Link>
             <span className="text-border/40">•</span>
             <a 

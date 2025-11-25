@@ -84,7 +84,7 @@ export default function BlogList() {
           {/* Header */}
           <div className="mb-12">
             <h1 className="text-5xl font-bold mb-4 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down pb-3">
-              Blog
+              Blogs
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl animate-fade-in-up animate-delay-100">
               Insights on React, TypeScript, Full Stack Development, and Web Performance. Tips, tutorials, and best practices.
