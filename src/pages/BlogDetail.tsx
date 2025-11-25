@@ -86,7 +86,7 @@ const markdownComponents = {
     );
   },
   pre: ({ children }: any) => (
-    <pre className="my-4 rounded-lg overflow-x-auto bg-secondary/20 p-4 border border-border/40">
+    <pre className="my-4 rounded-lg overflow-x-auto bg-secondary/20 p-0 border border-border/40">
       {children}
     </pre>
   ),
