@@ -6,8 +6,10 @@ import { Projects } from "@/components/Projects";
 import { Education } from "@/components/Education";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 const Index = () => {
+  useScrollToTop();
   return (
     <div className="min-h-screen bg-background">
       <Navigation />

@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Calendar, Search, ArrowRight } from "lucide-react";
 import { loadBlogs, BlogPost } from "@/data/blogs";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 export default function BlogList() {
+  useScrollToTop();
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
   const [filteredBlogs, setFilteredBlogs] = useState<BlogPost[]>([]);
   const [selectedTags, setSelectedTags] = useState<Set<string>>(new Set());

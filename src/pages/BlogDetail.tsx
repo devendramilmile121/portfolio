@@ -11,6 +11,7 @@ import { useTheme } from "@/hooks/use-theme";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { GiscusComments } from "@/components/GiscusComments";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 // Dynamically load highlight.js styles based on theme
 function loadHighlightTheme(theme: string) {
@@ -208,6 +209,7 @@ function calculateReadingTime(text: string): number {
 }
 
 export default function BlogDetail() {
+  useScrollToTop();
   const { slug } = useParams<{ slug: string }>();
   const [blog, setBlog] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
