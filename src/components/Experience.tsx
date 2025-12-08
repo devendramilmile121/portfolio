@@ -6,7 +6,46 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Experience = () => {
   const { config, loading } = usePortfolioConfig();
 
-  if (loading || !config) return null;
+  // Render skeleton while loading
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="py-20 px-6 bg-secondary/5">
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
+              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
+            </div>
+            <div className="space-y-8">
+              {[...Array(2)].map((_, i) => (
+                <Card key={i} className="bg-gradient-card border-border/40">
+                  <CardHeader>
+                    <div className="space-y-2">
+                      <div className="h-6 bg-muted rounded w-40"></div>
+                      <div className="h-5 bg-muted/50 rounded w-32"></div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 mb-4">
+                      {[...Array(3)].map((_, j) => (
+                        <div key={j} className="h-4 bg-muted/30 rounded"></div>
+                      ))}
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {[...Array(4)].map((_, j) => (
+                        <div key={j} className="h-6 bg-muted/50 rounded px-3"></div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    return null;
+  }
 
   const experiences = config.experience;
 

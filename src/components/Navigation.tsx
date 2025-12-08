@@ -1,9 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 import { ThemeSwitch } from "@/components/ThemeSwitch";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
+
+// Debounce utility to reduce scroll event calls
+function debounce<T extends (...args: any[]) => any>(func: T, wait: number): T {
+  let timeout: NodeJS.Timeout | null = null;
+  return ((...args: any[]) => {
+    if (timeout) clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  }) as T;
+}
 
 export const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,31 +22,36 @@ export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const isHomePage = location.pathname === '/';
+  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      
-      // Update active section based on scroll position
-      if (isHomePage) {
-        const sections = ['hero', 'skills', 'experience', 'projects', 'education', 'contact'];
-        for (const sectionId of sections) {
-          const element = document.getElementById(sectionId);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            // Check if section is in viewport (with some offset for header)
-            if (rect.top <= 100 && rect.bottom >= 100) {
-              setActiveSection(sectionId);
-              break;
-            }
-          }
+  // Memoize scroll handler to prevent recreation on every render
+  const handleScroll = useCallback(() => {
+    setIsScrolled(window.scrollY > 50);
+    
+    // Update active section based on scroll position (only on home page)
+    if (!isHomePage) return;
+    
+    const sections = ['hero', 'skills', 'experience', 'projects', 'education', 'contact'];
+    for (const sectionId of sections) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        const rect = element.getBoundingClientRect();
+        // Check if section is in viewport (with some offset for header)
+        if (rect.top <= 100 && rect.bottom >= 100) {
+          setActiveSection(sectionId);
+          break;
         }
       }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    }
   }, [isHomePage]);
+
+  // Debounce scroll events to 200ms to reduce main thread work
+  const debouncedScroll = useRef(debounce(handleScroll, 200));
+
+  useEffect(() => {
+    window.addEventListener('scroll', debouncedScroll.current, { passive: true });
+    return () => window.removeEventListener('scroll', debouncedScroll.current);
+  }, []);
 
   // Handle hash navigation from URL
   useEffect(() => {
@@ -47,7 +61,8 @@ export const Navigation = () => {
         if (hash) {
           setActiveSection(hash);
           // Scroll to the section
-          setTimeout(() => {
+          if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+          scrollTimeoutRef.current = setTimeout(() => {
             const element = document.getElementById(hash);
             if (element) {
               element.scrollIntoView({ behavior: 'smooth' });
@@ -61,7 +76,10 @@ export const Navigation = () => {
     handleHashChange();
 
     window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+    };
   }, [isHomePage]);
 
   const scrollToSection = (sectionId: string) => {
@@ -73,7 +91,8 @@ export const Navigation = () => {
     if (!isHomePage) {
       navigate('/');
       // Wait for navigation to complete, then scroll
-      setTimeout(() => {
+      if (scrollTimeoutRef.current) clearTimeout(scrollTimeoutRef.current);
+      scrollTimeoutRef.current = setTimeout(() => {
         const element = document.getElementById(sectionId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth' });
@@ -90,7 +109,21 @@ export const Navigation = () => {
     }
   };
 
-  if (loading || !config) return null;
+  // Render minimal skeleton while loading to prevent layout shift
+  if (!config) {
+    if (loading) {
+      return (
+        <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40">
+          <div className="container mx-auto px-6">
+            <div className="flex items-center justify-between h-16">
+              <div className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">DM</div>
+            </div>
+          </div>
+        </nav>
+      );
+    }
+    return null;
+  }
 
   const navItems = config.navigation;
 

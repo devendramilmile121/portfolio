@@ -18,25 +18,35 @@ const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const App = () => {
   useEffect(() => {
     if (!gaId) return;
-    // Inject Google Analytics script
-    const script1 = document.createElement("script");
-    script1.async = true;
-    script1.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
-    document.head.appendChild(script1);
+    
+    // Defer GA loading to after page interactive using requestIdleCallback
+    // Fallback to setTimeout if requestIdleCallback not supported
+    const loadGA = () => {
+      try {
+        const script1 = document.createElement("script");
+        script1.async = true;
+        script1.src = `https://www.googletagmanager.com/gtag/js?id=${gaId}`;
+        document.head.appendChild(script1);
 
-    const script2 = document.createElement("script");
-    script2.innerHTML = `
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '${gaId}');
-    `;
-    document.head.appendChild(script2);
-
-    return () => {
-      document.head.removeChild(script1);
-      document.head.removeChild(script2);
+        const script2 = document.createElement("script");
+        script2.innerHTML = `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${gaId}');
+        `;
+        document.head.appendChild(script2);
+      } catch (e) {
+        console.error('Failed to load GA:', e);
+      }
     };
+
+    // Use requestIdleCallback if available, otherwise defer with setTimeout
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGA, { timeout: 5000 });
+    } else {
+      setTimeout(loadGA, 2000);
+    }
   }, []);
 
   return (
@@ -45,7 +55,7 @@ const App = () => {
         <Toaster />
         <Sonner />
         <BrowserRouter>
-          <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+          <Suspense fallback={null}>
             <Routes>
               <Route path="/" element={<Index />} />
               <Route path="/blogs" element={<BlogList />} />

@@ -12,12 +12,16 @@ export const Hero = () => {
   const { config, loading } = usePortfolioConfig();
 
   useEffect(() => {
-    // Preload hero background to improve LCP (only for first paint)
+    // Preload hero background with high priority for LCP
     try {
       const link = document.createElement('link');
       link.rel = 'preload';
       link.as = 'image';
       link.href = heroBg;
+      link.fetchPriority = 'high';
+      link.imageSrcset = `${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`;
+      link.imageSizes = '(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px';
+      link.type = 'image/webp';
       document.head.appendChild(link);
       return () => { if (link.parentNode) link.parentNode.removeChild(link); };
     } catch (e) {
@@ -32,7 +36,32 @@ export const Hero = () => {
     }
   };
 
-  if (loading || !config) return null;
+  // Render skeleton while loading to prevent layout shift
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+          <picture className="absolute inset-0 w-full h-full">
+            <source
+              srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
+              sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
+              type="image/webp"
+            />
+            <img
+              src={heroBg1200}
+              alt="Hero background"
+              className="absolute inset-0 w-full h-full object-cover"
+              width={1920}
+              height={1080}
+              loading="eager"
+            />
+          </picture>
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+        </section>
+      );
+    }
+    return null;
+  }
 
   const heroData = config.hero;
 
@@ -66,6 +95,7 @@ export const Hero = () => {
           width={1920}
           height={1080}
           loading="eager"
+          fetchPriority="high"
         />
       </picture>
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />

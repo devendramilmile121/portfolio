@@ -7,7 +7,41 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Projects = () => {
   const { config, loading } = usePortfolioConfig();
 
-  if (loading || !config) return null;
+  // Render skeleton while loading
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="py-20 px-6">
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
+              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {[...Array(4)].map((_, i) => (
+                <Card key={i} className="bg-gradient-card border-border/40">
+                  <CardHeader>
+                    <div className="space-y-2 mb-3">
+                      <div className="h-6 bg-muted rounded w-32"></div>
+                      <div className="h-20 bg-muted/30 rounded"></div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex gap-2">
+                      {[...Array(3)].map((_, j) => (
+                        <div key={j} className="h-6 bg-muted/50 rounded px-3"></div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    return null;
+  }
 
   const projects = config.projects;
 

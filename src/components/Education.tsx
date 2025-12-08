@@ -7,7 +7,41 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Education = () => {
   const { config, loading } = usePortfolioConfig();
 
-  if (loading || !config) return null;
+  // Render skeleton while loading
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="py-20 px-6 bg-secondary/5">
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
+              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
+            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              {[...Array(2)].map((_, i) => (
+                <div key={i}>
+                  <div className="h-6 bg-muted rounded w-32 mb-8"></div>
+                  <div className="space-y-6">
+                    {[...Array(2)].map((_, j) => (
+                      <Card key={j} className="bg-gradient-card border-border/40">
+                        <CardContent className="pt-6">
+                          <div className="space-y-2">
+                            <div className="h-6 bg-muted rounded w-40"></div>
+                            <div className="h-4 bg-muted/50 rounded w-32"></div>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    return null;
+  }
 
   const education = config.education.degrees;
   const certifications = config.education.certifications;

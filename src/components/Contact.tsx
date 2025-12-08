@@ -6,7 +6,22 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Contact = () => {
   const { config, loading } = usePortfolioConfig();
 
-  if (loading || !config) return null;
+  // Render skeleton while loading
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="py-20 px-6">
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
+              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+    return null;
+  }
 
   const contactData = config.contact;
 

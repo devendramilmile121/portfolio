@@ -5,7 +5,36 @@ import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 export const Skills = () => {
   const { config, loading } = usePortfolioConfig();
 
-  if (loading || !config) return null;
+  // Render skeleton while loading to prevent layout shift
+  if (!config) {
+    if (loading) {
+      return (
+        <section className="py-20 px-6">
+          <div className="container mx-auto">
+            <div className="text-center mb-16">
+              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
+              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {[...Array(3)].map((_, i) => (
+                <Card key={i} className="bg-gradient-card border-border/40">
+                  <CardContent className="p-6">
+                    <div className="h-6 bg-muted rounded w-20 mb-4"></div>
+                    <div className="flex flex-wrap gap-2">
+                      {[...Array(4)].map((_, j) => (
+                        <div key={j} className="h-6 bg-muted/50 rounded px-3"></div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+    return null;
+  }
 
   const skillCategories = config.skills;
 
