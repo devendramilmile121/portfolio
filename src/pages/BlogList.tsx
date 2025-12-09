@@ -156,7 +156,7 @@ export default function BlogList() {
                     </div>
 
                     <Link to={`/blogs/${blog.slug}`}>
-                      <Button variant="outline" size="sm" className="w-full group">
+                      <Button variant="outline" size="sm" className="w-full group bg-background hover:bg-primary hover:text-primary-foreground text-foreground">
                         Read More
                         <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform duration-200" />
                       </Button>

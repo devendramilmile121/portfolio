@@ -262,7 +262,7 @@ export default function BlogDetail() {
         <h1 className="text-4xl font-bold mb-4">Blog not found</h1>
         <p className="text-muted-foreground mb-6">The blog post you're looking for doesn't exist.</p>
         <Link to="/blogs">
-          <Button variant="outline">
+          <Button variant="outline" className="bg-background hover:bg-primary hover:text-primary-foreground text-foreground">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to blogs
           </Button>
@@ -279,7 +279,7 @@ export default function BlogDetail() {
         <div className="container mx-auto max-w-4xl">
           {/* Back Button */}
           <Link to="/blogs" className="inline-block mb-8 animate-fade-in-left">
-            <Button variant="outline" size="sm">
+            <Button variant="outline" size="sm" className="bg-background hover:bg-primary hover:text-primary-foreground text-foreground">
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to blogs
             </Button>
