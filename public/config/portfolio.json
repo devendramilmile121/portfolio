@@ -280,5 +280,58 @@
         "url": "mailto:milmiledh@gmail.com"
       }
     ]
+  },
+  "seasonalEffects": {
+    "enabled": true,
+    "effects": [
+      {
+        "name": "christmas",
+        "type": "snow",
+        "enabled": true,
+        "startMonth": 12,
+        "startDay": 10,
+        "endMonth": 1,
+        "endDay": 1,
+        "settings": {
+          "particleCount": 80,
+          "particleSize": "1px-3px",
+          "particleOpacity": 0.8,
+          "fallSpeed": "8s-15s",
+          "color": "#ffffff",
+          "blur": "0px"
+        }
+      },
+      {
+        "name": "diwali",
+        "type": "crackers",
+        "enabled": false,
+        "startMonth": 10,
+        "startDay": 1,
+        "endMonth": 10,
+        "endDay": 14,
+        "settings": {
+          "crackerCount": 50,
+          "crackerSize": "3px-10px",
+          "color": "#FFD700,#FF6347,#00CED1,#FF1493",
+          "duration": "1s-3s",
+          "particlesPerCracker": 20
+        }
+      },
+      {
+        "name": "newyear",
+        "type": "confetti",
+        "enabled": false,
+        "startMonth": 12,
+        "startDay": 31,
+        "endMonth": 1,
+        "endDay": 1,
+        "settings": {
+          "particleCount": 150,
+          "particleSize": "3px-6px",
+          "colors": ["#FFD700", "#FF6347", "#00CED1", "#FF1493", "#32CD32"],
+          "fallSpeed": "3s-6s"
+        }
+      }
+    ]
   }
 }

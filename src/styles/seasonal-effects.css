@@ -1,0 +1,38 @@
+.seasonal-effect-wrapper {
+  transition: opacity 0.5s ease-in-out;
+}
+
+.seasonal-effect-wrapper.effect-visible {
+  opacity: 1;
+}
+
+.seasonal-effect-wrapper.effect-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.button-visible {
+  animation: fadeInButton 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeInButton {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeOutButton {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
