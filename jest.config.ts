@@ -9,7 +9,8 @@ const config: Config = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$': '<rootDir>/src/__mocks__/fileMock.js',
+    '\\.(gif|ttf|eot|svg|png|jpg|jpeg|webp)$': '<rootDir>/src/__mocks__/fileMock.js',
+    '@/assets/hero-bg.*': '<rootDir>/src/__mocks__/fileMock.js',
   },
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   transform: {
@@ -20,6 +21,12 @@ const config: Config = {
           jsx: 'react-jsx',
           esModuleInterop: true,
           allowSyntheticDefaultImports: true,
+          skipLibCheck: true,
+          noImplicitAny: false,
+          types: ['jest', '@testing-library/jest-dom', 'node'],
+          declaration: false,
+          declarationMap: false,
+          sourceMap: false,
         },
       },
     ],
@@ -44,14 +51,6 @@ const config: Config = {
   },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   moduleDirectories: ['node_modules', 'src'],
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        jsx: 'react-jsx',
-        types: ['jest', '@testing-library/jest-dom'],
-      },
-    },
-  },
 };
 
 export default config;
