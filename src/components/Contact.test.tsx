@@ -3,6 +3,15 @@ import { render, screen } from '@testing-library/react';
 import { Contact } from './Contact';
 import * as usePortfolioConfigModule from '@/hooks/usePortfolioConfig';
 
+jest.mock('lucide-react', () => ({
+  Mail: () => <div data-testid="mail-icon">Mail</div>,
+  Phone: () => <div data-testid="phone-icon">Phone</div>,
+  MapPin: () => <div data-testid="mappin-icon">MapPin</div>,
+  Github: () => <div data-testid="github-icon">Github</div>,
+  Linkedin: () => <div data-testid="linkedin-icon">Linkedin</div>,
+  ExternalLink: () => <div data-testid="externallink-icon">ExternalLink</div>,
+}));
+
 const mockConfig = {
   hero: {
     name: 'John Doe',
@@ -22,11 +31,17 @@ const mockConfig = {
   contact: {
     heading: 'Get In Touch',
     description: 'Have a project in mind? Let\'s talk!',
-    email: 'john@example.com',
-    phone: '+1 (555) 123-4567',
-    location: 'San Francisco, CA',
-    github: 'https://github.com/johndoe',
-    linkedin: 'https://linkedin.com/in/johndoe',
+    info: [
+      { label: 'Email', value: 'john@example.com', icon: 'mail', link: 'mailto:john@example.com' },
+      { label: 'Phone', value: '+1 (555) 123-4567', icon: 'phone', link: 'tel:+15551234567' },
+      { label: 'Location', value: 'San Francisco, CA', icon: 'mapPin', link: '' },
+    ],
+    social: [
+      { label: 'GitHub', icon: 'github', link: 'https://github.com/johndoe' },
+      { label: 'LinkedIn', icon: 'linkedin', link: 'https://linkedin.com/in/johndoe' },
+    ],
+    ctaText: 'Send Message',
+    ctaLink: 'mailto:john@example.com',
   },
   footer: { copyrightYear: 2024, socialLinks: [] },
 };
@@ -47,7 +62,8 @@ describe('Contact', () => {
   it('should render contact section with heading', () => {
     render(<Contact />);
 
-    expect(screen.getByText('Get In Touch')).toBeInTheDocument();
+    const headings = screen.getAllByText('Get In Touch');
+    expect(headings.length).toBeGreaterThanOrEqual(1);
   });
 
   it('should render contact description', () => {
@@ -66,9 +82,8 @@ describe('Contact', () => {
   it('should render email link', () => {
     render(<Contact />);
 
-    const links = screen.getAllByRole('link');
-    const emailLink = links.find(link => link.getAttribute('href')?.includes('john@example.com'));
-    expect(emailLink).toBeInTheDocument();
+    const emailLink = screen.getByRole('link', { name: /Email/i });
+    expect(emailLink).toHaveAttribute('href', 'mailto:john@example.com');
   });
 
   it('should render social media links', () => {
@@ -105,10 +120,10 @@ describe('Contact', () => {
   });
 
   it('should display contact icons', () => {
-    const { container } = render(<Contact />);
+    render(<Contact />);
 
-    const icons = container.querySelectorAll('svg');
-    expect(icons.length).toBeGreaterThan(0);
+    const mailIcons = screen.getAllByTestId('mail-icon');
+    expect(mailIcons.length).toBeGreaterThan(0);
   });
 
   it('should render CTA button', () => {
