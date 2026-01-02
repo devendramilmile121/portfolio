@@ -89,7 +89,7 @@ export default function BlogList() {
               Blogs
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl animate-fade-in-up animate-delay-100">
-              Insights on React, TypeScript, Full Stack Development, and Web Performance. Tips, tutorials, and best practices.
+              Insights on Angular, .Net, React, TypeScript, Full Stack Development, and Web Performance. Tips, tutorials, and best practices.
             </p>
           </div>
 
