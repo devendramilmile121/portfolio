@@ -64,6 +64,7 @@ export const Hero = () => {
   }
 
   const heroData = config.hero;
+  const backgroundImage = heroData.heroBackground || heroBg1200;
 
   const getSocialIcon = (iconName: string) => {
     switch (iconName) {
@@ -82,28 +83,38 @@ export const Hero = () => {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Image */}
-      <picture className="absolute inset-0 w-full h-full">
-        <source
-          srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
-          sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
-          type="image/webp"
-        />
+      {heroData.heroBackground ? (
         <img
-          src={heroBg1200}
+          src={backgroundImage}
           alt="Hero background"
           className="absolute inset-0 w-full h-full object-cover"
-          width={1920}
-          height={1080}
           loading="eager"
           fetchPriority="high"
         />
-      </picture>
+      ) : (
+        <picture className="absolute inset-0 w-full h-full">
+          <source
+            srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
+            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
+            type="image/webp"
+          />
+          <img
+            src={heroBg1200}
+            alt="Hero background"
+            className="absolute inset-0 w-full h-full object-cover"
+            width={1920}
+            height={1080}
+            loading="eager"
+            fetchPriority="high"
+          />
+        </picture>
+      )}
       <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
       
       {/* Content */}
       <div className="relative z-10 container mx-auto px-6 text-center">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 p-3 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
             {heroData.name}
           </h1>
           
@@ -120,7 +131,7 @@ export const Hero = () => {
               variant="default" 
               size="lg" 
               className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300 hover:scale-105 active:scale-95"
-              onClick={() => scrollToSection('contact')}
+              onClick={() => scrollToSection(heroData.ctaPrimaryTarget)}
             >
               <Mail className="mr-2 h-5 w-5" />
               {heroData.ctaPrimary}
@@ -130,7 +141,7 @@ export const Hero = () => {
               variant="outline" 
               size="lg" 
               className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:scale-105 active:scale-95"
-              onClick={() => scrollToSection('projects')}
+              onClick={() => scrollToSection(heroData.ctaSecondaryTarget)}
             >
               <ExternalLink className="mr-2 h-5 w-5" />
               {heroData.ctaSecondary}

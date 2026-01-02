@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
 
 interface PortfolioConfig {
+  seo: {
+    title: string;
+    description: string;
+    keywords: string;
+  };
+  blogs?: {
+    enabled: boolean;
+  };
   hero: {
     name: string;
     title: string;
     description: string;
+    heroBackground?: string;
     ctaPrimary: string;
+    ctaPrimaryTarget: string;
     ctaSecondary: string;
+    ctaSecondaryTarget: string;
     contact: {
       location: string;
       phone: string;
@@ -20,19 +31,25 @@ interface PortfolioConfig {
     label: string;
     id: string;
   }>;
-  skills: Array<{
-    title: string;
-    skills: string[];
-  }>;
-  experience: Array<{
-    company: string;
-    role: string;
-    period: string;
-    location: string;
-    description: string[];
-    technologies: string[];
-  }>;
-  projects: Array<{
+  skills: {
+    description: string;
+    categories: Array<{
+      title: string;
+      skills: string[];
+    }>;
+  };
+  experience: {
+    description: string;
+    jobs: Array<{
+      company: string;
+      role: string;
+      period: string;
+      location: string;
+      description: string[];
+      technologies: string[];
+    }>;
+  };
+  projects?: Array<{
     title: string;
     period: string;
     description: string;
@@ -50,8 +67,9 @@ interface PortfolioConfig {
       institution: string;
       period: string;
       type: string;
+      specialization?: string;
     }>;
-    certifications: Array<{
+    certifications?: Array<{
       title: string;
       provider: string;
       date: string;

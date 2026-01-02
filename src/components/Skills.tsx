@@ -36,7 +36,8 @@ export const Skills = () => {
     return null;
   }
 
-  const skillCategories = config.skills;
+  const skillCategories = config.skills.categories;
+  const skillsDescription = config.skills.description;
 
   return (
     <section className="py-20 px-6">
@@ -46,7 +47,7 @@ export const Skills = () => {
             Technical Skills
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
-            Comprehensive expertise across the full development stack with modern technologies and best practices.
+            {skillsDescription}
           </p>
         </div>
         

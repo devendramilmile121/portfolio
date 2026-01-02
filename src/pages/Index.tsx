@@ -7,9 +7,20 @@ import { Education } from "@/components/Education";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
+import { useEffect } from "react";
 
 const Index = () => {
   useScrollToTop();
+  const { config } = usePortfolioConfig();
+  
+  // Set document title dynamically from config
+  useEffect(() => {
+    if (config?.seo?.title) {
+      document.title = config.seo.title;
+    }
+  }, [config]);
+  
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
@@ -27,9 +38,11 @@ const Index = () => {
           <Experience />
         </section>
         
-        <section id="projects">
-          <Projects />
-        </section>
+        {config?.projects && config.projects.length > 0 && (
+          <section id="projects">
+            <Projects />
+          </section>
+        )}
         
         <section id="education">
           <Education />

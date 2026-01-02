@@ -47,7 +47,8 @@ export const Experience = () => {
     return null;
   }
 
-  const experiences = config.experience;
+  const experiences = config.experience.jobs;
+  const experienceDescription = config.experience.description;
 
   return (
     <section className="py-20 px-6 bg-secondary/5">
@@ -57,7 +58,7 @@ export const Experience = () => {
             Professional Experience
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
-            6 years of professional growth across leading technology companies, delivering scalable solutions.
+            {experienceDescription}
           </p>
         </div>
         

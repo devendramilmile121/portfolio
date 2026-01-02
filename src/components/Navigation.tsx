@@ -116,7 +116,7 @@ export const Navigation = () => {
         <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40">
           <div className="container mx-auto px-6">
             <div className="flex items-center justify-between h-16">
-              <div className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">DM</div>
+              <div className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">...</div>
             </div>
           </div>
         </nav>
@@ -126,6 +126,17 @@ export const Navigation = () => {
   }
 
   const navItems = config.navigation;
+  
+  // Extract initials from name
+  const getInitials = (name: string) => {
+    return name
+      .split(' ')
+      .map(word => word[0])
+      .join('')
+      .toUpperCase();
+  };
+  
+  const initials = getInitials(config.hero.name);
 
   const isNavItemActive = (itemId: string) => {
     return activeSection === itemId && isHomePage;
@@ -137,7 +148,7 @@ export const Navigation = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">
-            DM
+            {initials}
           </div>
 
           {/* Desktop Navigation */}
@@ -155,16 +166,18 @@ export const Navigation = () => {
                 {item.label}
               </button>
             ))}
-            <Link
-              to="/blogs"
-              className={`transition-colors duration-300 font-medium ${
-                location.pathname === '/blogs'
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-primary'
-              }`}
-            >
-              Blogs
-            </Link>
+            {config.blogs?.enabled && (
+              <Link
+                to="/blogs"
+                className={`transition-colors duration-300 font-medium ${
+                  location.pathname === '/blogs'
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-primary'
+                }`}
+              >
+                Blogs
+              </Link>
+            )}
             <div className="flex items-center gap-3">
               <ThemeSwitch />
               <Button 
@@ -208,16 +221,18 @@ export const Navigation = () => {
                   {item.label}
                 </button>
               ))}
-              <Link
-                to="/blogs"
-                className={`text-left transition-colors duration-300 font-medium py-2 ${
-                  location.pathname === '/blogs'
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-primary'
-                }`}
-              >
-                Blogs
-              </Link>
+              {config.blogs?.enabled && (
+                <Link
+                  to="/blogs"
+                  className={`text-left transition-colors duration-300 font-medium py-2 ${
+                    location.pathname === '/blogs'
+                      ? 'text-primary'
+                      : 'text-muted-foreground hover:text-primary'
+                  }`}
+                >
+                  Blogs
+                </Link>
+              )}
               <Button 
                 variant="outline" 
                 size="sm"

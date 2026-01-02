@@ -45,6 +45,11 @@ export const Projects = () => {
 
   const projects = config.projects;
 
+  // Don't render if no projects exist
+  if (!projects || projects.length === 0) {
+    return null;
+  }
+
   return (
     <section className="py-20 px-6">
       <div className="container mx-auto">

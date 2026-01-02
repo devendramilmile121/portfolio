@@ -40,13 +40,17 @@ export const Footer = () => {
 
           {/* Navigation Links */}
           <div className="flex items-center space-x-6 text-sm animate-fade-in-up animate-delay-100">
-            <Link 
-              to="/blogs"
-              className="text-muted-foreground hover:text-primary transition-colors duration-300"
-            >
-              Blogs
-            </Link>
-            <span className="text-border/40">•</span>
+            {config.blogs?.enabled && (
+              <>
+                <Link 
+                  to="/blogs"
+                  className="text-muted-foreground hover:text-primary transition-colors duration-300"
+                >
+                  Blogs
+                </Link>
+                <span className="text-border/40">•</span>
+              </>
+            )}
             <a 
               href="#contact"
               className="text-muted-foreground hover:text-primary transition-colors duration-300"

@@ -1,10 +1,20 @@
 {
+  "seo": {
+    "title": "Devendra Milmile - Full Stack Developer | Angular & .NET Core Expert",
+    "description": "Full Stack Developer with 6+ years of expertise in Angular, .NET Core, and modern web technologies. Specializing in scalable applications, micro frontends, and cloud solutions.",
+    "keywords": "Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"
+  },
+  "blogs": {
+    "enabled": true
+  },
   "hero": {
     "name": "Devendra Milmile",
     "title": "Full Stack Developer",
     "description": "6 years of expertise in Angular & .NET Core development. Building scalable web applications with modern micro frontend architecture.",
     "ctaPrimary": "Get In Touch",
+    "ctaPrimaryTarget": "contact",
     "ctaSecondary": "View Projects",
+    "ctaSecondaryTarget": "projects",
     "contact": {
       "location": "Pune, India",
       "phone": "+91 7263967111"
@@ -32,11 +42,13 @@
     { "label": "Education", "id": "education" },
     { "label": "Contact", "id": "contact" }
   ],
-  "skills": [
-    {
-      "title": "Frontend",
-      "skills": ["Angular", "TypeScript", "HTML5", "CSS/SCSS", "React JS", "Angular Material", "PrimeNG"]
-    },
+  "skills": {
+    "description": "Comprehensive expertise across the full development stack with modern technologies and best practices. 6 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "categories": [
+      {
+        "title": "Frontend",
+        "skills": ["Angular", "TypeScript", "HTML5", "CSS/SCSS", "React JS", "Angular Material", "PrimeNG"]
+      },
     {
       "title": "Backend",
       "skills": [".NET Core", "C#", "Entity Framework", "YARP", "Microservices", "RESTful APIs"]
@@ -53,14 +65,17 @@
       "title": "Tools & Libraries",
       "skills": ["AmCharts5", "Survey.js", "Angular Gridster2", "JWT Authentication", "Swagger", "Github Copilot"]
     },
-    {
-      "title": "Methodologies",
-      "skills": ["Agile", "Scrum", "Code Reviews", "Team Leadership", "Client Communication"]
-    }
-  ],
-  "experience": [
-    {
-      "company": "Epam Systems",
+      {
+        "title": "Methodologies",
+        "skills": ["Agile", "Scrum", "Code Reviews", "Team Leadership", "Client Communication"]
+      }
+    ]
+  },
+  "experience": {
+    "description": "6 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "jobs": [
+      {
+        "company": "Epam Systems",
       "role": "Software Engineer",
       "period": "Nov 2024 - Present",
       "location": "Pune",
@@ -101,7 +116,8 @@
       ],
       "technologies": ["Full Stack Development", "Healthcare Apps", "PDF Generation", "Client Management"]
     }
-  ],
+    ]
+  },
   "projects": [
     {
       "title": "CLARIO - Public API Platform",
