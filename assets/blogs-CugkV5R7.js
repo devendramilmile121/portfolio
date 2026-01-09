@@ -1132,8 +1132,9 @@ Let's build a practical example: a user registration form that collects name, em
 Form models are the foundation of Signal Forms. They serve as the single source of truth for your form data.
 
 \`\`\`typescript
+import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { form, Field, required, email, minLength, applyEach } from '@angular/forms/signals';
+import { applyEach, email, Field, form, minLength, required } from '@angular/forms/signals';
 
 interface Skill {
   name: string;
@@ -1147,13 +1148,12 @@ interface UserRegistrationData {
 }
 
 @Component({
-  selector: 'app-registration-form',
-  standalone: true,
-  imports: [Field],
-  templateUrl: './registration-form.component.html',
-  styleUrls: ['./registration-form.component.css']
+  selector: 'app-root',
+  imports: [Field, JsonPipe],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
-export class RegistrationFormComponent {
+export class App {
   // Create the form model with initial values
   registrationModel = signal<UserRegistrationData>({
     name: '',
@@ -1192,27 +1192,22 @@ export class RegistrationFormComponent {
 
   // Add a new skill
   addSkill() {
-    const currentSkills = this.registrationModel().skills;
-    this.registrationModel.set({
-      ...this.registrationModel(),
-      skills: [...currentSkills, { name: '', proficiency: 'beginner' }],
-    });
+    this.registrationForm.skills().value.update((skills) => [
+      ...skills,
+      { name: '', proficiency: 'beginner' },
+    ]);
   }
 
   // Remove a skill
   removeSkill(index: number) {
-    const currentSkills = this.registrationModel().skills;
-    this.registrationModel.set({
-      ...this.registrationModel(),
-      skills: currentSkills.filter((_, i) => i !== index),
-    });
+    this.registrationForm.skills().value.update((skills) => skills.filter((_, i) => i !== index));
   }
 
   // Handle form submission
   async onSubmit(event: Event) {
     event.preventDefault();
     if (this.registrationForm().valid()) {
-      const formData = this.registrationModel();
+      const formData = this.registrationForm().value();
       console.log('Form submitted:', formData);
 
       // Here you would typically send data to your backend
@@ -3187,4 +3182,4 @@ Start small, add features as you need them, and don't over-engineer it.
 For more detailed information and advanced features, check out the [official Microsoft documentation for YARP Getting Started](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started?view=aspnetcore-10.0).
 
 The official docs cover configuration options, advanced transforms, middleware integration, and more.
-`;typeof global>"u"&&(window.global=window);window.Buffer=m.Buffer;const y=Object.assign({"../blogs/angular-component-communication.md":u,"../blogs/angular-signal-forms.md":p,"../blogs/angular-signals.md":h,"../blogs/dotnet-server-sent-events.md":g,"../blogs/getting-started-with-react.md":f,"../blogs/web-performance-optimization.md":v,"../blogs/yarp-reverse-proxy.md":b});let o=null;async function S(){if(o)return o;const n=[];for(const[e,t]of Object.entries(y))try{const s=(e.split("/").pop()||"").replace(".md","").toLowerCase(),i=String(t),{data:l,content:c}=d(i),r=l;n.push({slug:s,title:r.title,date:r.date,summary:r.summary,tags:r.tags||[],body:c})}catch(a){console.error(`[Blogs] Error loading blog ${e}:`,a)}return n.sort((e,t)=>new Date(t.date).getTime()-new Date(e.date).getTime()),o=n,n}async function k(n){return(await S()).find(a=>a.slug===n)}export{k as g,S as l};
+`;typeof global>"u"&&(window.global=window);window.Buffer=m.Buffer;const y=Object.assign({"../blogs/angular-component-communication.md":u,"../blogs/angular-signal-forms.md":p,"../blogs/angular-signals.md":h,"../blogs/dotnet-server-sent-events.md":g,"../blogs/getting-started-with-react.md":f,"../blogs/web-performance-optimization.md":v,"../blogs/yarp-reverse-proxy.md":b});let r=null;async function S(){if(r)return r;const n=[];for(const[e,t]of Object.entries(y))try{const s=(e.split("/").pop()||"").replace(".md","").toLowerCase(),i=String(t),{data:l,content:c}=d(i),o=l;n.push({slug:s,title:o.title,date:o.date,summary:o.summary,tags:o.tags||[],body:c})}catch(a){console.error(`[Blogs] Error loading blog ${e}:`,a)}return n.sort((e,t)=>new Date(t.date).getTime()-new Date(e.date).getTime()),r=n,n}async function k(n){return(await S()).find(a=>a.slug===n)}export{k as g,S as l};
