@@ -52,8 +52,9 @@ Let's build a practical example: a user registration form that collects name, em
 Form models are the foundation of Signal Forms. They serve as the single source of truth for your form data.
 
 ```typescript
+import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { form, Field, required, email, minLength, applyEach } from '@angular/forms/signals';
+import { applyEach, email, Field, form, minLength, required } from '@angular/forms/signals';
 
 interface Skill {
   name: string;
@@ -67,13 +68,12 @@ interface UserRegistrationData {
 }
 
 @Component({
-  selector: 'app-registration-form',
-  standalone: true,
-  imports: [Field],
-  templateUrl: './registration-form.component.html',
-  styleUrls: ['./registration-form.component.css']
+  selector: 'app-root',
+  imports: [Field, JsonPipe],
+  templateUrl: './app.html',
+  styleUrl: './app.css',
 })
-export class RegistrationFormComponent {
+export class App {
   // Create the form model with initial values
   registrationModel = signal<UserRegistrationData>({
     name: '',
@@ -112,27 +112,22 @@ export class RegistrationFormComponent {
 
   // Add a new skill
   addSkill() {
-    const currentSkills = this.registrationModel().skills;
-    this.registrationModel.set({
-      ...this.registrationModel(),
-      skills: [...currentSkills, { name: '', proficiency: 'beginner' }],
-    });
+    this.registrationForm.skills().value.update((skills) => [
+      ...skills,
+      { name: '', proficiency: 'beginner' },
+    ]);
   }
 
   // Remove a skill
   removeSkill(index: number) {
-    const currentSkills = this.registrationModel().skills;
-    this.registrationModel.set({
-      ...this.registrationModel(),
-      skills: currentSkills.filter((_, i) => i !== index),
-    });
+    this.registrationForm.skills().value.update((skills) => skills.filter((_, i) => i !== index));
   }
 
   // Handle form submission
   async onSubmit(event: Event) {
     event.preventDefault();
     if (this.registrationForm().valid()) {
-      const formData = this.registrationModel();
+      const formData = this.registrationForm().value();
       console.log('Form submitted:', formData);
 
       // Here you would typically send data to your backend
