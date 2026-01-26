@@ -1080,7 +1080,7 @@ Always remember to:
 Happy coding! 🚀
 `,u=`---
 title: "Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks"
-date: "2026-01-09"
+date: "2026-01-26"
 summary: "Master Angular's @defer blocks to intelligently defer non-critical code, improve Core Web Vitals, and create lightning-fast applications with granular control over lazy loading."
 tags: ["Angular", "Performance", "Optimization", "Web Vitals", "TypeScript", "Web Development"]
 ---
