@@ -10,7 +10,7 @@
   "hero": {
     "name": "Devendra Milmile",
     "title": "Full Stack Developer",
-    "description": "6 years of expertise in Angular & .NET Core development. Building scalable web applications with modern micro frontend architecture.",
+    "description": "7 years of expertise in Angular & .NET Core development. Building scalable web applications with modern micro frontend architecture.",
     "ctaPrimary": "Get In Touch",
     "ctaPrimaryTarget": "contact",
     "ctaSecondary": "View Projects",
@@ -43,79 +43,144 @@
     { "label": "Contact", "id": "contact" }
   ],
   "skills": {
-    "description": "Comprehensive expertise across the full development stack with modern technologies and best practices. 6 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "description": "Comprehensive expertise across the full development stack with modern technologies and best practices. 7 years of professional growth across leading technology companies, delivering scalable solutions.",
     "categories": [
       {
         "title": "Frontend",
-        "skills": ["Angular", "TypeScript", "HTML5", "CSS/SCSS", "React JS", "Angular Material", "PrimeNG"]
+        "skills": [
+          "Angular",
+          "TypeScript",
+          "HTML5",
+          "CSS/SCSS",
+          "React JS",
+          "Angular Material",
+          "PrimeNG"
+        ]
       },
-    {
-      "title": "Backend",
-      "skills": [".NET Core", "C#", "Entity Framework", "YARP", "Microservices", "RESTful APIs"]
-    },
-    {
-      "title": "Database",
-      "skills": ["SQL Server", "Database Design", "Performance Optimization"]
-    },
-    {
-      "title": "Cloud & DevOps",
-      "skills": ["Azure", "AWS", "CI/CD", "GitHub Actions", "Docker"]
-    },
-    {
-      "title": "Tools & Libraries",
-      "skills": ["AmCharts5", "Survey.js", "Angular Gridster2", "JWT Authentication", "Swagger", "Github Copilot"]
-    },
+      {
+        "title": "Backend",
+        "skills": [
+          ".NET Core",
+          "C#",
+          "Entity Framework",
+          "YARP",
+          "Microservices",
+          "RESTful APIs"
+        ]
+      },
+      {
+        "title": "Database",
+        "skills": ["SQL Server", "Database Design", "Performance Optimization"]
+      },
+      {
+        "title": "Cloud & DevOps",
+        "skills": ["Azure", "AWS", "CI/CD", "GitHub Actions", "Docker"]
+      },
+      {
+        "title": "Tools & Libraries",
+        "skills": [
+          "AmCharts5",
+          "Survey.js",
+          "Angular Gridster2",
+          "JWT Authentication",
+          "Swagger",
+          "Github Copilot"
+        ]
+      },
       {
         "title": "Methodologies",
-        "skills": ["Agile", "Scrum", "Code Reviews", "Team Leadership", "Client Communication"]
+        "skills": [
+          "Agile",
+          "Scrum",
+          "Code Reviews",
+          "Team Leadership",
+          "Client Communication"
+        ]
       }
     ]
   },
   "experience": {
-    "description": "6 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "description": "7 years of professional growth across leading technology companies, delivering scalable solutions.",
     "jobs": [
       {
+        "company": "Systems Plus",
+        "role": "Senior Software Engineer",
+        "period": "Jan 2026 - Present",
+        "location": "Pune",
+        "description": [
+          "Working on a replatform project to migrate a legacy monolithic application to a modern micro frontend architecture",
+          "Migrating backend services to .NET 9",
+          "More to come soon..."
+        ],
+        "technologies": [
+          "Angular",
+          "Micro Frontends",
+          ".NET Core",
+          "TypeScript",
+          "SQL Server",
+          "EF Core",
+          "Azure"
+        ]
+      },
+      {
         "company": "Epam Systems",
-      "role": "Software Engineer",
-      "period": "Nov 2024 - Present",
-      "location": "Pune",
-      "description": [
-        "Developed a modular Angular micro frontend application used across products",
-        "Maintained a shared Angular library to enable code reuse and consistency",
-        "Contributed to .NET Core API development with YARP reverse proxy integration",
-        "Created custom service aggregators to expose unified endpoints",
-        "Worked closely with cross-functional teams in agile sprints"
-      ],
-      "technologies": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript"]
-    },
-    {
-      "company": "Nitor Infotech",
-      "role": "Lead Software Engineer",
-      "period": "Aug 2021 - Nov 2024",
-      "location": "Pune",
-      "description": [
-        "Delivered multiple full-stack projects using Angular, .NET Core, and SQL Server",
-        "Built reusable UI components using Angular Material and PrimeNG",
-        "Improved backend performance by implementing caching and gzip compression",
-        "Actively engaged in agile ceremonies and team collaboration",
-        "Earned recognition for timely deliveries and high-quality work"
-      ],
-      "technologies": ["Angular", ".NET Core", "SQL Server", "Angular Material", "PrimeNG"]
-    },
-    {
-      "company": "smartData Enterprises (I) Ltd.",
-      "role": "Associate Level 3",
-      "period": "Feb 2019 - Aug 2021",
-      "location": "Nagpur",
-      "description": [
-        "Developed full-stack features for healthcare and service-based apps",
-        "Created a custom PDF form builder and appointment calendar module",
-        "Interfaced with clients to gather requirements and clarify expectations",
-        "Participated in sprint planning and contributed to task estimations",
-        "Acted as the communication bridge between clients and the dev team"
-      ],
-      "technologies": ["Full Stack Development", "Healthcare Apps", "PDF Generation", "Client Management"]
-    }
+        "role": "Software Engineer",
+        "period": "Nov 2024 - Dec 2025",
+        "location": "Pune",
+        "description": [
+          "Developed a modular Angular micro frontend application used across products",
+          "Maintained a shared Angular library to enable code reuse and consistency",
+          "Contributed to .NET Core API development with YARP reverse proxy integration",
+          "Created custom service aggregators to expose unified endpoints",
+          "Worked closely with cross-functional teams in agile sprints"
+        ],
+        "technologies": [
+          "Angular",
+          "Micro Frontends",
+          ".NET Core",
+          "YARP",
+          "TypeScript"
+        ]
+      },
+      {
+        "company": "Nitor Infotech",
+        "role": "Lead Software Engineer",
+        "period": "Aug 2021 - Nov 2024",
+        "location": "Pune",
+        "description": [
+          "Delivered multiple full-stack projects using Angular, .NET Core, and SQL Server",
+          "Built reusable UI components using Angular Material and PrimeNG",
+          "Improved backend performance by implementing caching and gzip compression",
+          "Actively engaged in agile ceremonies and team collaboration",
+          "Earned recognition for timely deliveries and high-quality work"
+        ],
+        "technologies": [
+          "Angular",
+          ".NET Core",
+          "SQL Server",
+          "Angular Material",
+          "PrimeNG"
+        ]
+      },
+      {
+        "company": "smartData Enterprises (I) Ltd.",
+        "role": "Associate Level 3",
+        "period": "Feb 2019 - Aug 2021",
+        "location": "Nagpur",
+        "description": [
+          "Developed full-stack features for healthcare and service-based apps",
+          "Created a custom PDF form builder and appointment calendar module",
+          "Interfaced with clients to gather requirements and clarify expectations",
+          "Participated in sprint planning and contributed to task estimations",
+          "Acted as the communication bridge between clients and the dev team"
+        ],
+        "technologies": [
+          "Full Stack Development",
+          "Healthcare Apps",
+          "PDF Generation",
+          "Client Management"
+        ]
+      }
     ]
   },
   "projects": [
@@ -129,7 +194,13 @@
         "Expression Designer Library with visual editor",
         "YARP reverse proxy implementation"
       ],
-      "technologies": [".NET 8", "YARP", "Micro Frontend", "Swagger", "API Design"],
+      "technologies": [
+        ".NET 8",
+        "YARP",
+        "Micro Frontend",
+        "Swagger",
+        "API Design"
+      ],
       "type": "Enterprise Platform"
     },
     {
@@ -142,7 +213,13 @@
         "JWT authentication in web APIs",
         "Team leadership and project delivery"
       ],
-      "technologies": ["Angular", ".NET Core", "Survey.js", "JWT", "Multi-language"],
+      "technologies": [
+        "Angular",
+        ".NET Core",
+        "Survey.js",
+        "JWT",
+        "Multi-language"
+      ],
       "type": "Enterprise Application"
     },
     {
@@ -155,7 +232,13 @@
         "Configurable charts with AmCharts5",
         "Dynamic menu system with JSON configuration"
       ],
-      "technologies": ["Angular", "Angular Gridster2", "AmCharts5", "TypeScript", "Library Development"],
+      "technologies": [
+        "Angular",
+        "Angular Gridster2",
+        "AmCharts5",
+        "TypeScript",
+        "Library Development"
+      ],
       "type": "Product Platform"
     },
     {
@@ -168,7 +251,13 @@
         "CI/CD with GitHub Actions",
         "Custom Angular template rendering"
       ],
-      "technologies": ["Angular", "NPM", "GitHub Actions", "TypeScript", "Open Source"],
+      "technologies": [
+        "Angular",
+        "NPM",
+        "GitHub Actions",
+        "TypeScript",
+        "Open Source"
+      ],
       "type": "Open Source",
       "links": {
         "npm": "https://www.npmjs.com/package/ngx-custom-carousel",
