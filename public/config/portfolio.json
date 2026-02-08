@@ -185,8 +185,26 @@
   },
   "projects": [
     {
+      "title": "Bright Horizons - College Coach",
+      "period": "Jan 2026 - Present",
+      "description": "Developed a Public API using .NET 8 with YARP reverse proxy, enabling efficient routing and service composition. Built notification rule engine and Expression Designer Library for dynamic trigger creation.",
+      "highlights": [
+        "Working on a replatform project to migrate a legacy monolithic application to a modern micro frontend and backend architecture",
+        "More to come soon..."
+      ],
+      "technologies": [
+        ".NET 9",
+        "Angular 19",
+        "Micro Frontend",
+        "API Design",
+        "Azure",
+        "SQL Server"
+      ],
+      "type": "Enterprise Platform"
+    },
+    {
       "title": "CLARIO - Public API Platform",
-      "period": "Dec 2024 - Present",
+      "period": "Dec 2024 - Dec 2025",
       "description": "Developed a Public API using .NET 8 with YARP reverse proxy, enabling efficient routing and service composition. Built notification rule engine and Expression Designer Library for dynamic trigger creation.",
       "highlights": [
         "Custom Swagger UI for improved API documentation",
