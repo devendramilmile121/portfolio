@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-type Theme = 'github' | 'dark' | 'yellow' | 'green' | 'white'
+const themes = ['github', 'dark', 'yellow', 'green', 'white'] as const
+
+type Theme = (typeof themes)[number]
 
 type ThemeProviderProps = {
   children: React.ReactNode
@@ -19,6 +21,26 @@ const initialState: ThemeProviderState = {
 }
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
+const themeClasses = themes.map((theme) => `theme-${theme}`)
+
+const isTheme = (value: string | null): value is Theme =>
+  value !== null && themes.includes(value as Theme)
+
+const getThemeMigrationKey = (storageKey: string) => `${storageKey}-default-theme-v2`
+
+const getInitialTheme = (defaultTheme: Theme, storageKey: string): Theme => {
+  const migrationKey = getThemeMigrationKey(storageKey)
+  const hasAppliedDefaultTheme = localStorage.getItem(migrationKey) === 'true'
+
+  if (!hasAppliedDefaultTheme) {
+    localStorage.setItem(storageKey, defaultTheme)
+    localStorage.setItem(migrationKey, 'true')
+    return defaultTheme
+  }
+
+  const storedTheme = localStorage.getItem(storageKey)
+  return isTheme(storedTheme) ? storedTheme : defaultTheme
+}
 
 export function ThemeProvider({
   children,
@@ -26,22 +48,14 @@ export function ThemeProvider({
   storageKey = 'portfolio-theme',
   ...props
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(
-    () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
-  )
+  const [theme, setTheme] = useState<Theme>(() => getInitialTheme(defaultTheme, storageKey))
 
   useEffect(() => {
     const root = window.document.documentElement
 
-    root.classList.remove('theme-github', 'theme-dark', 'theme-yellow', 'theme-green', 'theme-white')
+    root.classList.remove(...themeClasses)
     root.classList.add(`theme-${theme}`)
   }, [theme])
-
-  // Apply initial theme on mount
-  useEffect(() => {
-    const root = window.document.documentElement
-    root.classList.add(`theme-${theme}`)
-  }, [])
 
   const value = {
     theme,

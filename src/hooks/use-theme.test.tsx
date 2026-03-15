@@ -1,9 +1,12 @@
-import React from 'react';
-import { render, screen, fireEvent, waitFor, renderHook } from '@testing-library/react';
-import { ThemeProvider, useTheme } from './use-theme';
+import React from 'react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { ThemeProvider, useTheme } from './use-theme'
+
+const getThemeMigrationKey = (storageKey = 'portfolio-theme') =>
+  `${storageKey}-default-theme-v2`
 
 const TestComponent = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme()
 
   return (
     <div>
@@ -21,165 +24,174 @@ const TestComponent = () => {
         White
       </button>
     </div>
-  );
-};
+  )
+}
 
 describe('ThemeProvider and useTheme', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-    localStorage.clear();
-    document.documentElement.className = '';
-  });
+    jest.clearAllMocks()
+    localStorage.clear()
+    document.documentElement.className = ''
+  })
 
   it('should provide default theme', () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const themeElement = screen.getByTestId('current-theme');
-    expect(themeElement).toHaveTextContent('github');
-  });
+    const themeElement = screen.getByTestId('current-theme')
+    expect(themeElement).toHaveTextContent('github')
+  })
 
   it('should apply default theme class to root element', () => {
     render(
       <ThemeProvider defaultTheme="github">
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    expect(document.documentElement.classList.contains('theme-github')).toBe(
-      true
-    );
-  });
+    expect(document.documentElement.classList.contains('theme-github')).toBe(true)
+  })
 
   it('should use custom default theme', () => {
     render(
       <ThemeProvider defaultTheme="dark">
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const themeElement = screen.getByTestId('current-theme');
-    expect(themeElement).toHaveTextContent('dark');
-  });
+    const themeElement = screen.getByTestId('current-theme')
+    expect(themeElement).toHaveTextContent('dark')
+  })
 
   it('should change theme when setTheme is called', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const darkButton = screen.getByTestId('dark-btn');
-    fireEvent.click(darkButton);
+    const darkButton = screen.getByTestId('dark-btn')
+    fireEvent.click(darkButton)
 
     await waitFor(() => {
-      const themeElement = screen.getByTestId('current-theme');
-      expect(themeElement).toHaveTextContent('dark');
-    });
-  });
+      const themeElement = screen.getByTestId('current-theme')
+      expect(themeElement).toHaveTextContent('dark')
+    })
+  })
 
   it('should update class on root element when theme changes', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const darkButton = screen.getByTestId('dark-btn');
-    fireEvent.click(darkButton);
+    const darkButton = screen.getByTestId('dark-btn')
+    fireEvent.click(darkButton)
 
     await waitFor(() => {
-      expect(document.documentElement.classList.contains('theme-dark')).toBe(
-        true
-      );
-      expect(document.documentElement.classList.contains('theme-github')).toBe(
-        false
-      );
-    });
-  });
+      expect(document.documentElement.classList.contains('theme-dark')).toBe(true)
+      expect(document.documentElement.classList.contains('theme-github')).toBe(false)
+    })
+  })
 
   it('should persist theme to localStorage', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const yellowButton = screen.getByTestId('yellow-btn');
-    fireEvent.click(yellowButton);
+    const yellowButton = screen.getByTestId('yellow-btn')
+    fireEvent.click(yellowButton)
 
     await waitFor(() => {
-      // Verify the theme was set in localStorage
-      expect(localStorage.getItem('portfolio-theme')).toBe('yellow');
-    });
-  });
+      expect(localStorage.getItem('portfolio-theme')).toBe('yellow')
+    })
+  })
 
   it('should use custom storage key', async () => {
     render(
       <ThemeProvider storageKey="custom-theme-key">
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const greenButton = screen.getByTestId('green-btn');
-    fireEvent.click(greenButton);
+    const greenButton = screen.getByTestId('green-btn')
+    fireEvent.click(greenButton)
 
     await waitFor(() => {
-      expect(localStorage.getItem('custom-theme-key')).toBe('green');
-    });
-  });
+      expect(localStorage.getItem('custom-theme-key')).toBe('green')
+    })
+  })
 
-  it('should restore theme from localStorage', () => {
-    localStorage.setItem('portfolio-theme', 'dark');
+  it('should override a previously stored theme with the default theme once', () => {
+    localStorage.setItem('portfolio-theme', 'dark')
 
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const themeElement = screen.getByTestId('current-theme');
-    expect(themeElement).toHaveTextContent('dark');
-  });
+    const themeElement = screen.getByTestId('current-theme')
+    expect(themeElement).toHaveTextContent('github')
+    expect(localStorage.getItem('portfolio-theme')).toBe('github')
+    expect(localStorage.getItem(getThemeMigrationKey())).toBe('true')
+  })
+
+  it('should restore theme from localStorage after the default theme migration has run', () => {
+    localStorage.setItem(getThemeMigrationKey(), 'true')
+    localStorage.setItem('portfolio-theme', 'dark')
+
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    )
+
+    const themeElement = screen.getByTestId('current-theme')
+    expect(themeElement).toHaveTextContent('dark')
+  })
 
   it('should provide default context', () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const themeElement = screen.getByTestId('current-theme');
-    expect(themeElement).toBeTruthy();
-  });
+    const themeElement = screen.getByTestId('current-theme')
+    expect(themeElement).toBeTruthy()
+  })
 
   it('should handle multiple theme changes', async () => {
     render(
       <ThemeProvider>
         <TestComponent />
       </ThemeProvider>
-    );
+    )
 
-    const darkButton = screen.getByTestId('dark-btn');
-    const yellowButton = screen.getByTestId('yellow-btn');
-    const whiteButton = screen.getByTestId('white-btn');
+    const darkButton = screen.getByTestId('dark-btn')
+    const yellowButton = screen.getByTestId('yellow-btn')
+    const whiteButton = screen.getByTestId('white-btn')
 
-    fireEvent.click(darkButton);
+    fireEvent.click(darkButton)
     await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('dark');
-    });
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('dark')
+    })
 
-    fireEvent.click(yellowButton);
+    fireEvent.click(yellowButton)
     await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('yellow');
-    });
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('yellow')
+    })
 
-    fireEvent.click(whiteButton);
+    fireEvent.click(whiteButton)
     await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('white');
-    });
-  });
-});
+      expect(screen.getByTestId('current-theme')).toHaveTextContent('white')
+    })
+  })
+})
