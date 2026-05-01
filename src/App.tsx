@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import React, { Suspense, lazy, useEffect, useState } from "react";
 const BlogList = lazy(() => import("./pages/BlogList"));
 const BlogDetail = lazy(() => import("./pages/BlogDetail"));
+const PresentationView = lazy(() => import("./pages/PresentationView").then(m => ({ default: m.PresentationView })));
 import NotFound from "./pages/NotFound";
 import { ScrollToTop } from "./components/ScrollToTop";
 import SeasonalEffects from "./components/SeasonalEffects";
@@ -91,6 +92,7 @@ const App = () => {
                 <Route path="/" element={<Index />} />
                 <Route path="/blogs" element={<BlogList />} />
                 <Route path="/blogs/:slug" element={<BlogDetail />} />
+                <Route path="/presentations/:presentationId" element={<PresentationView />} />
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
