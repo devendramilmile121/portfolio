@@ -1,0 +1,23 @@
+[
+  {
+    "id": "github-copilot",
+    "title": "Maximizing Productivity with GitHub Copilot",
+    "subtitle": "A practical playbook for .NET 9 & Angular 19 developers",
+    "description": "Learn how to leverage GitHub Copilot effectively as a full-stack developer building cloud-native applications with .NET 9 and Angular 19",
+    "presenter": "Devendra Milmile",
+    "date": "2025-05-01",
+    "duration": "60 minutes",
+    "slides": 16,
+    "tags": ["GitHub Copilot", ".NET 9", "Angular 19", "Productivity", "AI", "Developer Tools"],
+    "topics": [
+      "AI pair programming fundamentals",
+      "Context-aware code generation",
+      "Prompt engineering for developers",
+      ".NET 9 development with Copilot",
+      "Angular 19 development with Copilot",
+      "Testing strategy with Copilot",
+      "Team standards and custom instructions",
+      "Code quality and risk management"
+    ]
+  }
+]
