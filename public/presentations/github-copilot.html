@@ -108,6 +108,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(
 .presenter strong{color:var(--text-2);font-weight:500}
 .tp-pills{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
 .tp-pill{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:11px;font-size:12.5px;font-weight:500;transition:transform .25s}
+.tp-pill{text-decoration:none;color:inherit}
 .tp-pill:hover{transform:scale(1.05)}
 
 .ac{padding:18px 22px;border-radius:14px;display:flex;align-items:flex-start;gap:13px}
@@ -232,6 +233,7 @@ body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(
   <div class="top-l"><i class="fa-brands fa-github"></i> <span class="tl-txt">GitHub Copilot Workshop</span></div>
   <div class="top-r">
     <button class="ib" id="ntBtn" title="Speaker Notes (N)" aria-label="Toggle speaker notes"><i class="fa-solid fa-message"></i></button>
+    <button class="ib" id="homeBtn" title="Home" aria-label="Go to first slide"><i class="fa-solid fa-house"></i></button>
     <button class="ib" id="fsBtn" title="Fullscreen" aria-label="Toggle fullscreen"><i class="fa-solid fa-expand"></i></button>
   </div>
 </div>
@@ -839,9 +841,8 @@ and typography."</span></div>
       <div class="dv" style="margin:24px auto 18px;"></div>
       <p style="font-size:clamp(12px,1vw,14px);color:var(--text-3);">Thank you — <strong style="color:var(--text-2);">Devendra Milmile</strong></p>
       <div class="tp-pills" style="margin-top:20px;">
-        <div class="tp-pill gs"><i class="fa-brands fa-github" style="color:var(--text-1)"></i> GitHub</div>
-        <div class="tp-pill gs"><i class="fa-brands fa-linkedin" style="color:#0a66c2"></i> LinkedIn</div>
-        <div class="tp-pill gs"><i class="fa-brands fa-x-twitter" style="color:var(--text-1)"></i> X / Twitter</div>
+        <a class="tp-pill gs" href="https://github.com/devendramilmile121" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-github" style="color:var(--text-1)"></i> GitHub</a>
+        <a class="tp-pill gs" href="https://www.linkedin.com/in/devendramilmile/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-linkedin" style="color:#0a66c2"></i> LinkedIn</a>
       </div>
     </div>
   </div>
@@ -904,7 +905,60 @@ and typography."</span></div>
 
   const slides = document.querySelectorAll('.slide');
   const total = slides.length;
-  let cur = 0;
+  // Determine starting slide from multiple possible sources (1-based):
+  // Priority: explicit query/hash/path -> session restoration -> default to 1
+  const params = new URLSearchParams(window.location.search);
+  let start = 0;
+  let explicit = false;
+  function trySet(v) {
+    const sv = parseInt(v, 10);
+    if (!isNaN(sv) && sv >= 1 && sv <= total) {
+      start = sv - 1;
+      explicit = true;
+      return true;
+    }
+    return false;
+  }
+  if (params.has('slide')) {
+    trySet(params.get('slide'));
+  } else if (window.location.hash) {
+    // formats: #slide=3 or #3
+    const h = window.location.hash.replace(/^#/, '');
+    if (h.startsWith('slide=')) trySet(h.split('=')[1]);
+    else trySet(h);
+  } else {
+    // try pathname last segment if it looks numeric (e.g. /.../3)
+    const parts = window.location.pathname.replace(/\/$/, '').split('/');
+    const last = parts[parts.length - 1];
+    if (/^\d+$/.test(last)) trySet(last);
+  }
+
+  // If there was no explicit slide requested, consider session restoration.
+  // But ensure that the first time a user ever loads the presentation, we start at slide 1.
+  try {
+    const visitedKey = 'presentation_visited_github_copilot';
+    const lastKey = 'presentation_last_slide_github_copilot';
+    const visited = sessionStorage.getItem(visitedKey);
+    if (!explicit) {
+      if (!visited) {
+        // First-time load: always start at slide 1 (index 0)
+        start = 0;
+      } else {
+        // Returning visitor: restore last slide if available
+        const last = parseInt(sessionStorage.getItem(lastKey), 10);
+        if (!isNaN(last) && last >= 1 && last <= total) start = last - 1;
+      }
+    }
+    // mark visited (do this even if explicit) so future loads can restore
+    sessionStorage.setItem(visitedKey, '1');
+  } catch (e) {
+    // sessionStorage may be unavailable; fall back to default start
+  }
+
+  // Ensure only the intended slide is active (HTML defaults first slide to active)
+  slides.forEach(s => s.classList.remove('active'));
+  let cur = Math.min(Math.max(start, 0), Math.max(total - 1, 0));
+  if (slides.length > 0) slides[cur].classList.add('active');
 
   const pf = document.getElementById('pf');
   const sCounter = document.getElementById('sCounter');
@@ -913,9 +967,30 @@ and typography."</span></div>
   const ntBtn = document.getElementById('ntBtn');
   const prevBtn = document.getElementById('prevBtn');
   const nextBtn = document.getElementById('nextBtn');
+  const homeBtn = document.getElementById('homeBtn');
   const fsBtn = document.getElementById('fsBtn');
 
   let notesOpen = false;
+
+  function updateUrl() {
+    try {
+      const u = new URL(window.location.href);
+      const sp = u.searchParams;
+      sp.set('slide', (cur + 1).toString());
+      const q = sp.toString();
+      history.replaceState(null, '', u.pathname + (q ? ('?' + q) : '') + u.hash);
+    } catch (e) {
+      // ignore URL update errors
+    }
+  }
+
+  // Persist last-viewed slide for returning visitors.
+  function persistLastSlide() {
+    try {
+      sessionStorage.setItem('presentation_last_slide_github_copilot', String(cur + 1));
+      sessionStorage.setItem('presentation_visited_github_copilot', '1');
+    } catch (e) {}
+  }
 
   function go(i) {
     if (i < 0 || i >= total) return;
@@ -933,10 +1008,13 @@ and typography."</span></div>
     prevBtn.style.pointerEvents = cur === 0 ? 'none' : 'auto';
     nextBtn.style.opacity = cur === total - 1 ? '0.3' : '1';
     nextBtn.style.pointerEvents = cur === total - 1 ? 'none' : 'auto';
+    updateUrl();
+    persistLastSlide();
   }
 
   prevBtn.addEventListener('click', function() { go(cur - 1); });
   nextBtn.addEventListener('click', function() { go(cur + 1); });
+  if (homeBtn) homeBtn.addEventListener('click', function() { go(0); });
 
   // Update keyboard events: removed Up/Down arrow to allow native vertical scrolling
   document.addEventListener('keydown', function(e) {
