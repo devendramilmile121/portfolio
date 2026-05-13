@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GitHub Copilot: Practical Mastery | Devendra Milmile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+:root {
+  --bg-deep:#06060f;
+  --bg-surface:#0c0c1e;
+  --glass-bg:rgba(255,255,255,0.04);
+  --glass-border:rgba(255,255,255,0.08);
+  --glass-hi:rgba(255,255,255,0.06);
+  --neon-blue:#00c8ff;
+  --neon-purple:#a855f7;
+  --neon-pink:#ec4899;
+  --neon-green:#22d3ee;
+  --text-1:#f0f0f5;
+  --text-2:rgba(240,240,245,0.55);
+  --text-3:rgba(240,240,245,0.3);
+  --code-bg:rgba(0,0,0,0.45);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg-deep);color:var(--text-1);overflow:hidden;height:100vh;width:100vw;-webkit-font-smoothing:antialiased}
+
+.bg-canvas{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.32;animation:orbF 22s ease-in-out infinite}
+.orb-1{width:600px;height:600px;background:radial-gradient(circle,var(--neon-blue),transparent 70%);top:-8%;left:-8%;animation-delay:0s}
+.orb-2{width:520px;height:520px;background:radial-gradient(circle,var(--neon-purple),transparent 70%);bottom:-12%;right:-4%;animation-delay:-8s;animation-duration:28s}
+.orb-3{width:380px;height:380px;background:radial-gradient(circle,var(--neon-pink),transparent 70%);top:48%;left:52%;transform:translate(-50%,-50%);animation-delay:-15s;animation-duration:32s;opacity:0.24}
+@keyframes orbF{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(55px,-35px) scale(1.08)}50%{transform:translate(-25px,45px) scale(.95)}75%{transform:translate(35px,25px) scale(1.04)}}
+
+.slides-wrap{position:relative;width:100vw;height:100vh;z-index:1}
+
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:80px 40px 90px 40px;
+  opacity:0;
+  visibility:hidden;
+  transform:translateY(24px) scale(.985);
+  transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1),visibility 0s .45s;
+  overflow-y:auto;
+  overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+}
+.slide.active{
+  opacity:1;
+  visibility:visible;
+  transform:translateY(0) scale(1);
+  transition:opacity .45s cubic-bezier(.4,0,.2,1),transform .45s cubic-bezier(.4,0,.2,1),visibility 0s 0s;
+}
+
+.sc{
+  width:100%;
+  max-width:1180px;
+  height:auto;
+  margin:auto 0;
+  display:flex;
+  flex-direction:column;
+}
+
+.sl{margin-bottom:36px}
+.sl-tag{display:inline-flex;align-items:center;gap:7px;font-size:10.5px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--neon-blue);margin-bottom:10px}
+.sl-tag i{font-size:8px}
+.sh{font-size:clamp(26px,3.2vw,46px);font-weight:700;line-height:1.14;letter-spacing:-.02em}
+.sh .a{background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.glass{background:var(--glass-bg);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);border:1px solid var(--glass-border);border-radius:22px;box-shadow:0 8px 32px rgba(0,0,0,.3),inset 0 1px 0 var(--glass-hi)}
+.gs{background:var(--glass-bg);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border:1px solid var(--glass-border);border-radius:15px;box-shadow:0 4px 14px rgba(0,0,0,.2),inset 0 1px 0 var(--glass-hi)}
+
+.bl{list-style:none;display:flex;flex-direction:column;gap:13px}
+.bl li{display:flex;align-items:flex-start;gap:13px;font-size:clamp(13.5px,1.25vw,17px);line-height:1.6;color:var(--text-2)}
+.bl li strong{color:var(--text-1);font-weight:600}
+.bm{flex-shrink:0;width:7px;height:7px;border-radius:50%;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));margin-top:9px;box-shadow:0 0 10px rgba(0,200,255,.35)}
+
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:28px;align-items:start}
+.tcc{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;align-items:start}
+.gc2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:12px}
+
+.cb{background:var(--code-bg);border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:18px 22px;font-family:'JetBrains Mono',monospace;font-size:clamp(10.5px,.92vw,13.5px);line-height:1.72;overflow-x:auto;position:relative}
+.cb .lt{position:absolute;top:9px;right:13px;font-size:9.5px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-3);font-family:'Space Grotesk',sans-serif}
+.cb .kw{color:var(--neon-purple)}.cb .tp{color:var(--neon-blue)}.cb .st{color:#4ade80}.cb .fn{color:#fbbf24}.cb .cm{color:var(--text-3);font-style:italic}
+
+.fc{padding:26px;transition:transform .25s,box-shadow .25s}
+.fc:hover{transform:translateY(-3px);box-shadow:0 12px 36px rgba(0,0,0,.4),inset 0 1px 0 var(--glass-hi)}
+.fi{width:46px;height:46px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:19px;margin-bottom:16px}
+.fi.b{background:rgba(0,200,255,.1);color:var(--neon-blue);border:1px solid rgba(0,200,255,.15)}
+.fi.p{background:rgba(168,85,247,.1);color:var(--neon-purple);border:1px solid rgba(168,85,247,.15)}
+.fi.pk{background:rgba(236,72,153,.1);color:var(--neon-pink);border:1px solid rgba(236,72,153,.15)}
+.fi.g{background:rgba(34,211,238,.1);color:var(--neon-green);border:1px solid rgba(34,211,238,.15)}
+.fc h3{font-size:clamp(13.5px,1.15vw,16.5px);font-weight:600;margin-bottom:7px;color:var(--text-1)}
+.fc p{font-size:clamp(11.5px,.95vw,13.5px);line-height:1.6;color:var(--text-2)}
+
+.title-slide{text-align:center;align-items:center}
+.tb{display:inline-flex;align-items:center;gap:9px;padding:7px 18px;border-radius:100px;font-size:11.5px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:28px}
+.tb i{color:var(--neon-blue)}
+.tm{font-size:clamp(30px,4.2vw,60px);font-weight:700;line-height:1.08;letter-spacing:-.03em;margin-bottom:18px}
+.tsub{font-size:clamp(15px,1.5vw,21px);font-weight:300;color:var(--text-2);margin-bottom:16px;max-width:680px;margin-left:auto;margin-right:auto;line-height:1.5}
+.presenter{font-size:clamp(12px,1vw,15px);color:var(--text-3);margin-bottom:36px;font-weight:400}
+.presenter strong{color:var(--text-2);font-weight:500}
+.tp-pills{display:flex;gap:11px;justify-content:center;flex-wrap:wrap}
+.tp-pill{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:11px;font-size:12.5px;font-weight:500;transition:transform .25s}
+.tp-pill{text-decoration:none;color:inherit}
+.tp-pill:hover{transform:scale(1.05)}
+
+.ac{padding:18px 22px;border-radius:14px;display:flex;align-items:flex-start;gap:13px}
+.ac.w{background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.12)}
+.ac.d{background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.12)}
+.ac.i{background:rgba(0,200,255,.05);border:1px solid rgba(0,200,255,.12)}
+.aci{font-size:15px;margin-top:2px;flex-shrink:0}
+.ac.w .aci{color:#fbbf24}.ac.d .aci{color:#ef4444}.ac.i .aci{color:var(--neon-blue)}
+.ac p{font-size:clamp(11.5px,.95vw,13.5px);line-height:1.6;color:var(--text-2)}
+.ac p strong{color:var(--text-1)}
+
+.ws{display:flex;align-items:flex-start;gap:18px;padding:16px 0;position:relative}
+.ws:not(:last-child)::after{content:'';position:absolute;left:18px;top:46px;bottom:-4px;width:1px;background:linear-gradient(to bottom,var(--glass-border),transparent)}
+.sn{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0}
+.sn.b{background:rgba(0,200,255,.1);border:1px solid rgba(0,200,255,.2);color:var(--neon-blue)}
+.sn.p{background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.2);color:var(--neon-purple)}
+.sn.pk{background:rgba(236,72,153,.1);border:1px solid rgba(236,72,153,.2);color:var(--neon-pink)}
+.sn.g{background:rgba(34,211,238,.1);border:1px solid rgba(34,211,238,.2);color:var(--neon-green)}
+.wsc h4{font-size:clamp(12.5px,1.05vw,15px);font-weight:600;color:var(--text-1);margin-bottom:3px}
+.wsc p{font-size:clamp(11px,.88vw,13px);color:var(--text-2);line-height:1.5}
+
+.ci{display:flex;align-items:center;gap:13px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.04);font-size:clamp(12.5px,1.15vw,15px);color:var(--text-2)}
+.ci:last-child{border-bottom:none}
+.cic{width:23px;height:23px;border-radius:7px;background:rgba(0,200,255,.08);border:1px solid rgba(0,200,255,.15);display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--neon-blue)}
+
+.stn{font-size:clamp(26px,2.8vw,42px);font-weight:700;background:linear-gradient(135deg,var(--neon-blue),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+.dv{width:56px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));margin:18px 0}
+
+.ba{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.bal{font-size:10px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:9px}
+.bal.bf{color:#ef4444}.bal.af{color:#4ade80}
+
+.top-bar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(6, 6, 15, 0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-bottom:1px solid var(--glass-border)}
+.top-l{display:flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:var(--text-3);letter-spacing:.5px}
+.top-l i{color:var(--neon-blue);font-size:13px}
+.top-r{display:flex;gap:7px}
+.ib{width:34px;height:34px;border-radius:9px;border:1px solid var(--glass-border);background:transparent;color:var(--text-3);font-size:12.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.ib:hover,.ib.on{background:var(--glass-bg);color:var(--neon-blue);border-color:rgba(0,200,255,.2)}
+
+.nav-bar{position:fixed;bottom:18px;right:28px;z-index:50;display:flex;align-items:center;gap:9px;background:rgba(6, 6, 15, 0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:9px 12px;border-radius:12px;border:1px solid var(--glass-border)}
+.nb{width:40px;height:40px;border-radius:11px;border:1px solid transparent;background:transparent;color:var(--text-2);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.nb:hover{background:rgba(255,255,255,.08);color:var(--text-1);border-color:rgba(255,255,255,.15)}
+.sc-counter{font-size:11.5px;font-weight:500;color:var(--text-3);padding:0 7px;font-variant-numeric:tabular-nums;min-width:48px;text-align:center}
+
+.prog-track{position:fixed;top:0;left:0;right:0;height:3px;background:rgba(255,255,255,.03);z-index:60}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--neon-blue),var(--neon-purple));border-radius:0 2px 2px 0;transition:width .4s cubic-bezier(.4,0,.2,1);box-shadow:0 0 10px rgba(0,200,255,.4)}
+
+.tip-row{display:flex;align-items:center;gap:13px;padding:14px 20px;border-radius:14px;border-left:3px solid var(--neon-purple);background:var(--glass-bg);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.05)}
+.tip-row i{color:var(--neon-purple);font-size:15px;flex-shrink:0}
+.tip-row p{font-size:clamp(11.5px,.95vw,13.5px);color:var(--text-2);line-height:1.6}
+.tip-row p strong{color:var(--text-1)}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:10px}
+::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.3)}
+
+@media(max-width:900px){
+  .slide{padding:80px 20px 100px 20px;}
+  .tc, .tcc, .ba, .gc2{grid-template-columns:1fr !important}
+  .tp-pills{flex-direction:column;align-items:center}
+  .nav-bar{bottom:20px;right:50%;transform:translateX(50%);width:max-content;border-radius:100px}
+  .top-bar{padding:12px 20px;}
+  .sh{text-align:center;}
+  .sl{display:flex;flex-direction:column;align-items:center;text-align:center;}
+}
+
+@media(max-width:500px){
+  .tl-txt{display:none;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<div class="prog-track"><div class="prog-fill" id="pf" style="width:5%"></div></div>
+
+<div class="top-bar">
+  <div class="top-l"><i class="fa-brands fa-github"></i> <span class="tl-txt">GitHub Copilot Mastery</span></div>
+  <div class="top-r">
+    <button class="ib" id="fsBtn" title="Fullscreen"><i class="fa-solid fa-expand"></i></button>
+  </div>
+</div>
+
+<div class="slides-wrap">
+
+<!-- SLIDE 1: TITLE -->
+<section class="slide active">
+  <div class="sc title-slide">
+    <div class="tb gs"><i class="fa-solid fa-bolt"></i><span>Practical Workshop</span></div>
+    <h1 class="tm">GitHub Copilot<br><span class="a">Mastery</span></h1>
+    <p class="tsub">From basics to agent execution. Practical strategies for AI-assisted development.</p>
+    <p class="presenter">Presented by <strong>Devendra Milmile</strong></p>
+    <div class="tp-pills">
+      <div class="tp-pill gs"><i class="fa-solid fa-keyboard"></i> Prompting</div>
+      <div class="tp-pill gs"><i class="fa-solid fa-wand-magic-sparkles"></i> Agents</div>
+      <div class="tp-pill gs"><i class="fa-solid fa-gear"></i> Best Practices</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 2: What is Copilot -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Fundamentals</div>
+      <h2 class="sh">What is <span class="a">GitHub Copilot</span>?</h2>
+    </div>
+    <div class="tc" style="margin-top:8px;">
+      <div>
+        <ul class="bl">
+          <li><span class="bm"></span><span><strong>AI pair programmer</strong> — real-time code suggestions inside your IDE</span></li>
+          <li><span class="bm"></span><span>Powered by LLMs trained on <strong>billions of lines</strong> of public code</span></li>
+          <li><span class="bm"></span><span>Works in <strong>VS Code, Visual Studio, JetBrains, Neovim</strong></span></li>
+          <li><span class="bm"></span><span><strong>Context-aware</strong> — reads your workspace, types, and imports</span></li>
+        </ul>
+      </div>
+      <div class="gs fc" style="border-left:3px solid var(--neon-blue);">
+        <div class="fi b"><i class="fa-solid fa-bolt"></i></div>
+        <h3>Why It Matters</h3>
+        <p>Removes friction from boilerplate. You focus on architecture and logic, not syntax.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3: Workflow -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Core Workflow</div>
+      <h2 class="sh">The <span class="a">Development Loop</span></h2>
+    </div>
+    <div class="gc2">
+      <div>
+        <div class="ws">
+          <div class="sn b">1</div>
+          <div class="wsc"><h4>Understand Requirements</h4><p>Read ticket, identify scope and layers</p></div>
+        </div>
+        <div class="ws">
+          <div class="sn p">2</div>
+          <div class="wsc"><h4>Set Context</h4><p>Open relevant files. Write intent-driven comment</p></div>
+        </div>
+        <div class="ws">
+          <div class="sn pk">3</div>
+          <div class="wsc"><h4>Generate & Review</h4><p>Accept, then critically review code</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="ws">
+          <div class="sn g">4</div>
+          <div class="wsc"><h4>Refine if Needed</h4><p>Improve comment, add context, iterate</p></div>
+        </div>
+        <div class="ws">
+          <div class="sn b">5</div>
+          <div class="wsc"><h4>Write Tests</h4><p>Ask Copilot to generate test cases</p></div>
+        </div>
+        <div class="ws">
+          <div class="sn p">6</div>
+          <div class="wsc"><h4>Commit with Confidence</h4><p>You reviewed and validated. You own the code.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 4: Prompt Engineering -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Prompting</div>
+      <h2 class="sh">Intent-Driven <span class="a">Prompts</span></h2>
+    </div>
+    <div class="ba" style="margin-top:12px;">
+      <div>
+        <div class="bal bf"><i class="fa-solid fa-xmark"></i> Vague</div>
+        <div class="cb"><span class="cm">// fetch data</span>
+<span class="kw">async function</span> <span class="fn">getData</span>() {
+  <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="st">'/api'</span>);
+  <span class="kw">return</span> res.<span class="fn">json</span>();
+}</div>
+      </div>
+      <div>
+        <div class="bal af"><i class="fa-solid fa-check"></i> Clear</div>
+        <div class="cb"><span class="cm">// Fetch user by ID with error handling
+// - Use AbortController for timeout
+// - Return UserData | null
+// - Handle 404 gracefully</span>
+<span class="kw">export async function</span> <span class="fn">fetchUser</span>(id: <span class="tp">string</span>) {
+  <span class="cm">// Copilot handles implementation</span>
+}</div>
+      </div>
+    </div>
+    <div class="ac i" style="margin-top:16px;">
+      <i class="fa-solid fa-lightbulb aci"></i>
+      <p><strong>The key:</strong> Describe WHAT and WHY. Let Copilot figure out HOW. Comments are your power tool.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 5: Context & Tokens -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Context</div>
+      <h2 class="sh">Mastering <span class="a">Context</span></h2>
+    </div>
+    <div class="tc" style="margin-top:10px;">
+      <div class="gs fc" style="border-top:3px solid #ef4444;">
+        <h3 style="color:#ef4444;"><i class="fa-solid fa-xmark"></i> Wasting Tokens</h3>
+        <ul class="bl" style="margin-top:12px;">
+          <li><span class="bm" style="background:#ef4444;box-shadow:none;"></span><span>20+ unrelated tabs open</span></li>
+          <li><span class="bm" style="background:#ef4444;box-shadow:none;"></span><span>Using @workspace for every question</span></li>
+          <li><span class="bm" style="background:#ef4444;box-shadow:none;"></span><span>Massive monolith files</span></li>
+          <li><span class="bm" style="background:#ef4444;box-shadow:none;"></span><span>Ignoring .copilotignore</span></li>
+        </ul>
+      </div>
+      <div class="gs fc" style="border-top:3px solid #4ade80;">
+        <h3 style="color:#4ade80;"><i class="fa-solid fa-check"></i> Smart Context</h3>
+        <ul class="bl" style="margin-top:12px;">
+          <li><span class="bm" style="background:#4ade80;box-shadow:none;"></span><span>2-3 related files open only</span></li>
+          <li><span class="bm" style="background:#4ade80;box-shadow:none;"></span><span>Use #file or #selection</span></li>
+          <li><span class="bm" style="background:#4ade80;box-shadow:none;"></span><span>Maintain .copilotignore</span></li>
+          <li><span class="bm" style="background:#4ade80;box-shadow:none;"></span><span>Keep examples visible in tabs</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6: Tools -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Tools</div>
+      <h2 class="sh">Using the <span class="a">Right Tool</span></h2>
+    </div>
+    <div class="tc" style="margin-top:12px;">
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="gs fc">
+          <div class="fi b"><i class="fa-solid fa-keyboard"></i></div>
+          <h3>Inline Suggestions</h3>
+          <p><strong>Best for:</strong> Boilerplate, test scaffolding, interfaces. Accept with Tab.</p>
+        </div>
+        <div class="gs fc">
+          <div class="fi p"><i class="fa-solid fa-comments"></i></div>
+          <h3>Copilot Chat</h3>
+          <p><strong>Best for:</strong> Reasoning, refactoring, explaining. Use #file for context.</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div class="gs fc">
+          <div class="fi pk"><i class="fa-solid fa-wrench"></i></div>
+          <h3>Inline Fix</h3>
+          <p><strong>Best for:</strong> Debugging compiler errors. Click the lightbulb.</p>
+        </div>
+        <div class="gs fc">
+          <div class="fi g"><i class="fa-solid fa-terminal"></i></div>
+          <h3>CLI: gh copilot</h3>
+          <p><strong>Best for:</strong> Terminal — docker, bash, git commands.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7: Custom Instructions -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Configuration</div>
+      <h2 class="sh"><span class="a">Custom Instructions</span></h2>
+    </div>
+    <div class="tcc" style="margin-top:12px;">
+      <div class="gs fc">
+        <div class="fi b"><i class="fa-solid fa-user"></i></div>
+        <h3>User Level</h3>
+        <p>VS Code Settings. Your personal coding style & preferences.</p>
+      </div>
+      <div class="gs fc">
+        <div class="fi p"><i class="fa-solid fa-folder"></i></div>
+        <h3>Workspace Level</h3>
+        <p>.github/copilot-instructions.md. Team architecture & standards.</p>
+      </div>
+      <div class="gs fc">
+        <div class="fi pk"><i class="fa-solid fa-message"></i></div>
+        <h3>Chat Level</h3>
+        <p>Dynamic context in specific threads. Override rules on-the-fly.</p>
+      </div>
+    </div>
+    <div class="tip-row" style="margin-top:18px;">
+      <i class="fa-solid fa-star aci"></i>
+      <p><strong>Pro Tip:</strong> Always create .github/copilot-instructions.md in your repo for consistent team-wide guidance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 8: Testing -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Testing</div>
+      <h2 class="sh">Test Generation <span class="a">Strategy</span></h2>
+    </div>
+    <div class="tc" style="margin-top:6px;">
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--neon-blue);margin-bottom:10px;">Unit Tests</p>
+        <div class="cb" style="font-size:clamp(9.5px,.8vw,12px);"><span class="cm">// Test calculateTotal:
+// - standard cart
+// - empty cart
+// - discount applied</span>
+
+<span class="fn">test</span>(<span class="st">'standard cart'</span>, () => {
+  <span class="fn">expect</span>(<span class="fn">calculateTotal</span>([]))
+    .<span class="fn">toBe</span>(<span class="nm">30</span>);
+});</div>
+      </div>
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--neon-pink);margin-bottom:10px;">Integration Tests</p>
+        <div class="cb" style="font-size:clamp(9.5px,.8vw,12px);"><span class="cm">// Mock database, test API
+// - database returns user
+// - endpoint returns 200
+// - response matches schema</span>
+
+<span class="fn">it</span>(<span class="st">'returns user data'</span>, <span class="kw">async</span> () => {
+  db.<span class="fn">mockResolvedValue</span>({ id: <span class="st">'1'</span> });
+  <span class="kw">const</span> res = <span class="kw">await</span> request(app);
+});</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 9: Agents & Plan Mode -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Advanced</div>
+      <h2 class="sh"><span class="a">Agents & Plan Mode</span></h2>
+    </div>
+    <div class="tc" style="margin-top:12px;">
+      <div>
+        <ul class="bl">
+          <li><span class="bm"></span><span><strong>Agent Mode (Copilot Edits):</strong> Modifies multiple files simultaneously</span></li>
+          <li><span class="bm"></span><span><strong>Plan First:</strong> Never let agents edit blindly. Ask for a Markdown plan</span></li>
+          <li><span class="bm"></span><span><strong>Human-in-the-Loop:</strong> Review & approve before code is written</span></li>
+        </ul>
+        <div class="ac i" style="margin-top:16px;">
+          <i class="fa-solid fa-lightbulb aci"></i>
+          <p><strong>Example:</strong> "@workspace I need to add Redis caching. <strong>Generate a step-by-step plan first.</strong> Which files will you touch?"</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;">
+        <div class="cb" style="font-size:10px;"><span class="cm">### Plan: Redis Caching
+
+1. Update .env for REDIS_URL
+2. Create src/utils/redisClient.js
+3. Modify src/services/dataService.js
+4. Update routes to invalidate cache
+
+**Awaiting approval...**</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 10: Risks & Quality -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Critical</div>
+      <h2 class="sh">Code Quality <span class="a">& Risks</span></h2>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:14px;margin-top:10px;max-width:920px;">
+      <div class="ac w">
+        <i class="fa-solid fa-ghost aci"></i>
+        <div><p><strong>Hallucinations</strong> — Verify imports & framework features. Don't trust made-up libraries.</p></div>
+      </div>
+      <div class="ac d">
+        <i class="fa-solid fa-shield-halved aci"></i>
+        <div><p><strong>Security</strong> — Deep review all auth, encryption, input sanitization. Never skip this.</p></div>
+      </div>
+      <div class="ac w">
+        <i class="fa-solid fa-gauge aci"></i>
+        <div><p><strong>Performance</strong> — Watch for N+1 queries, missing async/await, memory leaks. Profile carefully.</p></div>
+      </div>
+      <div class="ac d">
+        <i class="fa-solid fa-code-branch aci"></i>
+        <div><p><strong>Code Review</strong> — Same standards as hand-written code. You own it. No exceptions.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 11: Best Practices -->
+<section class="slide">
+  <div class="sc">
+    <div class="sl">
+      <div class="sl-tag"><i class="fa-solid fa-circle"></i> Summary</div>
+      <h2 class="sh">Best Practices <span class="a">Checklist</span></h2>
+    </div>
+    <div class="tc" style="margin-top:6px;">
+      <div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Close irrelevant tabs. Keep context lean.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Write intent-driven comments — WHAT and WHY.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Define Custom Instructions (User + Workspace).</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Use Plan Mode before Agents modify files.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Review every suggestion ruthlessly.</div>
+      </div>
+      <div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Generate tests for everything.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Match tool to task (inline vs chat vs fix).</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Iterate relentlessly on prompts.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>Verify security & performance manually.</div>
+        <div class="ci"><span class="cic"><i class="fa-solid fa-check"></i></span>You own the code. AI is just the tool.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 12: Conclusion -->
+<section class="slide">
+  <div class="sc" style="justify-content:center;align-items:center;text-align:center;">
+    <div class="gs" style="padding:56px 72px;max-width:780px;">
+      <div class="fi p" style="width:62px;height:62px;font-size:26px;margin:0 auto 22px;border-radius:18px;">
+        <i class="fa-solid fa-rocket"></i>
+      </div>
+      <h2 class="sh" style="font-size:clamp(23px,2.8vw,38px);margin-bottom:18px;">Copilot: <span class="a">Force Multiplier</span></h2>
+      <div class="dv" style="margin:0 auto 22px;"></div>
+      <p style="font-size:clamp(13.5px,1.2vw,17px);color:var(--text-2);line-height:1.7;max-width:580px;margin:0 auto 28px;">Master the fundamentals. Write clear prompts. Review ruthlessly. The competitive advantage isn't knowing Copilot exists — it's knowing how to use it well.</p>
+      <p style="font-size:clamp(12.5px,1.05vw,15px);color:var(--text-3);line-height:1.6;font-style:italic;">Questions?</p>
+      <div class="dv" style="margin:24px auto 18px;"></div>
+      <p style="font-size:clamp(12px,1vw,14px);color:var(--text-3);">—  <strong style="color:var(--text-2);">Devendra Milmile</strong></p>
+      <div class="tp-pills" style="margin-top:20px;">
+        <a class="tp-pill gs" href="https://github.com/devendramilmile121" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> GitHub</a>
+        <a class="tp-pill gs" href="https://www.linkedin.com/in/devendramilmile/" target="_blank" rel="noopener"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="nav-bar">
+  <button class="nb" id="prevBtn"><i class="fa-solid fa-chevron-left"></i></button>
+  <span class="sc-counter" id="sCounter">1 / 12</span>
+  <button class="nb" id="nextBtn"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let cur = 0;
+
+  const pf = document.getElementById('pf');
+  const sCounter = document.getElementById('sCounter');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const fsBtn = document.getElementById('fsBtn');
+
+  function update() {
+    const percent = ((cur + 1) / total) * 100;
+    pf.style.width = percent + '%';
+    sCounter.textContent = (cur + 1) + ' / ' + total;
+  }
+
+  function go(i) {
+    if (i < 0 || i >= total) return;
+    slides[cur].classList.remove('active');
+    cur = i;
+    slides[cur].classList.add('active');
+    update();
+  }
+
+  prevBtn.addEventListener('click', () => go(cur - 1));
+  nextBtn.addEventListener('click', () => go(cur + 1));
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft') go(cur - 1);
+    if (e.key === 'ArrowRight') go(cur + 1);
+  });
+
+  fsBtn.addEventListener('click', () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  });
+
+  update();
+})();
+</script>
+
+</body>
+</html>
