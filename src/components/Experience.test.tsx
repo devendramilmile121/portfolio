@@ -14,25 +14,28 @@ const mockConfig = {
     contact: { location: 'San Francisco', phone: '+1-555-0000' },
   },
   navigation: [],
-  skills: [],
-  experience: [
-    {
-      company: 'Tech Corp',
-      role: 'Senior Developer',
-      period: '2020-2023',
-      location: 'San Francisco, CA',
-      description: ['Led development team', 'Improved performance by 40%'],
-      technologies: ['React', 'Node.js', 'PostgreSQL'],
-    },
-    {
-      company: 'StartUp Inc',
-      role: 'Full Stack Developer',
-      period: '2018-2020',
-      location: 'New York, NY',
-      description: ['Built REST APIs', 'Developed frontend'],
-      technologies: ['Angular', '.NET Core'],
-    },
-  ],
+  skills: { description: '', categories: [] },
+  experience: {
+    description: 'Two companies since 2018.',
+    jobs: [
+      {
+        company: 'Tech Corp',
+        role: 'Senior Developer',
+        period: '2020-2023',
+        location: 'San Francisco, CA',
+        description: ['Led development team', 'Improved performance by 40%'],
+        technologies: ['React', 'Node.js', 'PostgreSQL'],
+      },
+      {
+        company: 'StartUp Inc',
+        role: 'Full Stack Developer',
+        period: '2018-2020',
+        location: 'New York, NY',
+        description: ['Built REST APIs', 'Developed frontend'],
+        technologies: ['Angular', '.NET Core'],
+      },
+    ],
+  },
   projects: [],
   education: { degrees: [] },
   blogs: { featured: [], all: [] },
@@ -62,7 +65,7 @@ describe('Experience', () => {
   it('should render description text', () => {
     render(<Experience />);
 
-    expect(screen.getByText(/6 years of professional growth/)).toBeInTheDocument();
+    expect(screen.getByText(mockConfig.experience.description)).toBeInTheDocument();
   });
 
   it('should render all experience entries', () => {
@@ -124,13 +127,13 @@ describe('Experience', () => {
     const { container } = render(<Experience />);
 
     const cards = container.querySelectorAll('[class*="bg-gradient-card"]');
-    expect(cards.length).toBeGreaterThanOrEqual(mockConfig.experience.length);
+    expect(cards.length).toBeGreaterThanOrEqual(mockConfig.experience.jobs.length);
   });
 
   it('should handle empty experience array', () => {
     const emptyConfig = {
       ...mockConfig,
-      experience: [],
+      experience: { ...mockConfig.experience, jobs: [] },
     };
 
     jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({

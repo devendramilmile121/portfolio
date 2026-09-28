@@ -41,7 +41,7 @@ export const Hero = () => {
     if (loading) {
       return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          <picture className="absolute inset-0 w-full h-full">
+          <picture className="absolute inset-0 w-full h-full glass:hidden">
             <source
               srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
               sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
@@ -56,7 +56,7 @@ export const Hero = () => {
               loading="eager"
             />
           </picture>
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm glass:hidden" />
         </section>
       );
     }
@@ -87,12 +87,12 @@ export const Hero = () => {
         <img
           src={backgroundImage}
           alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover glass:hidden"
           loading="eager"
           fetchPriority="high"
         />
       ) : (
-        <picture className="absolute inset-0 w-full h-full">
+        <picture className="absolute inset-0 w-full h-full glass:hidden">
           <source
             srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
             sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
@@ -109,10 +109,10 @@ export const Hero = () => {
           />
         </picture>
       )}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm glass:hidden" />
       
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-6 text-center">
+      <div className="glass-hero-parallax relative z-10 container mx-auto px-6 text-center">
         <div className="max-w-4xl mx-auto">
           <h1 className="text-5xl md:text-7xl font-bold mb-6 p-3 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
             {heroData.name}
@@ -175,7 +175,7 @@ export const Hero = () => {
       </div>
       
       {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none glass:hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>

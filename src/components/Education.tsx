@@ -11,7 +11,7 @@ export const Education = () => {
   if (!config) {
     if (loading) {
       return (
-        <section className="py-20 px-6 bg-secondary/5">
+        <section className="py-20 px-6 bg-secondary/5 glass:bg-transparent">
           <div className="container mx-auto">
             <div className="text-center mb-16">
               <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
@@ -60,7 +60,7 @@ export const Education = () => {
   }) : [];
 
   return (
-    <section className="py-20 px-6 bg-secondary/5">
+    <section className="py-20 px-6 bg-secondary/5 glass:bg-transparent">
       <div className="container mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">

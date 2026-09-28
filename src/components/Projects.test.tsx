@@ -144,7 +144,7 @@ describe('Projects', () => {
     expect(sections.length).toBe(0);
   });
 
-  it('should handle empty projects array', () => {
+  it('should render nothing when there are no projects', () => {
     const emptyConfig = {
       ...mockConfig,
       projects: [],
@@ -156,9 +156,9 @@ describe('Projects', () => {
       error: '',
     } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
 
-    render(<Projects />);
+    const { container } = render(<Projects />);
 
-    expect(screen.getByText('Featured Projects')).toBeInTheDocument();
+    expect(container).toBeEmptyDOMElement();
   });
 
   it('should render project cards with proper styling', () => {

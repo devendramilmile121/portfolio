@@ -11,8 +11,8 @@ interface SEOProps {
 }
 
 export const useMetaTags = ({
-  title = "Devendra Milmile - Full Stack Developer | Angular & .NET Core Expert",
-  description = "Full Stack Developer with 6+ years of expertise in Angular, .NET Core, and modern web technologies. Specializing in scalable applications, micro frontends, and cloud solutions.",
+  title = "Devendra Milmile - Full Stack Developer | Angular & .NET Core",
+  description = "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
   keywords = "Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer",
   image = "https://devendramilmile.com/og-image.png",
   url = "https://devendramilmile.com",

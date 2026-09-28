@@ -22,11 +22,11 @@ const mockConfig = {
     { id: 'education', label: 'Education' },
   ],
   hero: { name: 'John Doe', title: 'Developer' },
-  skills: [],
-  experience: [],
+  skills: { description: '', categories: [] },
+  experience: { description: '', jobs: [] },
   projects: [],
   education: { degrees: [] },
-  blogs: { featured: [], all: [] },
+  blogs: { enabled: true },
   contact: { heading: 'Contact', description: '', info: [], social: [], ctaText: '', ctaLink: '' },
   footer: { copyrightYear: 2024, socialLinks: [] },
 };
@@ -55,7 +55,8 @@ describe('Navigation', () => {
   it('should render navigation with logo', () => {
     renderWithRouter(<Navigation />);
 
-    const logo = screen.getByText('DM');
+    // Logo is the initials of hero.name
+    const logo = screen.getByText('JD');
     expect(logo).toBeInTheDocument();
   });
 
@@ -143,10 +144,12 @@ describe('Navigation', () => {
       error: '',
     } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
 
-    renderWithRouter(<Navigation />);
+    const { container } = renderWithRouter(<Navigation />);
 
-    const logo = screen.getByText('DM');
-    expect(logo).toBeInTheDocument();
+    // Skeleton keeps the bar's space with a placeholder logo and no nav items
+    expect(container.querySelector('nav')).toBeInTheDocument();
+    expect(screen.getByText('...')).toBeInTheDocument();
+    expect(screen.queryByText('Skills')).not.toBeInTheDocument();
   });
 
   it('should render nothing when config is null and not loading', () => {
@@ -175,7 +178,7 @@ describe('Navigation', () => {
     // Simulate scroll event
     fireEvent.scroll(window, { y: 100 });
 
-    expect(screen.getByText('DM')).toBeInTheDocument();
+    expect(screen.getByText('JD')).toBeInTheDocument();
   });
 
   it('should render navigation in fixed position', () => {
@@ -192,6 +195,18 @@ describe('Navigation', () => {
     expect(nav).toHaveClass('transition-all', 'duration-300');
   });
 
+  it('should hide Blogs link when blogs are disabled', () => {
+    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
+      config: { ...mockConfig, blogs: { enabled: false } },
+      loading: false,
+      error: '',
+    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
+
+    renderWithRouter(<Navigation />);
+
+    expect(screen.queryByText('Blogs')).not.toBeInTheDocument();
+  });
+
   it('should render Blogs link on desktop and mobile', async () => {
     renderWithRouter(<Navigation />);
 
@@ -206,7 +221,7 @@ describe('Navigation', () => {
     expect(skillsButtons[0]).toBeInTheDocument();
 
     fireEvent.click(skillsButtons[0]);
-    expect(screen.getByText('DM')).toBeInTheDocument();
+    expect(screen.getByText('JD')).toBeInTheDocument();
   });
 
   it('should render all ThemeSwitch instances', () => {

@@ -13,11 +13,11 @@ jest.mock('lucide-react', () => ({
 const mockConfig = {
   hero: { name: 'John Doe', title: 'Developer' },
   navigation: [],
-  skills: [],
-  experience: [],
+  skills: { description: '', categories: [] },
+  experience: { description: '', jobs: [] },
   projects: [],
   education: { degrees: [] },
-  blogs: { featured: [], all: [] },
+  blogs: { enabled: true },
   contact: { heading: 'Contact', description: '', info: [], social: [], ctaText: '', ctaLink: '' },
   footer: {
     name: 'John Doe',
@@ -74,6 +74,17 @@ describe('Footer', () => {
     const blogsLink = screen.getByRole('link', { name: 'Blogs' });
     expect(blogsLink).toBeInTheDocument();
     expect(blogsLink).toHaveAttribute('href', '/blogs');
+  });
+
+  it('should hide Blogs link when blogs are disabled', () => {
+    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
+      config: { ...mockConfig, blogs: { enabled: false } },
+      loading: false,
+      error: '',
+    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
+
+    renderWithRouter(<Footer />);
+    expect(screen.queryByRole('link', { name: 'Blogs' })).not.toBeInTheDocument();
   });
 
   it('should render Contact link', () => {

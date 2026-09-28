@@ -1,7 +1,7 @@
 {
   "seo": {
-    "title": "Devendra Milmile - Full Stack Developer | Angular & .NET Core Expert",
-    "description": "Full Stack Developer with 6+ years of expertise in Angular, .NET Core, and modern web technologies. Specializing in scalable applications, micro frontends, and cloud solutions.",
+    "title": "Devendra Milmile - Full Stack Developer | Angular & .NET Core",
+    "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
     "keywords": "Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"
   },
   "blogs": {
@@ -10,7 +10,7 @@
   "hero": {
     "name": "Devendra Milmile",
     "title": "Full Stack Developer",
-    "description": "7 years of expertise in Angular & .NET Core development. Building scalable web applications with modern micro frontend architecture.",
+    "description": "I've been building web apps with Angular and .NET Core for over 7 years. These days that mostly means micro frontends, and moving old monoliths onto them.",
     "ctaPrimary": "Get In Touch",
     "ctaPrimaryTarget": "contact",
     "ctaSecondary": "View Projects",
@@ -43,7 +43,7 @@
     { "label": "Contact", "id": "contact" }
   ],
   "skills": {
-    "description": "Comprehensive expertise across the full development stack with modern technologies and best practices. 7 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "description": "Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.",
     "categories": [
       {
         "title": "Frontend",
@@ -70,7 +70,7 @@
       },
       {
         "title": "Database",
-        "skills": ["SQL Server", "Database Design", "Performance Optimization"]
+        "skills": ["SQL Server", "PostgreSQL", "Database Design", "Performance Optimization"]
       },
       {
         "title": "Cloud & DevOps",
@@ -100,7 +100,7 @@
     ]
   },
   "experience": {
-    "description": "7 years of professional growth across leading technology companies, delivering scalable solutions.",
+    "description": "Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.",
     "jobs": [
       {
         "company": "Systems Plus",
@@ -108,9 +108,9 @@
         "period": "Jan 2026 - Present",
         "location": "Pune",
         "description": [
-          "Working on a replatform project to migrate a legacy monolithic application to a modern micro frontend architecture",
-          "Migrating backend services to .NET 9",
-          "More to come soon..."
+          "Moving a legacy monolith onto a micro frontend architecture as part of a replatform project",
+          "Upgrading backend services to .NET 9",
+          "Joined in January 2026, so this list is still short"
         ],
         "technologies": [
           "Angular",
@@ -128,11 +128,11 @@
         "period": "Nov 2024 - Dec 2025",
         "location": "Pune",
         "description": [
-          "Developed a modular Angular micro frontend application used across products",
-          "Maintained a shared Angular library to enable code reuse and consistency",
-          "Contributed to .NET Core API development with YARP reverse proxy integration",
-          "Created custom service aggregators to expose unified endpoints",
-          "Worked closely with cross-functional teams in agile sprints"
+          "Built an Angular micro frontend app that several products run on",
+          "Maintained a shared Angular library so each app didn't rebuild the same components",
+          "Worked on .NET Core APIs sitting behind a YARP reverse proxy",
+          "Wrote service aggregators that combine several backend calls into one endpoint",
+          "Worked in agile sprints with cross-functional teams"
         ],
         "technologies": [
           "Angular",
@@ -148,11 +148,11 @@
         "period": "Aug 2021 - Nov 2024",
         "location": "Pune",
         "description": [
-          "Delivered multiple full-stack projects using Angular, .NET Core, and SQL Server",
-          "Built reusable UI components using Angular Material and PrimeNG",
-          "Improved backend performance by implementing caching and gzip compression",
-          "Actively engaged in agile ceremonies and team collaboration",
-          "Earned recognition for timely deliveries and high-quality work"
+          "Shipped several full-stack projects on Angular, .NET Core, and SQL Server",
+          "Built reusable UI components with Angular Material and PrimeNG",
+          "Sped up API responses by adding caching and gzip compression",
+          "Led a team of 3 developers and 1 QA on UNIDO DIPS",
+          "Recognized for delivering on time without cutting corners on quality"
         ],
         "technologies": [
           "Angular",
@@ -168,11 +168,11 @@
         "period": "Feb 2019 - Aug 2021",
         "location": "Nagpur",
         "description": [
-          "Developed full-stack features for healthcare and service-based apps",
-          "Created a custom PDF form builder and appointment calendar module",
-          "Interfaced with clients to gather requirements and clarify expectations",
-          "Participated in sprint planning and contributed to task estimations",
-          "Acted as the communication bridge between clients and the dev team"
+          "Built full-stack features for healthcare and service-business apps",
+          "Built a PDF form builder and an appointment calendar module from scratch",
+          "Talked with clients directly to pin down requirements",
+          "Estimated tasks during sprint planning",
+          "Was the go-between for clients and the dev team"
         ],
         "technologies": [
           "Full Stack Development",
@@ -185,12 +185,34 @@
   },
   "projects": [
     {
+      "title": "Samyo",
+      "period": "Sep 2026 - Present",
+      "description": "My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.",
+      "highlights": [
+        "Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event",
+        "Equipment checklists generated from the services each business offers",
+        "Works offline at the venue and installs on a phone",
+        "Interface in English, Hindi, and Marathi"
+      ],
+      "technologies": [
+        "Angular",
+        ".NET",
+        "PostgreSQL",
+        "Azure",
+        "SaaS"
+      ],
+      "type": "SaaS Product",
+      "links": {
+        "website": "https://samyo.in"
+      }
+    },
+    {
       "title": "Bright Horizons - College Coach",
       "period": "Jan 2026 - Present",
-      "description": "Replatforming a legacy monolithic application to a modern micro frontend architecture with a .NET 9 backend and Angular 19 frontend. Migrated duplicate components into a shared UI library to enable code sharing across micro frontends.",
+      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
       "highlights": [
-        "Working on a replatform project to migrate a legacy monolithic application to a modern micro frontend and backend architecture",
-        "Built a shared UI library by migrating duplicate components, reducing code duplication and ensuring consistent behavior across all micro frontends"
+        "Breaking a monolith into micro frontends backed by new .NET 9 services",
+        "Moved copy-pasted components into a shared UI library, so every micro frontend behaves the same and bugs get fixed in one place"
       ],
       "technologies": [
         ".NET 9",
@@ -205,12 +227,12 @@
     {
       "title": "CLARIO - Public API Platform",
       "period": "Dec 2024 - Dec 2025",
-      "description": "Developed a Public API using .NET 8 with YARP reverse proxy, enabling efficient routing and service composition. Built notification rule engine and Expression Designer Library for dynamic trigger creation.",
+      "description": "A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.",
       "highlights": [
-        "Custom Swagger UI for improved API documentation",
-        "Notification rule engine with micro frontend architecture",
-        "Expression Designer Library with visual editor",
-        "YARP reverse proxy implementation"
+        "Custom Swagger UI for the API docs",
+        "Notification rule engine built as a micro frontend",
+        "Expression Designer library with a visual editor",
+        "YARP reverse proxy setup"
       ],
       "technologies": [
         ".NET 8",
@@ -224,12 +246,12 @@
     {
       "title": "UNIDO DIPS",
       "period": "Sep 2021 - Nov 2024",
-      "description": "Full-stack web application with comprehensive features including multi-language support, external surveys, and JWT authentication. Led a team of 3 developers and 1 QA.",
+      "description": "Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.",
       "highlights": [
-        "Multi-language support implementation",
-        "Survey.js integration for external surveys",
-        "JWT authentication in web APIs",
-        "Team leadership and project delivery"
+        "Multi-language support",
+        "External surveys built on Survey.js",
+        "JWT authentication for the web APIs",
+        "Led the team from kickoff through delivery"
       ],
       "technologies": [
         "Angular",
@@ -243,12 +265,12 @@
     {
       "title": "SymphonyAI Platform",
       "period": "Jan 2022 - Oct 2024",
-      "description": "Angular library project for reusable components and navigation system across SymphonyAI products. Built drag-and-drop dashboard with configurable charts.",
+      "description": "An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.",
       "highlights": [
-        "25% increase in customer engagement",
-        "Drag-and-drop dashboard using Angular Gridster2",
+        "Customer engagement up 25%",
+        "Drag-and-drop dashboard built on Angular Gridster2",
         "Configurable charts with AmCharts5",
-        "Dynamic menu system with JSON configuration"
+        "Menus driven by JSON config"
       ],
       "technologies": [
         "Angular",
@@ -262,9 +284,9 @@
     {
       "title": "@datelane/core",
       "period": "Jul 2026 - Present",
-      "description": "Lightweight, customizable, dependency-free Angular scheduler/calendar library with pluggable date adapters (Native/Luxon/Moment). Published on NPM under the MIT license.",
+      "description": "An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.",
       "highlights": [
-        "Published to NPM repository",
+        "Published on npm",
         "Pluggable date adapters: Native, Luxon, Moment",
         "Zero runtime dependencies",
         "Scheduler, calendar, timeline, and agenda views"
@@ -283,13 +305,13 @@
     },
     {
       "title": "ngx-custom-carousel",
-      "period": "Apr 2024 - Present",
-      "description": "Open source Angular carousel component with custom template rendering. Features semantic versioning and automated CI/CD pipeline.",
+      "period": "Apr 2024 - Aug 2026",
+      "description": "An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.",
       "highlights": [
-        "Published to NPM repository",
-        "Semantic versioning implementation",
+        "Published on npm",
+        "Semantic versioning",
         "CI/CD with GitHub Actions",
-        "Custom Angular template rendering"
+        "Renders custom Angular templates"
       ],
       "technologies": [
         "Angular",
@@ -365,7 +387,7 @@
   },
   "contact": {
     "heading": "Let's Connect",
-    "description": "Ready to collaborate on your next project? Let's discuss how we can build something amazing together.",
+    "description": "Have a project or a role you think I'd fit? Send me an email and tell me about it.",
     "info": [
       {
         "label": "Email",
@@ -408,7 +430,7 @@
   },
   "footer": {
     "name": "Devendra Milmile",
-    "title": "Full Stack Developer • Angular & .NET Core Expert",
+    "title": "Full Stack Developer • Angular & .NET Core",
     "copyright": "All rights reserved.",
     "builtWith": "Built with React, TypeScript & Tailwind CSS",
     "social": [

@@ -11,6 +11,7 @@ const PresentationView = lazy(() => import("./pages/PresentationView").then(m =>
 import NotFound from "./pages/NotFound";
 import { ScrollToTop } from "./components/ScrollToTop";
 import SeasonalEffects from "./components/SeasonalEffects";
+import { LiquidGlassEffects } from "./components/LiquidGlassEffects";
 import type { SeasonalEffect } from "./hooks/useSeasonalEffects";
 
 const queryClient = new QueryClient();
@@ -100,6 +101,7 @@ const App = () => {
           </BrowserRouter>
         </div>
         <SeasonalEffects effects={seasonalEffects} enabled={seasonalConfig.enabled} onToggle={handleToggleSeasonalEffect} />
+        <LiquidGlassEffects />
       </TooltipProvider>
     </QueryClientProvider>
   );

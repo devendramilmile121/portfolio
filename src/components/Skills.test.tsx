@@ -14,17 +14,20 @@ const mockConfig = {
     contact: { location: 'San Francisco', phone: '+1-555-0000' },
   },
   navigation: [],
-  skills: [
-    {
-      title: 'Frontend',
-      skills: ['React', 'TypeScript', 'Tailwind CSS'],
-    },
-    {
-      title: 'Backend',
-      skills: ['.NET Core', 'Node.js', 'SQL'],
-    },
-  ],
-  experience: [],
+  skills: {
+    description: 'Tools I reach for across the stack.',
+    categories: [
+      {
+        title: 'Frontend',
+        skills: ['React', 'TypeScript', 'Tailwind CSS'],
+      },
+      {
+        title: 'Backend',
+        skills: ['.NET Core', 'Node.js', 'SQL'],
+      },
+    ],
+  },
+  experience: { description: '', jobs: [] },
   projects: [],
   education: { degrees: [] },
   blogs: { featured: [], all: [] },
@@ -54,7 +57,7 @@ describe('Skills', () => {
   it('should render description text', () => {
     render(<Skills />);
 
-    expect(screen.getByText(/Comprehensive expertise across the full development stack/)).toBeInTheDocument();
+    expect(screen.getByText(mockConfig.skills.description)).toBeInTheDocument();
   });
 
   it('should render all skill categories', () => {
@@ -108,7 +111,7 @@ describe('Skills', () => {
 
     // Cards are rendered within the grid
     const cards = container.querySelectorAll('[class*="bg-gradient-card"]');
-    expect(cards.length).toBeGreaterThanOrEqual(mockConfig.skills.length);
+    expect(cards.length).toBeGreaterThanOrEqual(mockConfig.skills.categories.length);
   });
 
   it('should render skill cards with proper styling', () => {
@@ -121,7 +124,7 @@ describe('Skills', () => {
   it('should handle empty skills array', () => {
     const emptyConfig = {
       ...mockConfig,
-      skills: [],
+      skills: { ...mockConfig.skills, categories: [] },
     };
 
     jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
@@ -139,12 +142,15 @@ describe('Skills', () => {
   it('should handle large number of skills', () => {
     const largeConfig = {
       ...mockConfig,
-      skills: [
-        {
-          title: 'Languages',
-          skills: Array(20).fill(0).map((_, i) => `Skill ${i + 1}`),
-        },
-      ],
+      skills: {
+        ...mockConfig.skills,
+        categories: [
+          {
+            title: 'Languages',
+            skills: Array(20).fill(0).map((_, i) => `Skill ${i + 1}`),
+          },
+        ],
+      },
     };
 
     jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({

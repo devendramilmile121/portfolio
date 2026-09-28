@@ -119,6 +119,19 @@ export const Projects = () => {
                 
                 {project.links && (
                   <div className="flex gap-3">
+                    {project.links.website && (
+                      <Button 
+                        variant="outline" 
+                        size="sm"
+                        className="border-primary/30 hover:border-primary hover:bg-primary/10"
+                        asChild
+                      >
+                        <a href={project.links.website} target="_blank" rel="noopener noreferrer">
+                          <ExternalLink className="h-4 w-4 mr-2" />
+                          Website
+                        </a>
+                      </Button>
+                    )}
                     {project.links.github && (
                       <Button 
                         variant="outline" 

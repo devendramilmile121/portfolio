@@ -32,6 +32,11 @@ jest.mock('@/components/ui/dropdown-menu', () => ({
 }));
 
 describe('ThemeSwitch Component', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    document.documentElement.className = '';
+  });
+
   it('should render theme switch button', () => {
     render(
       <ThemeProvider>

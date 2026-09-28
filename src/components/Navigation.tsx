@@ -113,7 +113,7 @@ export const Navigation = () => {
   if (!config) {
     if (loading) {
       return (
-        <nav className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40">
+        <nav className="liquid-glass fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40 glass:top-3 glass:inset-x-3 glass:mx-auto glass:max-w-6xl glass:rounded-[1.75rem] glass:border">
           <div className="container mx-auto px-6">
             <div className="flex items-center justify-between h-16">
               <div className="font-bold text-xl bg-gradient-primary bg-clip-text text-transparent">...</div>
@@ -143,7 +143,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40`}>
+    <nav className={`liquid-glass fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-background/80 backdrop-blur-md border-b border-border/40 glass:top-3 glass:inset-x-3 glass:mx-auto glass:max-w-6xl glass:rounded-[1.75rem] glass:border`}>
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}

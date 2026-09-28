@@ -1,4 +1,6 @@
 import type { Config } from "tailwindcss";
+import plugin from "tailwindcss/plugin";
+import tailwindcssAnimate from "tailwindcss-animate";
 
 export default {
 	darkMode: ["class"],
@@ -7,6 +9,16 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+	],
+	// Theme classes are applied at runtime as `theme-${name}`, so the content scanner never sees them
+	safelist: [
+		"theme-github",
+		"theme-dark",
+		"theme-yellow",
+		"theme-green",
+		"theme-white",
+		"theme-glass-light",
+		"theme-glass-dark",
 	],
 	prefix: "",
 	theme: {
@@ -144,6 +156,14 @@ export default {
 				'pulse-slow': {
 					'0%, 100%': { opacity: '1' },
 					'50%': { opacity: '0.8' }
+				},
+				// Liquid Glass materialize: grows out of its trigger, sharpening from a blur
+				'glass-in': {
+					'0%': { opacity: '0', scale: '0.5', filter: 'blur(8px)' },
+					'100%': { opacity: '1', scale: '1', filter: 'none' }
+				},
+				'glass-out': {
+					'100%': { opacity: '0', scale: '0.85', filter: 'blur(6px)' }
 				}
 			},
 			animation: {
@@ -160,9 +180,17 @@ export default {
 				'float': 'float 3s ease-in-out infinite',
 				'shimmer': 'shimmer 2s infinite',
 				'rotate-slow': 'rotate-slow 20s linear infinite',
-				'pulse-slow': 'pulse-slow 3s ease-in-out infinite'
+				'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
+				'glass-in': 'glass-in 0.55s var(--ease-spring) both',
+				'glass-out': 'glass-out 0.18s ease-in both'
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		tailwindcssAnimate,
+		// `glass:` variant — styles that apply only while a Liquid Glass theme is active
+		plugin(({ addVariant }) => {
+			addVariant("glass", [".theme-glass-light &", ".theme-glass-dark &"]);
+		}),
+	],
 } satisfies Config;

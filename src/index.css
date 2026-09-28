@@ -2,6 +2,45 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Liquid Glass light intensity. Registered so it can transition: hover fades the specular light in, press blooms it. */
+@property --glass-light {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+/* Parallax: wallpaper glows rise at their layer's speed as the page scrolls */
+@keyframes glass-drift {
+  to {
+    translate: 0 var(--drift);
+  }
+}
+
+/* Parallax: hero content recedes slower than the page scrolls, then fades before it reaches the section edge */
+@keyframes glass-hero-recede {
+  from {
+    opacity: 1;
+    animation-timing-function: ease-in;
+  }
+  75% {
+    opacity: 0;
+  }
+  to {
+    translate: 0 20vh;
+    scale: 0.95;
+    opacity: 0;
+  }
+}
+
+/* Glass surfaces form as they scroll into view: implicit `to` keyframe, so nothing lingers once it finishes */
+@keyframes glass-materialize {
+  from {
+    opacity: 0;
+    scale: 0.92;
+    translate: 0 32px;
+  }
+}
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
 All colors MUST be HSL.
 */
@@ -178,6 +217,237 @@ All colors MUST be HSL.
     --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(0 0% 98%));
     --shadow-glow: 0 0 40px hsl(210 100% 50% / 0.15);
     --shadow-card: 0 8px 32px hsl(0 0% 85% / 0.3);
+  }
+
+  /* Liquid Glass themes — frosted translucent surfaces floating over a vivid wallpaper */
+  .theme-glass-light,
+  .theme-glass-dark {
+    --radius: 1.25rem;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @supports (transition-timing-function: linear(0, 1)) {
+    .theme-glass-light,
+    .theme-glass-dark {
+      /* Damped spring (ζ≈0.65, ~7% overshoot): the gel-like bounce of Liquid Glass controls */
+      --ease-spring: linear(0, 0.031 2.5%, 0.111 5%, 0.219 7.5%, 0.589 15%, 0.699 17.5%, 0.795 20%, 0.875 22.5%, 0.939 25%, 0.988 27.5%, 1.023 30%, 1.047 32.5%, 1.061 35%, 1.068 40%, 0.996 72.5%, 1);
+    }
+  }
+
+  /* Liquid Glass Light — clear glass over a pastel sky/lilac/peach/mint wallpaper */
+  .theme-glass-light {
+    --background: 210 40% 96%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 211 100% 45%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 214 32% 91%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 214 32% 91%;
+    --muted-foreground: 220 14% 34%;
+    --accent: 262 70% 52%;
+    --accent-foreground: 0 0% 100%;
+    --border: 215 25% 70%;
+    --input: 215 25% 78%;
+    --ring: 211 100% 45%;
+    --gradient-primary: linear-gradient(135deg, hsl(211 100% 48%), hsl(262 80% 58%) 55%, hsl(330 85% 55%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.55), hsl(0 0% 100% / 0.15) 55%, hsl(0 0% 100% / 0.3));
+    --shadow-glow: inset 0 1px 0 hsl(0 0% 100% / 0.9), 0 0 40px hsl(211 100% 50% / 0.25);
+    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.9), inset 0 -1px 0 hsl(0 0% 100% / 0.3), 0 0 0 1px hsl(220 30% 40% / 0.06), 0 12px 40px -12px hsl(220 40% 30% / 0.25);
+    --glass-blob-1: hsl(200 95% 70% / 0.6);
+    --glass-blob-2: hsl(270 85% 80% / 0.55);
+    --glass-blob-3: hsl(20 95% 78% / 0.55);
+    --glass-blob-4: hsl(160 70% 70% / 0.5);
+  }
+
+  /* Liquid Glass Dark — the light theme's sky/lilac/peach/mint glows at night, under smoked glass */
+  .theme-glass-dark {
+    --background: 228 40% 7%;
+    --foreground: 220 30% 97%;
+    --card: 228 30% 13%;
+    --card-foreground: 220 30% 97%;
+    --popover: 228 30% 11%;
+    --popover-foreground: 220 30% 97%;
+    --primary: 211 100% 68%;
+    --primary-foreground: 228 40% 8%;
+    --secondary: 228 25% 24%;
+    --secondary-foreground: 220 30% 97%;
+    --muted: 228 25% 18%;
+    --muted-foreground: 225 20% 78%;
+    --accent: 270 90% 80%;
+    --accent-foreground: 228 40% 8%;
+    --border: 228 20% 55%;
+    --input: 228 20% 35%;
+    --ring: 211 100% 68%;
+    --gradient-primary: linear-gradient(135deg, hsl(205 100% 72%), hsl(265 95% 80%) 55%, hsl(330 95% 78%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.12), hsl(0 0% 100% / 0.03) 55%, hsl(0 0% 100% / 0.06));
+    --shadow-glow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 0 40px hsl(211 100% 68% / 0.25);
+    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.22), inset 0 -1px 0 hsl(0 0% 100% / 0.05), 0 12px 40px -12px hsl(228 60% 2% / 0.7);
+    --glass-blob-1: hsl(205 95% 58% / 0.45);
+    --glass-blob-2: hsl(270 85% 65% / 0.42);
+    --glass-blob-3: hsl(18 95% 62% / 0.35);
+    --glass-blob-4: hsl(160 75% 48% / 0.32);
+  }
+}
+
+@layer components {
+  /*
+   * Wallpaper the glass refracts (rendered by LiquidGlassEffects), split into depth layers for parallax:
+   * far glows barely move, mid glows drift, near glows rise through the page, and every layer shifts
+   * against the pointer by its depth. It never animates on its own, so blurred surfaces only re-render
+   * while the visitor scrolls or moves the mouse.
+   */
+  .glass-wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    background: hsl(var(--background));
+  }
+
+  /* Each glow fades to transparent at its own edge, so moving it never exposes a hard line */
+  .glass-wallpaper > div {
+    position: absolute;
+    left: calc(var(--x) - var(--w) / 2);
+    top: calc(var(--y) - var(--h) / 2);
+    width: var(--w);
+    height: var(--h);
+    background: radial-gradient(closest-side, var(--blob), transparent);
+    transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /* Far */
+  .glass-wallpaper > :nth-child(1) { --blob: var(--glass-blob-1); --x: 12vw; --y: 8vh; --w: 77vw; --h: 63vh; --depth: 10; --drift: -12vh; }
+  .glass-wallpaper > :nth-child(2) { --blob: var(--glass-blob-3); --x: 78vw; --y: 88vh; --w: 70vw; --h: 63vh; --depth: 10; --drift: -12vh; }
+  /* Mid */
+  .glass-wallpaper > :nth-child(3) { --blob: var(--glass-blob-2); --x: 88vw; --y: 18vh; --w: 63vw; --h: 56vh; --depth: 24; --drift: -45vh; }
+  .glass-wallpaper > :nth-child(4) { --blob: var(--glass-blob-4); --x: 8vw; --y: 92vh; --w: 63vw; --h: 63vh; --depth: 24; --drift: -45vh; }
+  /* Near: start below the fold and pass through the viewport as the page scrolls */
+  .glass-wallpaper > :nth-child(5) { --blob: var(--glass-blob-2); --x: 30vw; --y: 150vh; --w: 56vw; --h: 50vh; --depth: 44; --drift: -190vh; }
+  .glass-wallpaper > :nth-child(6) { --blob: var(--glass-blob-1); --x: 75vw; --y: 240vh; --w: 56vw; --h: 50vh; --depth: 44; --drift: -190vh; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* --glass-px / --glass-py (-1..1) come from the pointer; glows move against it, nearer ones further */
+    .glass-wallpaper > div {
+      transform: translate(calc(var(--glass-px, 0) * var(--depth) * -1px), calc(var(--glass-py, 0) * var(--depth) * -1px));
+    }
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .glass-wallpaper > div {
+        animation: glass-drift linear both;
+        animation-timeline: scroll(root);
+      }
+
+      :is(.theme-glass-light, .theme-glass-dark) .glass-hero-parallax {
+        animation: glass-hero-recede linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 100vh;
+      }
+    }
+  }
+
+  /* Liquid Glass material. Inert outside the glass themes, so shared components can carry it. */
+  :where(.theme-glass-light, .theme-glass-dark) .liquid-glass {
+    position: relative;
+  }
+
+  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
+    background-color: hsl(var(--card) / var(--glass-alpha, 0.42));
+    background-image: var(--gradient-card);
+    border-color: transparent;
+    box-shadow: var(--shadow-card);
+    backdrop-filter: blur(24px) saturate(180%);
+    isolation: isolate;
+    transition:
+      scale 600ms var(--ease-spring),
+      translate 600ms var(--ease-spring),
+      transform 600ms var(--ease-spring),
+      --glass-light 400ms ease,
+      background-color 300ms ease,
+      border-color 300ms ease,
+      box-shadow 300ms ease,
+      color 300ms ease;
+  }
+
+  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass:hover {
+    --glass-light: 1;
+  }
+
+  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass:active {
+    --glass-light: 1.8;
+  }
+
+  /* Specular glow under the pointer; LiquidGlassEffects feeds --glass-x / --glass-y */
+  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--glass-x, 50%) var(--glass-y, 0%), hsl(0 0% 100% / calc(0.14 * var(--glass-light))), transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Specular rim: bright where light catches the top-left and bottom-right edges, and wherever the pointer is */
+  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background:
+      radial-gradient(180px circle at var(--glass-x, 50%) var(--glass-y, 0%), hsl(0 0% 100% / calc(0.8 * var(--glass-light))), transparent 70%),
+      linear-gradient(135deg, hsl(0 0% 100% / 0.55), hsl(0 0% 100% / 0.08) 35%, hsl(0 0% 100% / 0) 60%, hsl(0 0% 100% / 0.25));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+    pointer-events: none;
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
+      background-color: hsl(var(--card) / 0.92);
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
+      background-color: hsl(var(--card) / 0.96);
+      backdrop-filter: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    /* iOS-style bar minimize: the floating nav tucks away while scrolling down, springs back on scroll up */
+    :is(.theme-glass-light, .theme-glass-dark)[data-glass-minimized] nav.liquid-glass {
+      scale: 0.94;
+      translate: 0 -6px;
+    }
+  }
+
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      :is(.theme-glass-light, .theme-glass-dark) .glass-reveal {
+        animation: glass-materialize ease-out both;
+        animation-timeline: view();
+        animation-range: entry 10% cover 25%;
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
+      transition: --glass-light 200ms ease;
+    }
   }
 }
 

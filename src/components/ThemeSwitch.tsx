@@ -14,6 +14,8 @@ const themes = [
   { name: 'Sunny Yellow', value: 'yellow', color: 'bg-yellow-500' },
   { name: 'Nature Green', value: 'green', color: 'bg-green-600' },
   { name: 'Clean White', value: 'white', color: 'bg-gray-100' },
+  { name: 'Liquid Glass Light', value: 'glass-light', color: 'bg-gradient-to-br from-sky-200 via-violet-200 to-orange-200' },
+  { name: 'Liquid Glass Dark', value: 'glass-dark', color: 'bg-gradient-to-br from-sky-600 via-violet-600 to-orange-500' },
 ] as const
 
 export function ThemeSwitch() {
@@ -27,7 +29,7 @@ export function ThemeSwitch() {
           <span className="sr-only">Toggle theme</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-40">
+      <DropdownMenuContent align="end" className="w-48">
         {themes.map((themeOption) => (
           <DropdownMenuItem
             key={themeOption.value}

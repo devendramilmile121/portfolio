@@ -22,7 +22,7 @@ const Index = () => {
   }, [config]);
   
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background glass:bg-transparent">
       <Navigation />
       
       <main>

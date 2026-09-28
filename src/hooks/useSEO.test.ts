@@ -72,7 +72,7 @@ describe('SEO Hooks', () => {
 
       expect(document.title).toContain('Devendra Milmile');
       const metaTag = document.querySelector('meta[name="description"]');
-      expect(metaTag?.getAttribute('content')).toContain('Full Stack Developer');
+      expect(metaTag?.getAttribute('content')).toContain('Full stack developer');
     });
 
     it('should update meta tags on prop change', () => {

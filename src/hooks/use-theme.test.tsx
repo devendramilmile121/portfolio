@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { ThemeProvider, useTheme } from './use-theme'
 
 const getThemeMigrationKey = (storageKey = 'portfolio-theme') =>
-  `${storageKey}-default-theme-v2`
+  `${storageKey}-default-theme-v3`
 
 const TestComponent = () => {
   const { theme, setTheme } = useTheme()
@@ -22,6 +22,9 @@ const TestComponent = () => {
       </button>
       <button onClick={() => setTheme('white')} data-testid="white-btn">
         White
+      </button>
+      <button onClick={() => setTheme('glass-dark')} data-testid="glass-btn">
+        Glass
       </button>
     </div>
   )
@@ -42,7 +45,7 @@ describe('ThemeProvider and useTheme', () => {
     )
 
     const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('github')
+    expect(themeElement).toHaveTextContent('glass-dark')
   })
 
   it('should apply default theme class to root element', () => {
@@ -98,6 +101,22 @@ describe('ThemeProvider and useTheme', () => {
     })
   })
 
+  it('should apply the liquid glass dark theme class', async () => {
+    render(
+      <ThemeProvider>
+        <TestComponent />
+      </ThemeProvider>
+    )
+
+    fireEvent.click(screen.getByTestId('glass-btn'))
+
+    await waitFor(() => {
+      expect(document.documentElement.classList.contains('theme-glass-dark')).toBe(true)
+      expect(document.documentElement.classList.contains('theme-github')).toBe(false)
+      expect(localStorage.getItem('portfolio-theme')).toBe('glass-dark')
+    })
+  })
+
   it('should persist theme to localStorage', async () => {
     render(
       <ThemeProvider>
@@ -138,8 +157,8 @@ describe('ThemeProvider and useTheme', () => {
     )
 
     const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('github')
-    expect(localStorage.getItem('portfolio-theme')).toBe('github')
+    expect(themeElement).toHaveTextContent('glass-dark')
+    expect(localStorage.getItem('portfolio-theme')).toBe('glass-dark')
     expect(localStorage.getItem(getThemeMigrationKey())).toBe('true')
   })
 

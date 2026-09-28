@@ -59,6 +59,7 @@ interface PortfolioConfig {
     links?: {
       npm?: string;
       github?: string;
+      website?: string;
     };
   }>;
   education: {

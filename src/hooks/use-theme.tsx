@@ -1,6 +1,6 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useLayoutEffect, useState } from 'react'
 
-const themes = ['github', 'dark', 'yellow', 'green', 'white'] as const
+const themes = ['github', 'dark', 'yellow', 'green', 'white', 'glass-light', 'glass-dark'] as const
 
 type Theme = (typeof themes)[number]
 
@@ -16,7 +16,7 @@ type ThemeProviderState = {
 }
 
 const initialState: ThemeProviderState = {
-  theme: 'github',
+  theme: 'glass-dark',
   setTheme: () => null,
 }
 
@@ -26,7 +26,8 @@ const themeClasses = themes.map((theme) => `theme-${theme}`)
 const isTheme = (value: string | null): value is Theme =>
   value !== null && themes.includes(value as Theme)
 
-const getThemeMigrationKey = (storageKey: string) => `${storageKey}-default-theme-v2`
+// Bump the version whenever the default theme changes, so returning visitors see the new default once
+const getThemeMigrationKey = (storageKey: string) => `${storageKey}-default-theme-v3`
 
 const getInitialTheme = (defaultTheme: Theme, storageKey: string): Theme => {
   const migrationKey = getThemeMigrationKey(storageKey)
@@ -44,13 +45,14 @@ const getInitialTheme = (defaultTheme: Theme, storageKey: string): Theme => {
 
 export function ThemeProvider({
   children,
-  defaultTheme = 'github',
+  defaultTheme = 'glass-dark',
   storageKey = 'portfolio-theme',
   ...props
 }: ThemeProviderProps) {
   const [theme, setTheme] = useState<Theme>(() => getInitialTheme(defaultTheme, storageKey))
 
-  useEffect(() => {
+  // Layout effect: the theme class must land before first paint, or the default theme flashes in late
+  useLayoutEffect(() => {
     const root = window.document.documentElement
 
     root.classList.remove(...themeClasses)
