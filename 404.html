@@ -6,34 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
     <!-- Primary Meta Tags (SEO) -->
-    <title>Devendra Milmile - Full Stack Developer | Angular & .NET Core</title>
-    <meta name="title" content="Devendra Milmile - Full Stack Developer | Angular & .NET Core" />
-    <meta name="description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them. Open to freelance and contract work." />
-    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Freelance Developer, Pune Developer, React, TypeScript, C#, Microservices, Cloud Architecture" />
+    <title>Not found — Devendra Milmile</title>
+    <meta name="title" content="Not found — Devendra Milmile" />
+    <meta name="description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
     <meta name="author" content="Devendra Milmile" />
     <meta name="language" content="English" />
     <meta name="revisit-after" content="7 days" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <meta name="robots" content="noindex" />
     
     <!-- Open Graph Meta Tags (Social Media) -->
-    <meta property="og:title" content="Devendra Milmile - Full Stack Developer | Angular & .NET Core" />
+    <meta property="og:title" content="Not found — Devendra Milmile" />
     <meta property="og:description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://devendramilmile.com" />
+    <meta property="og:url" content="https://devendramilmile.com/404" />
     <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
     <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
     <meta property="og:locale" content="en_US" />
     
     <!-- Twitter Card Meta Tags -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Devendra Milmile - Full Stack Developer | Angular & .NET Core" />
+    <meta name="twitter:title" content="Not found — Devendra Milmile" />
     <meta name="twitter:description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them." />
     <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
-    <meta name="twitter:creator" content="@devendramilmile" />
-    <meta name="twitter:url" content="https://devendramilmile.com" />
+    <meta name="twitter:url" content="https://devendramilmile.com/404" />
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="https://devendramilmile.com" />
+    <link rel="canonical" href="https://devendramilmile.com/404" />
     
     <!-- Sitemap & Robots -->
     <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
@@ -43,8 +42,25 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
     <!-- Additional SEO -->
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
     
     <!-- JSON-LD Structured Data (Person + Professional Profile) -->
     <script type="application/ld+json">
@@ -55,23 +71,20 @@
       "jobTitle": "Full Stack Developer",
       "email": "milmiledh@gmail.com",
       "url": "https://devendramilmile.com",
-      "telephone": "+91 7263967111",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Pune",
         "addressLocality": "Pune",
         "addressRegion": "Maharashtra",
-        "postalCode": "411001",
         "addressCountry": "IN"
       },
       "sameAs": [
         "https://github.com/devendramilmile121",
         "https://linkedin.com/in/devendramilmile",
-        "https://twitter.com/devendramilmile"
+        "https://www.npmjs.com/~devendramilmile"
       ],
-      "image": "https://devendramilmile.com/profile-image.png",
+      "image": "https://devendramilmile.com/profile-image.jpg",
       "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
-      "knowsAbout": ["Angular", ".NET Core", "TypeScript", "React", "C#", "SQL Server", "Azure", "AWS", "Microservices", "Cloud Architecture"],
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
       "worksFor": {
         "@type": "Organization",
         "name": "Systems Plus",
@@ -80,82 +93,28 @@
     }
     </script>
     
-    <!-- JSON-LD Structured Data (Organization) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Devendra Milmile",
-      "url": "https://devendramilmile.com",
-      "logo": "https://devendramilmile.com/logo.png",
-      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work.",
-      "email": "milmiledh@gmail.com",
-      "telephone": "+91 7263967111",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Pune",
-        "addressRegion": "Maharashtra",
-        "addressCountry": "IN"
-      },
-      "sameAs": [
-        "https://github.com/devendramilmile121",
-        "https://linkedin.com/in/devendramilmile"
-      ]
-    }
-    </script>
-    <script type="module" crossorigin src="/assets/index-CEPwsG32.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-gM1mPWB3.js">
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
     <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CMBQwhqc.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-primitive-Dc_FVRD7.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-compose-refs-DBaD7hpW.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-context-Bsb1Z-C-.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-collection-BYl4bl73.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-primitive-BKAPG_6T.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-use-callback-ref-BdE_WETI.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-use-escape-keydown-BcpsJOaM.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-dismissable-layer-BKJL1ssj.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-use-layout-effect-D29HcR8f.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-portal-_a8nvcrQ.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-presence-DFP-rAaD.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-use-controllable-state-BAKcGrmb.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-visually-hidden-BgPC-Pp6.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-toast-D4aJDU-x.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
     <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-class-variance-authority-5VPnzWs2.js">
     <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BMdBbPht.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-next-themes-CjBua3wA.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-sonner-D_YeRoKQ.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--floating-ui-utils-ye2j5HVc.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--floating-ui-core-Dmu_9Y-g.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--floating-ui-dom-Ce7xZhJg.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--floating-ui-react-dom-s7wNbxlC.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-arrow-B5xsA5oi.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-use-size-BBC-edub.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-popper-Bz_HS_MH.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-tooltip-B0IdMkj7.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--tanstack-query-core-CwSUJ-JQ.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--tanstack-react-query-C4-tCEct.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-slot-DWtiiGSC.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-direction-repRsPUI.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-focus-guards-CdMEUC5R.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-focus-scope-CsrkYgKt.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-id-BI-aEvsc.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-roving-focus-DFkbjQVe.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-aria-hidden-DvXkyWUv.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-tslib-CDuPK5Eb.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-get-nonce-C-Z93AgS.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-style-singleton-CC69WDu0.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-remove-scroll-bar-CSV4jTjp.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-use-sidecar-C9omDGyh.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-use-callback-ref-DMGmtDLj.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-remove-scroll-Dh5It6u0.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-menu-DTBTDG5V.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor--radix-ui-react-dropdown-menu-gEeevj_n.js">
-    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CnyfgzSR.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-C1cxxanc.css">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
   </head>
 
   <body>

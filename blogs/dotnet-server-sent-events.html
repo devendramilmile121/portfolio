@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>.NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser — Devendra Milmile</title>
+    <meta name="title" content=".NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser — Devendra Milmile" />
+    <meta name="description" content="Build real-time features with .NET 10's Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content=".NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser — Devendra Milmile" />
+    <meta property="og:description" content="Build real-time features with .NET 10's Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/dotnet-server-sent-events" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content=".NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser — Devendra Milmile" />
+    <meta name="twitter:description" content="Build real-time features with .NET 10's Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/dotnet-server-sent-events" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/dotnet-server-sent-events" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":".NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser","description":"Build real-time features with .NET 10's Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates.","datePublished":"2026-01-09","dateModified":"2026-01-09","keywords":".NET, ASP.NET Core, Real-Time, Server-Sent Events, Web Development, Stock Market","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/dotnet-server-sent-events"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2026-01-09">9 January 2026</time><span aria-hidden="true"> · </span>9<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">.NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">Build real-time features with .NET 10&#x27;s Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates.</p><p class="mt-6 font-mono text-xs text-muted-foreground">.NET / ASP.NET Core / Real-Time / Server-Sent Events / Web Development / Stock Market</p></header><div class="article mt-10"><p>Ever wondered how those slick live dashboards update without refreshing the page? Or how notification feeds just magically appear? That&#x27;s real-time communication at work. And with .NET 10, Microsoft just made it super easy to build these features with Server-Sent Events (SSE).</p>
+<p>Let&#x27;s be real - WebSockets have been the go-to solution for years, but they&#x27;re often overkill. You don&#x27;t always need that two-way communication. Sometimes you just want the server to push updates to the client, and that&#x27;s exactly what Server-Sent Events do best. Think of it like subscribing to a news feed - you sit back and the updates come to you.</p>
+<h2 id="what-are-server-sent-events">What Are Server-Sent Events?</h2>
+<p>Here&#x27;s the cool part: Server-Sent Events let your server push data to the browser over a single HTTP connection. No polling, no constant requests - just a persistent connection where the server sends updates whenever it wants.</p>
+<p>Picture this: your server is like a DJ at a radio station, and your client is tuned in. The DJ (server) keeps streaming music (data), and you (client) just listen. You don&#x27;t need to call the DJ every 5 seconds asking &quot;got anything new?&quot; - they&#x27;ll broadcast it when they&#x27;re ready.</p>
+<p>In .NET 10, these event messages are represented as <code>SseItem&lt;T&gt;</code> objects. Each item can have:</p>
+<ul>
+<li>An <strong>event type</strong> (like &quot;heartRate&quot;, &quot;notification&quot;, &quot;price-update&quot;)</li>
+<li>An <strong>ID</strong> (for tracking which events you&#x27;ve received)</li>
+<li>A <strong>data payload</strong> (whatever you want to send - JSON, strings, objects)</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To follow along, you&#x27;ll need:</p>
+<ul>
+<li><strong>.NET 10 SDK</strong> or higher</li>
+<li>Basic understanding of ASP.NET Core</li>
+<li>Your favorite code editor (VS Code, Visual Studio, Rider - whatever floats your boat)</li>
+</ul>
+<h2 id="why-use-server-sent-events">Why Use Server-Sent Events?</h2>
+<p><strong>✅ Perfect for:</strong></p>
+<ul>
+<li>Live dashboards and monitoring</li>
+<li>Real-time notifications</li>
+<li>Stock tickers and price updates</li>
+<li>Social media feeds</li>
+<li>Progress updates for long-running tasks</li>
+<li>Live sports scores</li>
+</ul>
+<p><strong>❌ Not the right fit for:</strong></p>
+<ul>
+<li>Two-way chat applications (use WebSockets)</li>
+<li>Binary data streaming</li>
+<li>Situations needing bidirectional communication</li>
+<li>IE11 support (yeah, it&#x27;s finally time to let go)</li>
+</ul>
+<h2 id="building-a-real-time-stock-price-ticker">Building a Real-Time Stock Price Ticker</h2>
+<p>Let&#x27;s build something practical - a stock price ticker that streams live market data to the browser. This is the kind of thing you&#x27;d see in a trading platform or financial dashboard.</p>
+<blockquote>
+<p>💻 <strong><a href="https://github.com/devendramilmile121/server-sent-events" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a></strong> - Clone and run the full application with all the code from this tutorial!</p>
+</blockquote>
+<h3 id="step-1-set-up-your-aspnet-core-project">Step 1: Set Up Your ASP.NET Core Project</h3>
+<p>First, create a new project:</p>
+<pre><code class="language-bash">dotnet new web -n StockPriceTicker
+cd StockPriceTicker
+</code></pre>
+<h3 id="step-2-create-your-minimal-api-endpoint">Step 2: Create Your Minimal API Endpoint</h3>
+<p>Open <code>Program.cs</code> and let&#x27;s build our first SSE endpoint. We&#x27;ll start with a simple stock price stream:</p>
+<pre><code class="language-csharp">using System.Runtime.CompilerServices;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services if needed
+builder.Services.AddCors(options =&gt;
+{
+    options.AddDefaultPolicy(policy =&gt;
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
+var app = builder.Build();
+
+app.UseCors();
+
+// Simple string-based stock price stream
+app.MapGet(&quot;/stocks/simple&quot;, (CancellationToken cancellationToken) =&gt;
+{
+    async IAsyncEnumerable&lt;string&gt; GetStockPrice(
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        var basePrice = 150.0m;
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            var change = (decimal)(Random.Shared.NextDouble() * 4 - 2);
+            basePrice += change;
+            yield return $&quot;AAPL: ${basePrice:F2}&quot;;
+            await Task.Delay(2000, cancellationToken);
+        }
+    }
+
+    return TypedResults.ServerSentEvents(GetStockPrice(cancellationToken));
+});
+
+app.Run();
+</code></pre>
+<p>That&#x27;s it! You&#x27;ve got a working SSE endpoint. Pretty straightforward, right?</p>
+<h3 id="step-3-level-up-with-typed-data">Step 3: Level Up with Typed Data</h3>
+<p>Sending strings is cool, but let&#x27;s get fancy with proper typed objects:</p>
+<pre><code class="language-csharp">// Define your stock quote record
+public record StockQuote(
+    string Symbol,
+    decimal Price,
+    decimal Change,
+    decimal ChangePercent,
+    long Volume,
+    DateTime Timestamp,
+    string Trend)
+{
+    public static StockQuote Create(string symbol, decimal currentPrice, decimal previousPrice)
+    {
+        var change = currentPrice - previousPrice;
+        var changePercent = (change / previousPrice) * 100;
+        var trend = change switch
+        {
+            &gt; 0 =&gt; &quot;Up&quot;,
+            &lt; 0 =&gt; &quot;Down&quot;,
+            _ =&gt; &quot;Neutral&quot;
+        };
+
+        return new StockQuote(
+            symbol,
+            currentPrice,
+            change,
+            changePercent,
+            Random.Shared.NextInt64(1000000, 10000000),
+            DateTime.UtcNow,
+            trend
+        );
+    }
+}
+
+// Add this endpoint to your Program.cs
+app.MapGet(&quot;/stocks/json&quot;, (string symbol = &quot;AAPL&quot;, CancellationToken cancellationToken = default) =&gt;
+{
+    async IAsyncEnumerable&lt;StockQuote&gt; GetStockPrices(
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        var currentPrice = 150.0m;
+        
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            var previousPrice = currentPrice;
+            var change = (decimal)(Random.Shared.NextDouble() * 4 - 2);
+            currentPrice += change;
+            
+            yield return StockQuote.Create(symbol, currentPrice, previousPrice);
+            await Task.Delay(2000, cancellationToken);
+        }
+    }
+
+    return TypedResults.ServerSentEvents(
+        GetStockPrices(cancellationToken),
+        eventType: &quot;stockPrice&quot;
+    );
+});
+</code></pre>
+<p>See that <code>eventType: &quot;stockPrice&quot;</code> parameter? That&#x27;s super handy on the client side for filtering different types of events.</p>
+<h3 id="step-4-test-your-api-endpoint">Step 4: Test Your API Endpoint</h3>
+<p>Fire it up:</p>
+<pre><code class="language-bash">dotnet run
+</code></pre>
+<p>Now you can test your SSE endpoint in several ways:</p>
+<p><strong>Using a Browser:</strong>
+Simply navigate to <code>https://localhost:5001/stocks/json?symbol=AAPL</code> in your browser. You&#x27;ll see the raw SSE stream with events coming in every 2 seconds.</p>
+<p><strong>Using curl:</strong></p>
+<pre><code class="language-bash">curl -N https://localhost:5001/stocks/json?symbol=AAPL
+</code></pre>
+<p>The <code>-N</code> flag disables buffering so you see events as they arrive.</p>
+<p><strong>Using JavaScript EventSource:</strong>
+Open your browser&#x27;s console and run:</p>
+<pre><code class="language-javascript">const eventSource = new EventSource(&#x27;https://localhost:5001/stocks/json?symbol=AAPL&#x27;);
+eventSource.addEventListener(&#x27;stockPrice&#x27;, (event) =&gt; {
+    console.log(&#x27;Stock update:&#x27;, JSON.parse(event.data));
+});
+</code></pre>
+<p>You&#x27;ll see stock price data streaming in real-time!</p>
+<h2 id="advanced-scenarios">Advanced Scenarios</h2>
+<h3 id="multiple-event-types">Multiple Event Types</h3>
+<p>You can stream different types of events on the same connection:</p>
+<pre><code class="language-csharp">app.MapGet(&quot;/market/stream&quot;, (CancellationToken cancellationToken) =&gt;
+{
+    async IAsyncEnumerable&lt;SseItem&lt;object&gt;&gt; GetMarketData(
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        var stocks = new Dictionary&lt;string, decimal&gt;
+        {
+            [&quot;AAPL&quot;] = 150.0m,
+            [&quot;GOOGL&quot;] = 140.0m,
+            [&quot;MSFT&quot;] = 380.0m
+        };
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            foreach (var stock in stocks.Keys.ToList())
+            {
+                var previousPrice = stocks[stock];
+                var change = (decimal)(Random.Shared.NextDouble() * 4 - 2);
+                stocks[stock] += change;
+
+                yield return new SseItem&lt;object&gt;(
+                    StockQuote.Create(stock, stocks[stock], previousPrice),
+                    &quot;stockPrice&quot;
+                );
+
+                await Task.Delay(1000, cancellationToken);
+            }
+
+            // Send market summary
+            yield return new SseItem&lt;object&gt;(
+                new { 
+                    TotalVolume = Random.Shared.NextInt64(50000000, 100000000),
+                    ActiveTraders = Random.Shared.Next(10000, 50000),
+                    Timestamp = DateTime.UtcNow
+                },
+                &quot;marketSummary&quot;
+            );
+
+            await Task.Delay(5000, cancellationToken);
+        }
+    }
+
+    return TypedResults.ServerSentEvents(GetMarketData(cancellationToken));
+});
+</code></pre>
+<p>On the client side, listen for specific event types:</p>
+<pre><code class="language-javascript">eventSource.addEventListener(&#x27;stockPrice&#x27;, (event) =&gt; {
+    const data = JSON.parse(event.data);
+    console.log(&#x27;Stock update:&#x27;, data);
+});
+
+eventSource.addEventListener(&#x27;marketSummary&#x27;, (event) =&gt; {
+    const data = JSON.parse(event.data);
+    console.log(&#x27;Market summary:&#x27;, data);
+});
+</code></pre>
+<h3 id="event-ids-for-reliability">Event IDs for Reliability</h3>
+<p>SSE supports event IDs, which help with reconnection. If your client disconnects, it can tell the server which was the last event it received:</p>
+<pre><code class="language-csharp">app.MapGet(&quot;/notifications&quot;, (CancellationToken cancellationToken, int? lastEventId) =&gt;
+{
+    async IAsyncEnumerable&lt;SseItem&lt;Notification&gt;&gt; GetNotifications(
+        [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        int currentId = lastEventId ?? 0;
+
+        while (!cancellationToken.IsCancellationRequested)
+        {
+            currentId++;
+            var notification = await GetNextNotification();
+            
+            yield return new SseItem&lt;Notification&gt;(notification, &quot;notification&quot;)
+            {
+                Id = currentId.ToString()
+            };
+
+            await Task.Delay(5000, cancellationToken);
+        }
+    }
+
+    return TypedResults.ServerSentEvents(GetNotifications(cancellationToken));
+});
+</code></pre>
+<p>The browser automatically sends the <code>Last-Event-ID</code> header when reconnecting!</p>
+<h3 id="using-controllers-instead-of-minimal-apis">Using Controllers Instead of Minimal APIs</h3>
+<p>Prefer controllers? No problem:</p>
+<pre><code class="language-csharp">[ApiController]
+[Route(&quot;api/[controller]&quot;)]
+public class StreamController : ControllerBase
+{
+    [HttpGet(&quot;stocks/{symbol}&quot;)]
+    public IResult StreamStockPrice(string symbol, CancellationToken cancellationToken)
+    {
+        async IAsyncEnumerable&lt;StockQuote&gt; GetStockPrice(
+            [EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            var currentPrice = 150.0m;
+            
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var previousPrice = currentPrice;
+                var change = (decimal)(Random.Shared.NextDouble() * 4 - 2);
+                currentPrice += change;
+                
+                yield return StockQuote.Create(symbol, currentPrice, previousPrice);
+                await Task.Delay(2000, cancellationToken);
+            }
+        }
+
+        return TypedResults.ServerSentEvents(
+            GetStockPrice(cancellationToken),
+            eventType: &quot;stockPrice&quot;
+        );
+    }
+}
+</code></pre>
+<h2 id="key-concepts-explained">Key Concepts Explained</h2>
+<h3 id="how-sse-actually-works">How SSE Actually Works</h3>
+<p>When a client connects to your SSE endpoint:</p>
+<ol>
+<li>The server keeps the HTTP connection open</li>
+<li>It sends data in a special format that browsers understand</li>
+<li>The connection stays alive until the client disconnects or the server closes it</li>
+<li>If disconnected, the browser automatically tries to reconnect</li>
+</ol>
+<p>The format looks like this over the wire:</p>
+<pre><code>data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 152.45, &quot;change&quot;: 1.23, &quot;trend&quot;: &quot;Up&quot;}
+event: stockPrice
+id: 1
+
+data: {&quot;symbol&quot;: &quot;AAPL&quot;, &quot;price&quot;: 151.89, &quot;change&quot;: -0.56, &quot;trend&quot;: &quot;Down&quot;}
+event: stockPrice
+id: 2
+</code></pre>
+<h3 id="cancellation-token-magic">Cancellation Token Magic</h3>
+<p>Notice that <code>CancellationToken</code> parameter? That&#x27;s how .NET knows when the client disconnects. When the browser closes the connection, the token gets cancelled, breaking out of your loop. Clean and automatic!</p>
+<h3 id="iasyncenumerable-the-secret-sauce">IAsyncEnumerable - The Secret Sauce</h3>
+<p>Using <code>IAsyncEnumerable&lt;T&gt;</code> with <code>yield return</code> is what makes this so elegant. You&#x27;re basically creating an async stream that .NET can consume at its own pace. No buffering headaches, no memory issues - just smooth streaming.</p>
+<h2 id="performance-tips">Performance Tips</h2>
+<h3 id="1-set-reasonable-delays">1. Set Reasonable Delays</h3>
+<p>Don&#x27;t blast updates every millisecond. Most UIs can&#x27;t even refresh that fast:</p>
+<pre><code class="language-csharp">await Task.Delay(1000, cancellationToken); // 1 second is often plenty
+</code></pre>
+<h3 id="2-batch-updates-when-possible">2. Batch Updates When Possible</h3>
+<p>Instead of sending 100 tiny events, send one event with an array:</p>
+<pre><code class="language-csharp">yield return new SseItem&lt;StockQuote[]&gt;(recentQuotes, &quot;stockBatch&quot;);
+</code></pre>
+<h3 id="3-clean-up-resources">3. Clean Up Resources</h3>
+<p>Always respect the cancellation token:</p>
+<pre><code class="language-csharp">while (!cancellationToken.IsCancellationRequested)
+{
+    // Your code
+}
+// Clean up any resources here
+</code></pre>
+<h3 id="4-consider-connection-limits">4. Consider Connection Limits</h3>
+<p>Browsers limit concurrent connections (usually 6 per domain). If you&#x27;re opening multiple SSE connections, you might hit this limit.</p>
+<h2 id="comparison-sse-vs-websockets-vs-polling">Comparison: SSE vs WebSockets vs Polling</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Feature</th><th>Server-Sent Events</th><th>WebSockets</th><th>HTTP Polling</th></tr></thead><tbody><tr><td>Direction</td><td>Server → Client</td><td>Bidirectional</td><td>Client ↔ Server</td></tr><tr><td>Protocol</td><td>HTTP</td><td>WebSocket</td><td>HTTP</td></tr><tr><td>Reconnection</td><td>Automatic</td><td>Manual</td><td>N/A</td></tr><tr><td>Browser Support</td><td>Modern browsers</td><td>All modern browsers</td><td>Universal</td></tr><tr><td>Complexity</td><td>Low</td><td>Medium</td><td>Low</td></tr><tr><td>Overhead</td><td>Low</td><td>Very Low</td><td>High</td></tr><tr><td>Best For</td><td>Live updates, feeds</td><td>Chat, gaming</td><td>Legacy support</td></tr></tbody></table></div>
+<h2 id="common-pitfalls-and-how-to-avoid-them">Common Pitfalls (And How to Avoid Them)</h2>
+<h3 id="1-forgetting-cors">1. Forgetting CORS</h3>
+<p>If you&#x27;re calling from a different domain, don&#x27;t forget CORS:</p>
+<pre><code class="language-csharp">builder.Services.AddCors(options =&gt;
+{
+    options.AddPolicy(&quot;AllowSSE&quot;, policy =&gt;
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+</code></pre>
+<h3 id="2-not-handling-disconnections">2. Not Handling Disconnections</h3>
+<p>Always assume the client might disconnect:</p>
+<pre><code class="language-csharp">eventSource.onerror = () =&gt; {
+    console.log(&#x27;Connection lost, will retry...&#x27;);
+};
+</code></pre>
+<h3 id="3-sending-too-much-data">3. Sending Too Much Data</h3>
+<p>Keep payloads small. If you&#x27;re sending megabytes of data, you&#x27;re doing it wrong.</p>
+<h3 id="4-not-testing-network-issues">4. Not Testing Network Issues</h3>
+<p>Test what happens when the network drops. Does your app recover gracefully?</p>
+<h2 id="when-to-choose-sse">When to Choose SSE</h2>
+<p><strong>✅ Go with SSE when:</strong></p>
+<ul>
+<li>You only need server-to-client updates</li>
+<li>You&#x27;re building dashboards, feeds, or notifications</li>
+<li>You want automatic reconnection</li>
+<li>You don&#x27;t need to support ancient browsers</li>
+<li>You want something simpler than WebSockets</li>
+</ul>
+<p><strong>🤔 Think twice when:</strong></p>
+<ul>
+<li>You need client-to-server communication (consider WebSockets)</li>
+<li>You&#x27;re sending huge amounts of binary data</li>
+<li>You need to support IE11 (seriously, just don&#x27;t)</li>
+</ul>
+<h2 id="real-world-use-cases">Real-World Use Cases</h2>
+<h3 id="live-dashboard">Live Dashboard</h3>
+<p>Perfect for displaying real-time metrics:</p>
+<ul>
+<li>Server stats (CPU, memory, requests/sec)</li>
+<li>Sales numbers</li>
+<li>User activity</li>
+<li>Error rates</li>
+</ul>
+<h3 id="notification-system">Notification System</h3>
+<p>Stream notifications as they happen:</p>
+<ul>
+<li>New messages</li>
+<li>System alerts</li>
+<li>Task completions</li>
+<li>Friend requests</li>
+</ul>
+<h3 id="stock-ticker">Stock Ticker</h3>
+<p>Show live market data:</p>
+<ul>
+<li>Price updates</li>
+<li>Volume changes</li>
+<li>Breaking news</li>
+<li>Portfolio values</li>
+</ul>
+<h3 id="progress-tracking">Progress Tracking</h3>
+<p>Monitor long-running operations:</p>
+<ul>
+<li>File uploads</li>
+<li>Report generation</li>
+<li>Batch processing</li>
+<li>Build/deployment status</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Server-Sent Events in .NET 10 are a game-changer for building real-time features. They&#x27;re simple, efficient, and perfect for when you just need the server to push updates to the client. No complicated protocols, no fancy infrastructure - just straightforward HTTP streaming that works.</p>
+<p>The new <code>TypedResults.ServerSentEvents</code> API makes it dead simple to get started. Whether you&#x27;re building a live dashboard, a notification system, or a real-time monitoring tool, SSE should definitely be on your radar.</p>
+<p>Ready to make your apps more interactive? Give SSE a shot. Your users will love the instant updates, and you&#x27;ll love how easy it is to implement.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/devendramilmile121/server-sent-events" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a> - Full source code from this tutorial</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events" target="_blank" rel="noopener noreferrer">Server-Sent Events on MDN</a></li>
+<li><a href="https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses?view=aspnetcore-10.0" target="_blank" rel="noopener noreferrer">Server-sent events in minimal API responses</a> - Microsoft Learn</li>
+<li><a href="https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.typedresults.serversentevents?view=aspnetcore-10.0" target="_blank" rel="noopener noreferrer">TypedResults.ServerSentEvents API reference</a> - Microsoft Learn</li>
+<li><a href="https://learn.microsoft.com/en-us/aspnet/core" target="_blank" rel="noopener noreferrer">ASP.NET Core Documentation</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventSource" target="_blank" rel="noopener noreferrer">EventSource API Reference</a></li>
+</ul>
+<hr/>
+<p><em>Built something cool with Server-Sent Events? Drop a comment below and share your experience!</em></p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>

@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Angular Component Communication: Patterns and Best Practices — Devendra Milmile</title>
+    <meta name="title" content="Angular Component Communication: Patterns and Best Practices — Devendra Milmile" />
+    <meta name="description" content="How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content="Angular Component Communication: Patterns and Best Practices — Devendra Milmile" />
+    <meta property="og:description" content="How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/angular-component-communication" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angular Component Communication: Patterns and Best Practices — Devendra Milmile" />
+    <meta name="twitter:description" content="How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/angular-component-communication" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/angular-component-communication" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Angular Component Communication: Patterns and Best Practices","description":"How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples.","datePublished":"2025-11-23","dateModified":"2025-11-23","keywords":"Angular, TypeScript, Component Communication, RxJS, Best Practices","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/angular-component-communication"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2025-11-23">23 November 2025</time><span aria-hidden="true"> · </span>12<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">Angular Component Communication: Patterns and Best Practices</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples.</p><p class="mt-6 font-mono text-xs text-muted-foreground">Angular / TypeScript / Component Communication / RxJS / Best Practices</p></header><div class="article mt-10"><p>Component communication is one of the most fundamental concepts in Angular. Whether you&#x27;re building a small application or a large-scale enterprise system, understanding how components interact is crucial. In this comprehensive guide, we&#x27;ll explore all the patterns and best practices for component communication in Angular.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="#parent-to-child-communication">Parent to Child Communication</a></li>
+<li><a href="#child-to-parent-communication">Child to Parent Communication</a></li>
+<li><a href="#sibling-component-communication">Sibling Component Communication</a></li>
+<li><a href="#unrelated-component-communication">Unrelated Component Communication</a></li>
+<li><a href="#advanced-patterns">Advanced Patterns</a></li>
+<li><a href="#best-practices">Best Practices</a></li>
+</ol>
+<hr/>
+<h2 id="parent-to-child-communication">Parent to Child Communication</h2>
+<p>The most straightforward type of communication in Angular is passing data from a parent component to a child component using <code>@Input</code> decorator.</p>
+<h3 id="using-input-decorator">Using @Input Decorator</h3>
+<p><strong>Best Practice</strong>: Use typed inputs and consider using Angular&#x27;s new control flow syntax for better readability.</p>
+<h4 id="parent-component">Parent Component</h4>
+<pre><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { ChildComponent } from &#x27;./child.component&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: &#x27;admin&#x27; | &#x27;user&#x27; | &#x27;moderator&#x27;;
+}
+
+@Component({
+  selector: &#x27;app-parent&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, ChildComponent],
+  template: `
+    &lt;div class=&quot;parent-container&quot;&gt;
+      &lt;h1&gt;Parent Component&lt;/h1&gt;
+      
+      &lt;input 
+        [(ngModel)]=&quot;currentUser.name&quot; 
+        placeholder=&quot;Enter user name&quot;
+        class=&quot;input-field&quot;
+      /&gt;
+      
+      &lt;!-- Angular Control Flow --&gt;
+      @if (currentUser; as user) {
+        &lt;app-child 
+          [user]=&quot;user&quot;
+          [isAdmin]=&quot;user.role === &#x27;admin&#x27;&quot;
+          [itemCount]=&quot;items.length&quot;
+        /&gt;
+      }
+      
+      &lt;p&gt;Total items: {{ items.length }}&lt;/p&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .parent-container {
+      padding: 20px;
+      border: 2px solid #4CAF50;
+      border-radius: 8px;
+    }
+    
+    .input-field {
+      padding: 8px;
+      margin: 10px 0;
+      width: 300px;
+    }
+  `]
+})
+export class ParentComponent {
+  currentUser: User = {
+    id: 1,
+    name: &#x27;John Doe&#x27;,
+    email: &#x27;john@example.com&#x27;,
+    role: &#x27;user&#x27;
+  };
+
+  items = [
+    { id: 1, title: &#x27;Item 1&#x27; },
+    { id: 2, title: &#x27;Item 2&#x27; },
+    { id: 3, title: &#x27;Item 3&#x27; }
+  ];
+}
+</code></pre>
+<h4 id="child-component">Child Component</h4>
+<pre><code class="language-typescript">import { Component, Input } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: &#x27;admin&#x27; | &#x27;user&#x27; | &#x27;moderator&#x27;;
+}
+
+@Component({
+  selector: &#x27;app-child&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;child-container&quot;&gt;
+      &lt;h2&gt;Child Component&lt;/h2&gt;
+      
+      @if (user) {
+        &lt;div class=&quot;user-info&quot;&gt;
+          &lt;p&gt;&lt;strong&gt;Name:&lt;/strong&gt; {{ user.name }}&lt;/p&gt;
+          &lt;p&gt;&lt;strong&gt;Email:&lt;/strong&gt; {{ user.email }}&lt;/p&gt;
+          &lt;p&gt;&lt;strong&gt;Role:&lt;/strong&gt; {{ user.role }}&lt;/p&gt;
+          
+          @if (isAdmin) {
+            &lt;span class=&quot;admin-badge&quot;&gt;Admin User&lt;/span&gt;
+          }
+        &lt;/div&gt;
+      }
+      
+      &lt;p class=&quot;item-count&quot;&gt;Items available: {{ itemCount }}&lt;/p&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .child-container {
+      padding: 15px;
+      margin-top: 15px;
+      border: 2px solid #2196F3;
+      border-radius: 8px;
+      background-color: #f5f5f5;
+    }
+    
+    .user-info {
+      background-color: white;
+      padding: 10px;
+      border-radius: 5px;
+      margin: 10px 0;
+    }
+    
+    .admin-badge {
+      background-color: #FF9800;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .item-count {
+      color: #666;
+      margin-top: 10px;
+    }
+  `]
+})
+export class ChildComponent {
+  @Input() user: User | null = null;
+  @Input() isAdmin: boolean = false;
+  @Input() itemCount: number = 0;
+}
+</code></pre>
+<h3 id="advanced-input-aliases-and-getterssetters">Advanced: Input Aliases and Getters/Setters</h3>
+<pre><code class="language-typescript">@Component({
+  selector: &#x27;app-advanced-child&#x27;,
+  standalone: true,
+  template: `
+    &lt;div&gt;
+      &lt;p&gt;Processing value: {{ processedValue }}&lt;/p&gt;
+    &lt;/div&gt;
+  `
+})
+export class AdvancedChildComponent {
+  // Alias for cleaner template syntax
+  @Input(&#x27;userData&#x27;) user: User | null = null;
+  
+  // Using setter to intercept changes
+  private _itemCount: number = 0;
+  
+  @Input()
+  set itemCount(count: number) {
+    this._itemCount = count;
+    console.log(`Items updated to: ${count}`);
+    this.validateItemCount();
+  }
+  
+  get itemCount(): number {
+    return this._itemCount;
+  }
+  
+  get processedValue(): string {
+    return `Processed ${this.itemCount} items`;
+  }
+  
+  private validateItemCount(): void {
+    if (this.itemCount &lt; 0) {
+      console.warn(&#x27;Item count cannot be negative&#x27;);
+      this._itemCount = 0;
+    }
+  }
+}
+</code></pre>
+<hr/>
+<h2 id="child-to-parent-communication">Child to Parent Communication</h2>
+<p>Child components can communicate with their parent using the <code>@Output</code> decorator and EventEmitter.</p>
+<h3 id="using-output-and-eventemitter">Using @Output and EventEmitter</h3>
+<p><strong>Best Practice</strong>: Use strongly-typed events and follow Angular&#x27;s naming conventions.</p>
+<h4 id="child-component">Child Component</h4>
+<pre><code class="language-typescript">import { Component, Output, EventEmitter } from &#x27;@angular/core&#x27;;
+
+interface FormData {
+  username: string;
+  email: string;
+  message: string;
+}
+
+@Component({
+  selector: &#x27;app-form-child&#x27;,
+  standalone: true,
+  template: `
+    &lt;div class=&quot;form-container&quot;&gt;
+      &lt;h3&gt;Submit Your Information&lt;/h3&gt;
+      
+      &lt;form (ngSubmit)=&quot;onSubmit()&quot;&gt;
+        &lt;input 
+          [(ngModel)]=&quot;formData.username&quot;
+          name=&quot;username&quot;
+          placeholder=&quot;Username&quot;
+          required
+        /&gt;
+        
+        &lt;input 
+          [(ngModel)]=&quot;formData.email&quot;
+          name=&quot;email&quot;
+          placeholder=&quot;Email&quot;
+          type=&quot;email&quot;
+          required
+        /&gt;
+        
+        &lt;textarea 
+          [(ngModel)]=&quot;formData.message&quot;
+          name=&quot;message&quot;
+          placeholder=&quot;Message&quot;
+          rows=&quot;4&quot;
+        &gt;&lt;/textarea&gt;
+        
+        &lt;button type=&quot;submit&quot; [disabled]=&quot;!isFormValid()&quot;&gt;
+          Submit
+        &lt;/button&gt;
+      &lt;/form&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .form-container {
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin: 8px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    button:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  `]
+})
+export class FormChildComponent {
+  @Output() formSubmitted = new EventEmitter&lt;FormData&gt;();
+  
+  formData: FormData = {
+    username: &#x27;&#x27;,
+    email: &#x27;&#x27;,
+    message: &#x27;&#x27;
+  };
+  
+  isFormValid(): boolean {
+    return !!(
+      this.formData.username.trim() &amp;&amp;
+      this.formData.email.trim() &amp;&amp;
+      this.formData.message.trim()
+    );
+  }
+  
+  onSubmit(): void {
+    if (this.isFormValid()) {
+      this.formSubmitted.emit(this.formData);
+      this.resetForm();
+    }
+  }
+  
+  private resetForm(): void {
+    this.formData = {
+      username: &#x27;&#x27;,
+      email: &#x27;&#x27;,
+      message: &#x27;&#x27;
+    };
+  }
+}
+</code></pre>
+<h4 id="parent-component-handling-output">Parent Component Handling Output</h4>
+<pre><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { FormChildComponent } from &#x27;./form-child.component&#x27;;
+
+interface FormData {
+  username: string;
+  email: string;
+  message: string;
+}
+
+interface SubmissionRecord {
+  id: number;
+  data: FormData;
+  timestamp: Date;
+}
+
+@Component({
+  selector: &#x27;app-parent&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule, FormChildComponent],
+  template: `
+    &lt;div class=&quot;parent-container&quot;&gt;
+      &lt;h1&gt;Parent Component - Form Handler&lt;/h1&gt;
+      
+      &lt;app-form-child (formSubmitted)=&quot;onFormSubmitted($event)&quot; /&gt;
+      
+      &lt;div class=&quot;submissions&quot;&gt;
+        &lt;h3&gt;Submissions ({{ submissions.length }})&lt;/h3&gt;
+        
+        @if (submissions.length &gt; 0) {
+          &lt;ul&gt;
+            @for (submission of submissions; track submission.id) {
+              &lt;li&gt;
+                &lt;strong&gt;{{ submission.data.username }}&lt;/strong&gt; ({{ submission.data.email }})
+                &lt;p&gt;{{ submission.data.message }}&lt;/p&gt;
+                &lt;small&gt;{{ submission.timestamp | date:&#x27;short&#x27; }}&lt;/small&gt;
+              &lt;/li&gt;
+            }
+          &lt;/ul&gt;
+        } @else {
+          &lt;p class=&quot;no-data&quot;&gt;No submissions yet&lt;/p&gt;
+        }
+      &lt;/div&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .parent-container {
+      padding: 20px;
+    }
+    
+    .submissions {
+      margin-top: 30px;
+      padding: 15px;
+      background-color: #f9f9f9;
+      border-radius: 5px;
+    }
+    
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    li {
+      padding: 10px;
+      margin: 10px 0;
+      background-color: white;
+      border-left: 4px solid #4CAF50;
+      border-radius: 3px;
+    }
+    
+    .no-data {
+      color: #999;
+      font-style: italic;
+    }
+  `]
+})
+export class ParentComponent {
+  submissions: SubmissionRecord[] = [];
+  private submissionCounter = 1;
+  
+  onFormSubmitted(data: FormData): void {
+    const record: SubmissionRecord = {
+      id: this.submissionCounter++,
+      data,
+      timestamp: new Date()
+    };
+    
+    this.submissions.push(record);
+    console.log(&#x27;Form submitted:&#x27;, record);
+  }
+}
+</code></pre>
+<hr/>
+<h2 id="sibling-component-communication">Sibling Component Communication</h2>
+<p>When two components are at the same level (siblings), they need to communicate through a shared parent or a service.</p>
+<h3 id="method-1-through-parent-component">Method 1: Through Parent Component</h3>
+<pre><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+import { FormsModule } from &#x27;@angular/forms&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+// Sibling 1: Sender
+@Component({
+  selector: &#x27;app-sibling-sender&#x27;,
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    &lt;div class=&quot;sibling-container sender&quot;&gt;
+      &lt;h3&gt;Sibling 1: Sender&lt;/h3&gt;
+      &lt;input 
+        [(ngModel)]=&quot;message&quot;
+        placeholder=&quot;Enter message&quot;
+      /&gt;
+      &lt;button (click)=&quot;send()&quot;&gt;Send to Sibling 2&lt;/button&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .sibling-container {
+      padding: 15px;
+      margin: 10px;
+      border: 2px solid #4CAF50;
+      border-radius: 5px;
+    }
+    
+    .sender {
+      background-color: #e8f5e9;
+    }
+  `]
+})
+export class SiblingSenderComponent {
+  message: string = &#x27;&#x27;;
+  
+  constructor(private parent: SiblingParentComponent) {}
+  
+  send(): void {
+    if (this.message.trim()) {
+      this.parent.shareMessage(this.message);
+      this.message = &#x27;&#x27;;
+    }
+  }
+}
+
+// Sibling 2: Receiver
+@Component({
+  selector: &#x27;app-sibling-receiver&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;sibling-container receiver&quot;&gt;
+      &lt;h3&gt;Sibling 2: Receiver&lt;/h3&gt;
+      
+      @if (messages.length &gt; 0) {
+        &lt;div class=&quot;messages&quot;&gt;
+          @for (msg of messages; track $index) {
+            &lt;p class=&quot;message&quot;&gt;{{ msg }}&lt;/p&gt;
+          }
+        &lt;/div&gt;
+      } @else {
+        &lt;p class=&quot;placeholder&quot;&gt;Waiting for messages...&lt;/p&gt;
+      }
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .sibling-container {
+      padding: 15px;
+      margin: 10px;
+      border: 2px solid #2196F3;
+      border-radius: 5px;
+    }
+    
+    .receiver {
+      background-color: #e3f2fd;
+    }
+    
+    .messages {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .message {
+      background-color: white;
+      padding: 8px;
+      margin: 5px 0;
+      border-radius: 3px;
+      border-left: 3px solid #2196F3;
+    }
+    
+    .placeholder {
+      color: #999;
+      font-style: italic;
+    }
+  `]
+})
+export class SiblingReceiverComponent {
+  messages: string[] = [];
+  
+  addMessage(msg: string): void {
+    this.messages.push(msg);
+  }
+}
+
+// Parent Component managing siblings
+@Component({
+  selector: &#x27;app-sibling-parent&#x27;,
+  standalone: true,
+  imports: [CommonModule, SiblingSenderComponent, SiblingReceiverComponent],
+  template: `
+    &lt;div class=&quot;parent-container&quot;&gt;
+      &lt;h2&gt;Sibling Communication via Parent&lt;/h2&gt;
+      
+      &lt;app-sibling-sender /&gt;
+      &lt;app-sibling-receiver #receiver /&gt;
+    &lt;/div&gt;
+  `,
+  styles: [`
+    .parent-container {
+      padding: 20px;
+      border: 3px solid #666;
+      border-radius: 8px;
+      background-color: #fafafa;
+    }
+  `]
+})
+export class SiblingParentComponent {
+  @ViewChild(SiblingReceiverComponent) receiverComponent!: SiblingReceiverComponent;
+  
+  shareMessage(message: string): void {
+    this.receiverComponent.addMessage(message);
+  }
+}
+</code></pre>
+<h3 id="method-2-using-a-shared-service-better-approach">Method 2: Using a Shared Service (Better Approach)</h3>
+<pre><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Subject } from &#x27;rxjs&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class MessageService {
+  private messageSubject = new Subject&lt;string&gt;();
+  public message$ = this.messageSubject.asObservable();
+  
+  sendMessage(message: string): void {
+    this.messageSubject.next(message);
+  }
+}
+
+// Sibling Sender using Service
+@Component({
+  selector: &#x27;app-service-sender&#x27;,
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    &lt;div class=&quot;sender-container&quot;&gt;
+      &lt;h3&gt;Service Sender&lt;/h3&gt;
+      &lt;input 
+        [(ngModel)]=&quot;message&quot;
+        placeholder=&quot;Enter message&quot;
+      /&gt;
+      &lt;button (click)=&quot;send()&quot;&gt;Send&lt;/button&gt;
+    &lt;/div&gt;
+  `
+})
+export class ServiceSenderComponent {
+  message: string = &#x27;&#x27;;
+  
+  constructor(private messageService: MessageService) {}
+  
+  send(): void {
+    if (this.message.trim()) {
+      this.messageService.sendMessage(this.message);
+      this.message = &#x27;&#x27;;
+    }
+  }
+}
+
+// Sibling Receiver using Service
+@Component({
+  selector: &#x27;app-service-receiver&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;receiver-container&quot;&gt;
+      &lt;h3&gt;Service Receiver&lt;/h3&gt;
+      
+      @if (messages.length &gt; 0) {
+        &lt;ul&gt;
+          @for (msg of messages; track $index) {
+            &lt;li&gt;{{ msg }}&lt;/li&gt;
+          }
+        &lt;/ul&gt;
+      } @else {
+        &lt;p&gt;No messages received&lt;/p&gt;
+      }
+    &lt;/div&gt;
+  `
+})
+export class ServiceReceiverComponent implements OnInit, OnDestroy {
+  messages: string[] = [];
+  private destroy$ = new Subject&lt;void&gt;();
+  
+  constructor(private messageService: MessageService) {}
+  
+  ngOnInit(): void {
+    this.messageService.message$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(msg =&gt; {
+        this.messages.push(msg);
+      });
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}
+</code></pre>
+<hr/>
+<h2 id="unrelated-component-communication">Unrelated Component Communication</h2>
+<p>For components with no hierarchical relationship, services with RxJS are the best approach.</p>
+<h3 id="using-behaviorsubject-for-state-management">Using BehaviorSubject for State Management</h3>
+<pre><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
+
+interface UserState {
+  currentUser: User | null;
+  isLoggedIn: boolean;
+  theme: &#x27;light&#x27; | &#x27;dark&#x27;;
+}
+
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+}
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class StateService {
+  private readonly initialState: UserState = {
+    currentUser: null,
+    isLoggedIn: false,
+    theme: &#x27;light&#x27;
+  };
+  
+  private stateSubject = new BehaviorSubject&lt;UserState&gt;(this.initialState);
+  public state$ = this.stateSubject.asObservable();
+  
+  // Selectors for specific properties
+  public currentUser$ = this.state$.pipe(
+    map(state =&gt; state.currentUser),
+    distinctUntilChanged()
+  );
+  
+  public isLoggedIn$ = this.state$.pipe(
+    map(state =&gt; state.isLoggedIn),
+    distinctUntilChanged()
+  );
+  
+  public theme$ = this.state$.pipe(
+    map(state =&gt; state.theme),
+    distinctUntilChanged()
+  );
+  
+  // Actions
+  login(user: User): void {
+    const newState: UserState = {
+      ...this.stateSubject.value,
+      currentUser: user,
+      isLoggedIn: true
+    };
+    this.stateSubject.next(newState);
+  }
+  
+  logout(): void {
+    const newState: UserState = {
+      ...this.stateSubject.value,
+      currentUser: null,
+      isLoggedIn: false
+    };
+    this.stateSubject.next(newState);
+  }
+  
+  setTheme(theme: &#x27;light&#x27; | &#x27;dark&#x27;): void {
+    const newState: UserState = {
+      ...this.stateSubject.value,
+      theme
+    };
+    this.stateSubject.next(newState);
+  }
+  
+  getCurrentState(): UserState {
+    return this.stateSubject.value;
+  }
+}
+
+// Component 1: Login Component
+@Component({
+  selector: &#x27;app-login&#x27;,
+  standalone: true,
+  imports: [FormsModule],
+  template: `
+    &lt;div class=&quot;login-form&quot;&gt;
+      &lt;h3&gt;Login&lt;/h3&gt;
+      &lt;input [(ngModel)]=&quot;email&quot; placeholder=&quot;Email&quot; /&gt;
+      &lt;input [(ngModel)]=&quot;name&quot; placeholder=&quot;Name&quot; /&gt;
+      &lt;button (click)=&quot;login()&quot;&gt;Login&lt;/button&gt;
+    &lt;/div&gt;
+  `
+})
+export class LoginComponent {
+  email: string = &#x27;&#x27;;
+  name: string = &#x27;&#x27;;
+  
+  constructor(private stateService: StateService) {}
+  
+  login(): void {
+    const user: User = {
+      id: 1,
+      name: this.name,
+      email: this.email,
+      role: &#x27;user&#x27;
+    };
+    this.stateService.login(user);
+  }
+}
+
+// Component 2: User Profile (unrelated to login)
+@Component({
+  selector: &#x27;app-user-profile&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;profile&quot;&gt;
+      @if (currentUser$ | async as user) {
+        &lt;h3&gt;Profile&lt;/h3&gt;
+        &lt;p&gt;Name: {{ user.name }}&lt;/p&gt;
+        &lt;p&gt;Email: {{ user.email }}&lt;/p&gt;
+      } @else {
+        &lt;p&gt;Not logged in&lt;/p&gt;
+      }
+    &lt;/div&gt;
+  `
+})
+export class UserProfileComponent {
+  currentUser$ = this.stateService.currentUser$;
+  
+  constructor(private stateService: StateService) {}
+}
+
+// Component 3: Settings (unrelated to both)
+@Component({
+  selector: &#x27;app-settings&#x27;,
+  standalone: true,
+  template: `
+    &lt;div class=&quot;settings&quot;&gt;
+      &lt;h3&gt;Settings&lt;/h3&gt;
+      &lt;button (click)=&quot;toggleTheme()&quot;&gt;
+        Toggle Theme: {{ (theme$ | async) || &#x27;light&#x27; }}
+      &lt;/button&gt;
+    &lt;/div&gt;
+  `
+})
+export class SettingsComponent {
+  theme$ = this.stateService.theme$;
+  
+  constructor(private stateService: StateService) {}
+  
+  toggleTheme(): void {
+    const current = this.stateService.getCurrentState();
+    const newTheme = current.theme === &#x27;light&#x27; ? &#x27;dark&#x27; : &#x27;light&#x27;;
+    this.stateService.setTheme(newTheme);
+  }
+}
+</code></pre>
+<hr/>
+<h2 id="advanced-patterns">Advanced Patterns</h2>
+<h3 id="using-rxjs-operators-for-complex-communication">Using RxJS Operators for Complex Communication</h3>
+<pre><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Subject, merge } from &#x27;rxjs&#x27;;
+import { debounceTime, distinctUntilChanged, switchMap, catchError } from &#x27;rxjs/operators&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;
+})
+export class SearchService {
+  private searchSubject = new Subject&lt;string&gt;();
+  
+  public searchResults$ = this.searchSubject.pipe(
+    debounceTime(300),
+    distinctUntilChanged(),
+    switchMap(query =&gt; this.performSearch(query)),
+    catchError(error =&gt; {
+      console.error(&#x27;Search error:&#x27;, error);
+      return of([]);
+    })
+  );
+  
+  search(query: string): void {
+    this.searchSubject.next(query);
+  }
+  
+  private performSearch(query: string) {
+    // Simulate API call
+    return of([
+      { id: 1, title: `Result for &quot;${query}&quot; 1` },
+      { id: 2, title: `Result for &quot;${query}&quot; 2` }
+    ]);
+  }
+}
+
+@Component({
+  selector: &#x27;app-search&#x27;,
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  template: `
+    &lt;div class=&quot;search-container&quot;&gt;
+      &lt;input 
+        [(ngModel)]=&quot;searchQuery&quot;
+        (ngModelChange)=&quot;onSearch($event)&quot;
+        placeholder=&quot;Search...&quot;
+      /&gt;
+      
+      @if (results$ | async as results) {
+        &lt;ul&gt;
+          @for (result of results; track result.id) {
+            &lt;li&gt;{{ result.title }}&lt;/li&gt;
+          }
+        &lt;/ul&gt;
+      }
+    &lt;/div&gt;
+  `
+})
+export class SearchComponent {
+  searchQuery: string = &#x27;&#x27;;
+  results$ = this.searchService.searchResults$;
+  
+  constructor(private searchService: SearchService) {}
+  
+  onSearch(query: string): void {
+    this.searchService.search(query);
+  }
+}
+</code></pre>
+<h3 id="viewchild-and-viewchildren-for-direct-access">ViewChild and ViewChildren for Direct Access</h3>
+<pre><code class="language-typescript">import { Component, ViewChild, ViewChildren, QueryList } from &#x27;@angular/core&#x27;;
+
+@Component({
+  selector: &#x27;app-parent&#x27;,
+  template: `
+    &lt;app-child #child1 /&gt;
+    &lt;app-child #child2 /&gt;
+    &lt;app-child #child3 /&gt;
+    
+    &lt;button (click)=&quot;callChildMethods()&quot;&gt;Call Child Methods&lt;/button&gt;
+  `
+})
+export class ParentComponent {
+  @ViewChild(&#x27;child1&#x27;) firstChild!: ChildComponent;
+  @ViewChildren(ChildComponent) allChildren!: QueryList&lt;ChildComponent&gt;;
+  
+  callChildMethods(): void {
+    // Call method on first child
+    this.firstChild.doSomething();
+    
+    // Call methods on all children
+    this.allChildren.forEach(child =&gt; child.refresh());
+  }
+}
+
+@Component({
+  selector: &#x27;app-child&#x27;,
+  template: `&lt;p&gt;{{ message }}&lt;/p&gt;`
+})
+export class ChildComponent {
+  message: string = &#x27;Initial&#x27;;
+  
+  doSomething(): void {
+    this.message = &#x27;Modified by parent&#x27;;
+  }
+  
+  refresh(): void {
+    console.log(&#x27;Refreshing...&#x27;);
+  }
+}
+</code></pre>
+<hr/>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-object-object">1. <strong>Use Input for Read-Only Data</strong></h3>
+<p>✅ <strong>Good</strong>:</p>
+<pre><code class="language-typescript">@Input() readonly user: User | null = null;
+</code></pre>
+<p>❌ <strong>Avoid</strong>:</p>
+<pre><code class="language-typescript">@Input() user: User | null = null; // Can be mutated
+</code></pre>
+<h3 id="2-object-object">2. <strong>Unsubscribe from Observables</strong></h3>
+<p>✅ <strong>Good</strong>:</p>
+<pre><code class="language-typescript">private destroy$ = new Subject&lt;void&gt;();
+
+ngOnInit(): void {
+  this.service.data$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(data =&gt; { /* ... */ });
+}
+
+ngOnDestroy(): void {
+  this.destroy$.next();
+  this.destroy$.complete();
+}
+</code></pre>
+<h3 id="3-object-object">3. <strong>Use Services for Global State</strong></h3>
+<p>✅ <strong>Good</strong>:</p>
+<pre><code class="language-typescript">export class AppStateService {
+  private stateSubject = new BehaviorSubject&lt;AppState&gt;(initialState);
+  state$ = this.stateSubject.asObservable();
+}
+</code></pre>
+<h3 id="4-object-object">4. <strong>Keep Components Focused</strong></h3>
+<p>✅ <strong>Good</strong>: Each component has a single responsibility</p>
+<p>❌ <strong>Avoid</strong>: Overloaded components with multiple concerns</p>
+<h3 id="5-object-object">5. <strong>Use Type Safety</strong></h3>
+<p>✅ <strong>Good</strong>:</p>
+<pre><code class="language-typescript">@Input() user: User | null = null;
+@Output() userUpdated = new EventEmitter&lt;User&gt;();
+</code></pre>
+<p>❌ <strong>Avoid</strong>:</p>
+<pre><code class="language-typescript">@Input() user: any;
+@Output() userUpdated = new EventEmitter();
+</code></pre>
+<h3 id="6-object-object">6. <strong>Async Pipe in Templates</strong></h3>
+<p>✅ <strong>Good</strong>:</p>
+<pre><code class="language-typescript">{{ (user$ | async)?.name }}
+</code></pre>
+<p>❌ <strong>Avoid</strong>:</p>
+<pre><code class="language-typescript">// Subscribing in component and storing
+user: User | null = null;
+ngOnInit() {
+  this.service.user$.subscribe(u =&gt; this.user = u);
+}
+</code></pre>
+<h3 id="7-object-object">7. <strong>Use ChangeDetectionStrategy.OnPush</strong></h3>
+<pre><code class="language-typescript">@Component({
+  selector: &#x27;app-optimized-child&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `...`
+})
+export class OptimizedComponent {
+  @Input() data: any;
+}
+</code></pre>
+<hr/>
+<h2 id="summary">Summary</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Pattern</th><th>Use Case</th><th>Pros</th><th>Cons</th></tr></thead><tbody><tr><td><strong>@Input</strong></td><td>Parent → Child</td><td>Simple, Direct</td><td>One-way only</td></tr><tr><td><strong>@Output</strong></td><td>Child → Parent</td><td>Simple, Direct</td><td>One-way only</td></tr><tr><td><strong>Service + Observable</strong></td><td>Any component</td><td>Flexible, Scalable</td><td>Requires RxJS knowledge</td></tr><tr><td><strong>BehaviorSubject</strong></td><td>Shared State</td><td>Latest value available</td><td>Memory management needed</td></tr><tr><td><strong>ViewChild</strong></td><td>Direct Access</td><td>Powerful</td><td>Not recommended for frequent use</td></tr><tr><td><strong>State Management</strong></td><td>Complex Apps</td><td>Centralized</td><td>Overkill for small apps</td></tr></tbody></table></div>
+<hr/>
+<h2 id="conclusion">Conclusion</h2>
+<p>Angular provides multiple ways to communicate between components. The best approach depends on your use case:</p>
+<ul>
+<li><strong>Parent ↔ Child</strong>: Use @Input/@Output</li>
+<li><strong>Siblings</strong>: Use Shared Service</li>
+<li><strong>Unrelated Components</strong>: Use Services with RxJS</li>
+<li><strong>Complex State</strong>: Use BehaviorSubject or State Management</li>
+</ul>
+<p>Always remember to:</p>
+<ul>
+<li>✅ Unsubscribe from observables</li>
+<li>✅ Use type safety</li>
+<li>✅ Keep components focused</li>
+<li>✅ Follow Angular best practices</li>
+<li>✅ Consider performance with OnPush strategy</li>
+</ul>
+<p>Happy coding! 🚀</p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>

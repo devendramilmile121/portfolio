@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Angular Signal Forms: A Modern Approach to Form Management — Devendra Milmile</title>
+    <meta name="title" content="Angular Signal Forms: A Modern Approach to Form Management — Devendra Milmile" />
+    <meta name="description" content="A look at Angular's experimental Signal Forms: signal-based, type-safe form handling with built-in validation and two-way binding." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content="Angular Signal Forms: A Modern Approach to Form Management — Devendra Milmile" />
+    <meta property="og:description" content="A look at Angular's experimental Signal Forms: signal-based, type-safe form handling with built-in validation and two-way binding." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/angular-signal-forms" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angular Signal Forms: A Modern Approach to Form Management — Devendra Milmile" />
+    <meta name="twitter:description" content="A look at Angular's experimental Signal Forms: signal-based, type-safe form handling with built-in validation and two-way binding." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/angular-signal-forms" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/angular-signal-forms" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Angular Signal Forms: A Modern Approach to Form Management","description":"A look at Angular's experimental Signal Forms: signal-based, type-safe form handling with built-in validation and two-way binding.","datePublished":"2026-01-02","dateModified":"2026-01-02","keywords":"Angular, Forms, Signals, TypeScript, Web Development","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/angular-signal-forms"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2026-01-02">2 January 2026</time><span aria-hidden="true"> · </span>10<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">Angular Signal Forms: A Modern Approach to Form Management</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">A look at Angular&#x27;s experimental Signal Forms: signal-based, type-safe form handling with built-in validation and two-way binding.</p><p class="mt-6 font-mono text-xs text-muted-foreground">Angular / Forms / Signals / TypeScript / Web Development</p></header><div class="article mt-10"><p>Forms are the backbone of user interaction in web applications. Whether it&#x27;s a simple login form or a complex multi-step wizard, managing form state, validation, and user feedback has always been a challenge. With Angular v21, the framework introduces <strong>Signal Forms</strong> - an experimental yet promising approach to form management that builds on the reactive foundation of signals.</p>
+<h2 id="-important-note">⚠️ Important Note</h2>
+<p>Before we dive in, it&#x27;s crucial to understand that <strong>Signal Forms are experimental</strong>. The API may change in future releases, and it&#x27;s not recommended for production applications unless you understand the risks. However, for new applications built with signals, Signal Forms offer a glimpse into the future of Angular form management.</p>
+<h2 id="what-are-signal-forms">What Are Signal Forms?</h2>
+<p>Signal Forms address the traditional challenges of form management by:</p>
+<ul>
+<li><strong>Synchronizing state automatically</strong> - Automatically sync the form data model with bound form fields</li>
+<li><strong>Providing type safety</strong> - Support fully type-safe schemas &amp; bindings between UI controls and data model</li>
+<li><strong>Centralizing validation logic</strong> - Define all validation rules in one place using a validation schema</li>
+</ul>
+<p>Unlike Template-driven Forms or Reactive Forms, Signal Forms are model-driven. The form&#x27;s structure and state are derived directly from a signal-based model, making the entire system more reactive and easier to reason about.</p>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To use Signal Forms, you need:</p>
+<ul>
+<li><strong>Angular v21 or higher</strong></li>
+<li>Understanding of Angular Signals</li>
+</ul>
+<h2 id="getting-started-with-signal-forms">Getting Started with Signal Forms</h2>
+<h3 id="setup">Setup</h3>
+<p>Signal Forms are already included in the <code>@angular/forms</code> package. You just need to import the necessary functions and directives:</p>
+<pre><code class="language-typescript">import { form, Field, required, email } from &#x27;@angular/forms/signals&#x27;;
+</code></pre>
+<p>The <code>Field</code> directive must be imported into any component that binds form fields to HTML inputs.</p>
+<h2 id="building-a-user-registration-form">Building a User Registration Form</h2>
+<p>Let&#x27;s build a practical example: a user registration form that collects name, email, and an array of skills.</p>
+<blockquote>
+<p>💻 <strong><a href="https://github.com/devendramilmile121/angular-signal-froms" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a></strong> - Clone and run the full application with all the code from this tutorial!</p>
+</blockquote>
+<h3 id="step-1-define-the-form-model">Step 1: Define the Form Model</h3>
+<p>Form models are the foundation of Signal Forms. They serve as the single source of truth for your form data.</p>
+<pre><code class="language-typescript">import { JsonPipe } from &#x27;@angular/common&#x27;;
+import { Component, signal } from &#x27;@angular/core&#x27;;
+import { applyEach, email, Field, form, minLength, required } from &#x27;@angular/forms/signals&#x27;;
+
+interface Skill {
+  name: string;
+  proficiency: string;
+}
+
+interface UserRegistrationData {
+  name: string;
+  email: string;
+  skills: Skill[];
+}
+
+@Component({
+  selector: &#x27;app-root&#x27;,
+  imports: [Field, JsonPipe],
+  templateUrl: &#x27;./app.html&#x27;,
+  styleUrl: &#x27;./app.css&#x27;,
+})
+export class App {
+  // Create the form model with initial values
+  registrationModel = signal&lt;UserRegistrationData&gt;({
+    name: &#x27;&#x27;,
+    email: &#x27;&#x27;,
+    skills: [{ name: &#x27;&#x27;, proficiency: &#x27;beginner&#x27; }],
+  });
+
+  // Create the form with validation schema
+  registrationForm = form(this.registrationModel, (schemaPath) =&gt; {
+    // Validate name
+    required(schemaPath.name, {
+      message: &#x27;Name is required&#x27;,
+    });
+    minLength(schemaPath.name, 2, {
+      message: &#x27;Name must be at least 2 characters&#x27;,
+    });
+
+    // Validate email
+    required(schemaPath.email, {
+      message: &#x27;Email is required&#x27;,
+    });
+    email(schemaPath.email, {
+      message: &#x27;Please enter a valid email address&#x27;,
+    });
+
+    // Validate each skill in the array
+    applyEach(schemaPath.skills, (skill) =&gt; {
+      required(skill.name, {
+        message: &#x27;Skill name is required&#x27;,
+      });
+      required(skill.proficiency, {
+        message: &#x27;Proficiency level is required&#x27;,
+      });
+    });
+  });
+
+  // Add a new skill
+  addSkill() {
+    this.registrationForm.skills().value.update((skills) =&gt; [
+      ...skills,
+      { name: &#x27;&#x27;, proficiency: &#x27;beginner&#x27; },
+    ]);
+  }
+
+  // Remove a skill
+  removeSkill(index: number) {
+    this.registrationForm.skills().value.update((skills) =&gt; skills.filter((_, i) =&gt; i !== index));
+  }
+
+  // Handle form submission
+  async onSubmit(event: Event) {
+    event.preventDefault();
+    if (this.registrationForm().valid()) {
+      const formData = this.registrationForm().value();
+      console.log(&#x27;Form submitted:&#x27;, formData);
+
+      // Here you would typically send data to your backend
+      // await this.userService.register(formData);
+
+      alert(&#x27;Registration successful!&#x27;);
+    } else {
+      alert(&#x27;Please fix all errors before submitting&#x27;);
+    }
+  }
+}
+</code></pre>
+<h3 id="step-2-create-the-template">Step 2: Create the Template</h3>
+<p>Now let&#x27;s create a user-friendly template that displays the form:</p>
+<pre><code class="language-html">&lt;div class=&quot;registration-container&quot;&gt;
+  &lt;h2&gt;User Registration&lt;/h2&gt;
+
+  &lt;form (submit)=&quot;onSubmit($event)&quot;&gt;
+    &lt;!-- Name Field --&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;name&quot;&gt;Full Name *&lt;/label&gt;
+      &lt;input
+        id=&quot;name&quot;
+        type=&quot;text&quot;
+        [field]=&quot;registrationForm.name&quot;
+        placeholder=&quot;Enter your full name&quot;
+      /&gt;
+
+      @if (registrationForm.name().touched() &amp;&amp; registrationForm.name().invalid()) {
+      &lt;div class=&quot;error-messages&quot;&gt;
+        @for (error of registrationForm.name().errors(); track error.kind) {
+        &lt;span class=&quot;error&quot;&gt;{{ error.message }}&lt;/span&gt;
+        }
+      &lt;/div&gt;
+      }
+    &lt;/div&gt;
+
+    &lt;!-- Email Field --&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+      &lt;label for=&quot;email&quot;&gt;Email Address *&lt;/label&gt;
+      &lt;input
+        id=&quot;email&quot;
+        type=&quot;email&quot;
+        [field]=&quot;registrationForm.email&quot;
+        placeholder=&quot;your.email@example.com&quot;
+      /&gt;
+
+      @if (registrationForm.email().touched() &amp;&amp; registrationForm.email().invalid()) {
+      &lt;div class=&quot;error-messages&quot;&gt;
+        @for (error of registrationForm.email().errors(); track error.kind) {
+        &lt;span class=&quot;error&quot;&gt;{{ error.message }}&lt;/span&gt;
+        }
+      &lt;/div&gt;
+      }
+    &lt;/div&gt;
+
+    &lt;!-- Skills Array --&gt;
+    &lt;div class=&quot;form-section&quot;&gt;
+      &lt;h3&gt;Skills&lt;/h3&gt;
+
+      @for (skill of registrationModel().skills; track $index) {
+      &lt;div class=&quot;skill-item&quot;&gt;
+        &lt;div class=&quot;skill-fields&quot;&gt;
+          &lt;div class=&quot;form-group flex-grow&quot;&gt;
+            &lt;label [attr.for]=&quot;&#x27;skill-name-&#x27; + $index&quot;&gt;Skill Name *&lt;/label&gt;
+            &lt;input
+              [id]=&quot;&#x27;skill-name-&#x27; + $index&quot;
+              type=&quot;text&quot;
+              [field]=&quot;registrationForm.skills[$index].name&quot;
+              placeholder=&quot;e.g., Angular, TypeScript&quot;
+            /&gt;
+
+            @if (registrationForm.skills[$index].name().touched() &amp;&amp;
+            registrationForm.skills[$index].name().invalid()) {
+            &lt;div class=&quot;error-messages&quot;&gt;
+              @for (error of registrationForm.skills[$index].name().errors(); track error.kind) {
+              &lt;span class=&quot;error&quot;&gt;{{ error.message }}&lt;/span&gt;
+              }
+            &lt;/div&gt;
+            }
+          &lt;/div&gt;
+
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label [attr.for]=&quot;&#x27;skill-proficiency-&#x27; + $index&quot;&gt;Proficiency *&lt;/label&gt;
+            &lt;select
+              [id]=&quot;&#x27;skill-proficiency-&#x27; + $index&quot;
+              [field]=&quot;registrationForm.skills[$index].proficiency&quot;
+            &gt;
+              &lt;option value=&quot;beginner&quot;&gt;Beginner&lt;/option&gt;
+              &lt;option value=&quot;intermediate&quot;&gt;Intermediate&lt;/option&gt;
+              &lt;option value=&quot;advanced&quot;&gt;Advanced&lt;/option&gt;
+              &lt;option value=&quot;expert&quot;&gt;Expert&lt;/option&gt;
+            &lt;/select&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        @if ($index &gt; 0) {
+        &lt;button type=&quot;button&quot; class=&quot;btn-remove&quot; (click)=&quot;removeSkill($index)&quot;&gt;Remove&lt;/button&gt;
+        }
+      &lt;/div&gt;
+      }
+
+      &lt;button type=&quot;button&quot; class=&quot;btn-secondary&quot; (click)=&quot;addSkill()&quot;&gt;+ Add Another Skill&lt;/button&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Display Form Summary --&gt;
+    &lt;div class=&quot;form-summary&quot;&gt;
+      &lt;h4&gt;Form Status&lt;/h4&gt;
+      &lt;ul&gt;
+        &lt;li&gt;Valid: {{ registrationForm().valid() ? &#x27;✅&#x27; : &#x27;❌&#x27; }}&lt;/li&gt;
+        &lt;li&gt;Touched: {{ registrationForm().touched() ? &#x27;Yes&#x27; : &#x27;No&#x27; }}&lt;/li&gt;
+        &lt;li&gt;Dirty: {{ registrationForm().dirty() ? &#x27;Yes&#x27; : &#x27;No&#x27; }}&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Submit Button --&gt;
+    &lt;div class=&quot;form-actions&quot;&gt;
+      &lt;button type=&quot;submit&quot; class=&quot;btn-primary&quot; [disabled]=&quot;!registrationForm().valid()&quot;&gt;
+        Register
+      &lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;!-- Preview of Current Data --&gt;
+  &lt;div class=&quot;data-preview&quot;&gt;
+    &lt;h4&gt;Current Form Data&lt;/h4&gt;
+    &lt;pre&gt;{{ registrationModel() | json }}&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<h3 id="step-3-add-styling">Step 3: Add Styling</h3>
+<p>Let&#x27;s add some CSS to make our form look professional:</p>
+<pre><code class="language-css">.registration-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+h3 {
+  color: #555;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #555;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 6px;
+}
+
+.skill-item {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 4px;
+  border: 1px solid #e0e0e0;
+}
+
+.skill-fields {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.flex-grow {
+  flex: 1;
+}
+
+.error-messages {
+  margin-top: 0.25rem;
+}
+
+.error {
+  display: block;
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-remove {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  color: white;
+  margin-top: 1rem;
+}
+
+.btn-secondary:hover {
+  background-color: #545b62;
+}
+
+.btn-remove {
+  background-color: #dc3545;
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.btn-remove:hover {
+  background-color: #c82333;
+}
+
+.form-actions {
+  margin-top: 2rem;
+}
+
+.form-summary {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #e7f3ff;
+  border-radius: 4px;
+}
+
+.form-summary ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+
+.form-summary li {
+  padding: 0.25rem 0;
+}
+
+.data-preview {
+  margin-top: 2rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 4px;
+  overflow-x: auto;
+}
+
+.data-preview pre {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.875rem;
+}
+</code></pre>
+<h2 id="key-concepts-explained">Key Concepts Explained</h2>
+<h3 id="1-form-models-vs-domain-models">1. Form Models vs Domain Models</h3>
+<p>Signal Forms distinguish between <strong>form models</strong> (representing raw user input in the UI) and <strong>domain models</strong> (representing business logic). This separation allows you to:</p>
+<ul>
+<li>Tailor the form structure to the user experience</li>
+<li>Transform data between representations as needed</li>
+<li>Keep form logic separate from business logic</li>
+</ul>
+<h3 id="2-two-way-data-binding">2. Two-Way Data Binding</h3>
+<p>The <code>[field]</code> directive creates automatic two-way synchronization:</p>
+<p><strong>User input → Model:</strong></p>
+<ol>
+<li>User types in an input element</li>
+<li>The <code>[field]</code> directive detects the change</li>
+<li>Field state updates</li>
+<li>Model signal updates</li>
+</ol>
+<p><strong>Programmatic update → UI:</strong></p>
+<ol>
+<li>Code updates the model with <code>set()</code> or <code>update()</code></li>
+<li>Model signal notifies subscribers</li>
+<li>Field state updates</li>
+<li>The <code>[field]</code> directive updates the input element</li>
+</ol>
+<h3 id="3-validation-schema">3. Validation Schema</h3>
+<p>Validation rules are defined in a schema function passed to <code>form()</code>. Key benefits:</p>
+<ul>
+<li><strong>Centralized</strong> - All validation logic in one place</li>
+<li><strong>Reactive</strong> - Automatically runs when values change</li>
+<li><strong>Type-safe</strong> - Full TypeScript support</li>
+<li><strong>Composable</strong> - Mix built-in and custom validators</li>
+</ul>
+<h3 id="4-working-with-arrays">4. Working with Arrays</h3>
+<p>Signal Forms handle arrays elegantly with:</p>
+<ul>
+<li><strong>Dynamic length</strong> - Add/remove items as needed</li>
+<li><strong>Automatic tracking</strong> - Items maintain state even when reordered</li>
+<li><strong>Array validation</strong> - Use <code>applyEach()</code> to validate each item</li>
+</ul>
+<h2 id="advanced-features">Advanced Features</h2>
+<h3 id="cross-field-validation">Cross-Field Validation</h3>
+<p>Validate fields that depend on each other:</p>
+<pre><code class="language-typescript">form(model, (schemaPath) =&gt; {
+  validate(schemaPath.confirmEmail, ({ value, valueOf }) =&gt; {
+    if (value() !== valueOf(schemaPath.email)) {
+      return { 
+        kind: &#x27;emailMismatch&#x27;, 
+        message: &#x27;Emails do not match&#x27; 
+      };
+    }
+    return null;
+  });
+});
+</code></pre>
+<h3 id="async-validation">Async Validation</h3>
+<p>Check values against a server:</p>
+<pre><code class="language-typescript">import { validateHttp } from &#x27;@angular/forms/signals&#x27;;
+
+form(model, (schemaPath) =&gt; {
+  validateHttp(schemaPath.username, {
+    request: ({ value }) =&gt; `/api/check-username?username=${value()}`,
+    onSuccess: (response) =&gt; {
+      if (response.taken) {
+        return { 
+          kind: &#x27;usernameTaken&#x27;, 
+          message: &#x27;Username is already taken&#x27; 
+        };
+      }
+      return null;
+    },
+    onError: () =&gt; ({ 
+      kind: &#x27;networkError&#x27;, 
+      message: &#x27;Could not verify username&#x27; 
+    })
+  });
+});
+</code></pre>
+<h3 id="custom-validators">Custom Validators</h3>
+<p>Create reusable validation rules:</p>
+<pre><code class="language-typescript">function strongPassword(field: any, options?: { message?: string }) {
+  validate(field, ({ value }) =&gt; {
+    const password = value();
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    const hasSpecial = /[!@#$%^&amp;*]/.test(password);
+    
+    if (!hasUpper || !hasLower || !hasNumber || !hasSpecial) {
+      return {
+        kind: &#x27;strongPassword&#x27;,
+        message: options?.message || 
+          &#x27;Password must contain uppercase, lowercase, number, and special character&#x27;
+      };
+    }
+    return null;
+  });
+}
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-initialize-all-fields">1. Initialize All Fields</h3>
+<p>Always provide initial values for every field:</p>
+<pre><code class="language-typescript">// ✅ Good
+const model = signal({
+  name: &#x27;&#x27;,
+  email: &#x27;&#x27;,
+  age: 0
+});
+
+// ❌ Avoid
+const model = signal({
+  name: &#x27;&#x27;
+  // Missing email and age - won&#x27;t be in field tree
+});
+</code></pre>
+<h3 id="2-use-specific-types">2. Use Specific Types</h3>
+<p>Define interfaces for better type safety:</p>
+<pre><code class="language-typescript">interface UserFormData {
+  name: string;
+  email: string;
+  age: number;
+}
+
+const model = signal&lt;UserFormData&gt;({
+  name: &#x27;&#x27;,
+  email: &#x27;&#x27;,
+  age: 0
+});
+</code></pre>
+<h3 id="3-avoid-undefined">3. Avoid Undefined</h3>
+<p>Use appropriate empty values instead of <code>undefined</code>:</p>
+<pre><code class="language-typescript">// ✅ Good
+interface FormData {
+  name: string;
+  birthday: Date | null;
+}
+
+// ❌ Avoid
+interface FormData {
+  name?: string;  // Implicitly allows undefined
+  birthday?: Date;
+}
+</code></pre>
+<h3 id="4-show-validation-at-the-right-time">4. Show Validation at the Right Time</h3>
+<p>Use <code>touched()</code> to prevent premature error display:</p>
+<pre><code class="language-html">@if (field().touched() &amp;&amp; field().invalid()) {
+  &lt;div class=&quot;errors&quot;&gt;
+    @for (error of field().errors(); track error.kind) {
+      &lt;span&gt;{{ error.message }}&lt;/span&gt;
+    }
+  &lt;/div&gt;
+}
+</code></pre>
+<h2 id="comparison-with-other-form-systems">Comparison with Other Form Systems</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Feature</th><th>Signal Forms</th><th>Reactive Forms</th><th>Template-driven</th></tr></thead><tbody><tr><td>Type Safety</td><td>✅ Full</td><td>✅ Full (with TypeScript)</td><td>❌ Limited</td></tr><tr><td>Two-way Binding</td><td>✅ Automatic</td><td>⚠️ Manual</td><td>✅ Automatic</td></tr><tr><td>Validation Schema</td><td>✅ Centralized</td><td>⚠️ Distributed</td><td>⚠️ Distributed</td></tr><tr><td>Reactive Updates</td><td>✅ Built-in</td><td>✅ RxJS-based</td><td>⚠️ Limited</td></tr><tr><td>Learning Curve</td><td>Medium</td><td>Medium</td><td>Low</td></tr><tr><td>Maturity</td><td>⚠️ Experimental</td><td>✅ Stable</td><td>✅ Stable</td></tr></tbody></table></div>
+<h2 id="when-to-use-signal-forms">When to Use Signal Forms</h2>
+<p><strong>✅ Use Signal Forms when:</strong></p>
+<ul>
+<li>Building a new application with Angular v21+</li>
+<li>Already using signals throughout your app</li>
+<li>Want automatic synchronization and type safety</li>
+<li>Need centralized validation logic</li>
+<li>Comfortable with experimental features</li>
+</ul>
+<p><strong>❌ Avoid Signal Forms when:</strong></p>
+<ul>
+<li>Working on production applications requiring stability</li>
+<li>Using Angular versions below v21</li>
+<li>Team is not comfortable with experimental APIs</li>
+<li>Need features from mature form libraries</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Angular Signal Forms represent a modern, reactive approach to form management that aligns perfectly with Angular&#x27;s signals architecture. While still experimental, they offer powerful features like automatic synchronization, type safety, and centralized validation that make form development more intuitive and maintainable.</p>
+<p>The example we built demonstrates how Signal Forms handle common scenarios: simple fields, complex validation, and dynamic arrays. As the API matures and stabilizes, Signal Forms have the potential to become the preferred way to build forms in Angular.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/devendramilmile121/angular-signal-froms" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a> - Full source code from this tutorial</li>
+<li><a href="https://angular.dev/guide/forms/signals/overview" target="_blank" rel="noopener noreferrer">Angular Signal Forms Documentation</a></li>
+<li><a href="https://angular.dev/api/forms/signals" target="_blank" rel="noopener noreferrer">Signal Forms API Reference</a></li>
+<li><a href="https://angular.dev/guide/signals" target="_blank" rel="noopener noreferrer">Angular Signals Guide</a></li>
+<li><a href="https://standardschema.dev/" target="_blank" rel="noopener noreferrer">Standard Schema Integration</a></li>
+</ul>
+<hr/>
+<p><em>Have you tried Signal Forms in your Angular projects? Share your experiences in the comments below!</em></p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>

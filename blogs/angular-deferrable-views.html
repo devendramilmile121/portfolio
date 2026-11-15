@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks — Devendra Milmile</title>
+    <meta name="title" content="Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks — Devendra Milmile" />
+    <meta name="description" content="How Angular's @defer blocks keep non-critical code out of the initial bundle, how to control when deferred content loads, and what that does for Core Web Vitals." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content="Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks — Devendra Milmile" />
+    <meta property="og:description" content="How Angular's @defer blocks keep non-critical code out of the initial bundle, how to control when deferred content loads, and what that does for Core Web Vitals." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/angular-deferrable-views" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks — Devendra Milmile" />
+    <meta name="twitter:description" content="How Angular's @defer blocks keep non-critical code out of the initial bundle, how to control when deferred content loads, and what that does for Core Web Vitals." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/angular-deferrable-views" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/angular-deferrable-views" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks","description":"How Angular's @defer blocks keep non-critical code out of the initial bundle, how to control when deferred content loads, and what that does for Core Web Vitals.","datePublished":"2026-01-26","dateModified":"2026-01-26","keywords":"Angular, Performance, Optimization, Web Vitals, TypeScript, Web Development","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/angular-deferrable-views"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2026-01-26">26 January 2026</time><span aria-hidden="true"> · </span>14<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">Angular Deferrable Views: Optimizing Bundle Size with @defer Blocks</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">How Angular&#x27;s @defer blocks keep non-critical code out of the initial bundle, how to control when deferred content loads, and what that does for Core Web Vitals.</p><p class="mt-6 font-mono text-xs text-muted-foreground">Angular / Performance / Optimization / Web Vitals / TypeScript / Web Development</p></header><div class="article mt-10"><p>In today&#x27;s web landscape, performance is paramount. Users expect applications to load instantly, and search engines reward fast-loading sites. However, shipping entire applications upfront can lead to bloated bundles and slow initial loads. Enter <strong>Deferrable Views</strong> – Angular&#x27;s declarative approach to lazy loading that allows you to defer non-critical code until it&#x27;s truly needed.</p>
+<p>With the <code>@defer</code> block, you can reduce your initial bundle size, improve Core Web Vitals (especially Largest Contentful Paint and Time to First Byte), and create a more responsive user experience.</p>
+<h2 id="what-are-deferrable-views">What Are Deferrable Views?</h2>
+<p>Deferrable views, also known as <code>@defer</code> blocks, allow you to declaratively defer the loading of components, directives, and pipes that aren&#x27;t necessary for the initial page render. Instead of bundling all your code together, Angular splits deferred dependencies into separate JavaScript chunks that load only when needed.</p>
+<p>Key benefits include:</p>
+<ul>
+<li><strong>Reduced initial bundle size</strong> - Non-critical code is excluded from the main bundle</li>
+<li><strong>Faster initial load</strong> - Less JavaScript to parse and execute on page load</li>
+<li><strong>Improved Core Web Vitals</strong> - Better LCP, TTFB, and CLS scores</li>
+<li><strong>Flexible triggers</strong> - Load content based on user interaction, viewport visibility, idle time, or custom conditions</li>
+<li><strong>Graceful state management</strong> - Built-in support for placeholder, loading, and error states</li>
+</ul>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>To use deferrable views, you need:</p>
+<ul>
+<li><strong>Angular v17 or higher</strong></li>
+<li>Understanding of Angular components and templates</li>
+<li>Basic knowledge of bundle optimization concepts</li>
+</ul>
+<h2 id="getting-started-with-defer-blocks">Getting Started with @defer Blocks</h2>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<p>The simplest <code>@defer</code> block requires just wrapping your content:</p>
+<pre><code class="language-typescript">@defer {
+  &lt;large-component /&gt;
+}
+</code></pre>
+<p>By default, the deferred content loads when the browser reaches an idle state. However, <code>@defer</code> blocks become powerful when combined with triggers and state blocks.</p>
+<h2 id="building-a-feature-rich-product-dashboard">Building a Feature-Rich Product Dashboard</h2>
+<p>Let&#x27;s build a practical example: a product dashboard that displays product listings, analytics charts, and recommendation widgets – all with intelligent lazy loading.</p>
+<blockquote>
+<p>💻 <strong><a href="https://github.com/devendramilmile121/angular-defer-demo" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a></strong> - Clone and run the full application with all the code from this tutorial!</p>
+</blockquote>
+<h3 id="step-1-set-up-the-component">Step 1: Set Up the Component</h3>
+<p>Create a dashboard component that manages the overall structure and product data:</p>
+<pre><code class="language-typescript">import { Component, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
+@Component({
+  selector: &#x27;app-dashboard&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: ``,
+  styleUrl: &#x27;./dashboard.component.css&#x27;,
+})
+export class DashboardComponent {
+  products = signal&lt;Product[]&gt;([
+    { id: 1, name: &#x27;Premium Headphones&#x27;, price: 199.99, category: &#x27;Electronics&#x27; },
+    { id: 2, name: &#x27;Wireless Keyboard&#x27;, price: 79.99, category: &#x27;Electronics&#x27; },
+    { id: 3, name: &#x27;Monitor Stand&#x27;, price: 49.99, category: &#x27;Accessories&#x27; },
+    { id: 4, name: &#x27;USB-C Cable&#x27;, price: 19.99, category: &#x27;Accessories&#x27; },
+    { id: 5, name: &#x27;Desk Lamp&#x27;, price: 39.99, category: &#x27;Accessories&#x27; },
+    { id: 6, name: &#x27;Webcam 4K&#x27;, price: 129.99, category: &#x27;Electronics&#x27; },
+  ]);
+
+  showCharts = signal(false);
+}
+</code></pre>
+<h3 id="step-2-create-child-components">Step 2: Create Child Components</h3>
+<p>Create the components that will be deferred:</p>
+<p><strong>Product List Component:</strong></p>
+<p><code>src/app/product-list/product-list.component.ts</code>:</p>
+<pre><code class="language-typescript">import { Component, input } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
+@Component({
+  selector: &#x27;app-product-list&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: &#x27;./product-list.component.html&#x27;,
+  styleUrl: &#x27;./product-list.component.css&#x27;,
+})
+export class ProductListComponent {
+  products = input&lt;Product[]&gt;([]);
+}
+</code></pre>
+<p><code>src/app/product-list/product-list.component.html</code>:</p>
+<pre><code class="language-html">&lt;div class=&quot;products-grid&quot;&gt;
+  @for (product of products(); track product.id) {
+    &lt;div class=&quot;product-card&quot;&gt;
+      &lt;h3&gt;{{ product.name }}&lt;/h3&gt;
+      &lt;p class=&quot;category&quot;&gt;{{ product.category }}&lt;/p&gt;
+      &lt;p class=&quot;price&quot;&gt;${{ product.price }}&lt;/p&gt;
+      &lt;button class=&quot;btn-add&quot;&gt;Add to Cart&lt;/button&gt;
+    &lt;/div&gt;
+  }
+&lt;/div&gt;
+</code></pre>
+<p><strong>Analytics Chart Component:</strong></p>
+<p><code>src/app/analytics-chart/analytics-chart.component.ts</code>:</p>
+<pre><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+
+@Component({
+  selector: &#x27;app-analytics-chart&#x27;,
+  standalone: true,
+  templateUrl: &#x27;./analytics-chart.component.html&#x27;,
+  styleUrl: &#x27;./analytics-chart.component.css&#x27;,
+})
+export class AnalyticsChartComponent {}
+</code></pre>
+<p><code>src/app/analytics-chart/analytics-chart.component.html</code>:</p>
+<pre><code class="language-html">&lt;div class=&quot;chart-container&quot;&gt;
+  &lt;h3&gt;Sales Analytics&lt;/h3&gt;
+  &lt;div class=&quot;chart&quot;&gt;
+    &lt;!-- In a real application, integrate Chart.js, D3, or similar library --&gt;
+    &lt;div class=&quot;chart-placeholder&quot;&gt;
+      &lt;p&gt;📊 Interactive chart would render here&lt;/p&gt;
+      &lt;p&gt;Heavy charting library loaded on demand&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p><strong>Recommendations Component:</strong></p>
+<pre><code class="language-typescript">import { Component, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+
+@Component({
+  selector: &#x27;app-recommendations&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;recommendations&quot;&gt;
+      &lt;h3&gt;Recommended for You&lt;/h3&gt;
+      @for (item of recommendations(); track item.id) {
+        &lt;div class=&quot;recommendation-item&quot;&gt;
+          &lt;p&gt;{{ item.text }}&lt;/p&gt;
+          &lt;small&gt;Based on your browsing history&lt;/small&gt;
+        &lt;/div&gt;
+      }
+    &lt;/div&gt;
+  `,
+  styleUrl: &#x27;./recommendations.component.css&#x27;,
+})
+export class RecommendationsComponent {
+  recommendations = signal([
+    { id: 1, text: &#x27;Premium USB-C Hub - Perfect match for your setup&#x27; },
+    { id: 2, text: &#x27;Ergonomic Mouse Pad - Complements your keyboard&#x27; },
+    { id: 3, text: &#x27;Monitor Light Bar - Reduces eye strain&#x27; },
+  ]);
+}
+</code></pre>
+<h3 id="step-3-build-the-template-with-defer-blocks">Step 3: Build the Template with @defer Blocks</h3>
+<p>Now let&#x27;s create the main dashboard template with strategic use of <code>@defer</code> blocks:</p>
+<pre><code class="language-typescript">import { Component, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { ProductListComponent } from &#x27;../product-list/product-list.component&#x27;;
+import { AnalyticsChartComponent } from &#x27;../analytics-chart/analytics-chart.component&#x27;;
+import { RecommendationsComponent } from &#x27;../recommendations/recommendations.component&#x27;;
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+
+@Component({
+  selector: &#x27;app-dashboard&#x27;,
+  standalone: true,
+  imports: [
+    CommonModule,
+    ProductListComponent,
+    AnalyticsChartComponent,
+    RecommendationsComponent,
+  ],
+  template: `
+    &lt;div class=&quot;dashboard-container&quot;&gt;
+      &lt;header class=&quot;dashboard-header&quot;&gt;
+        &lt;h1&gt;Product Dashboard&lt;/h1&gt;
+        &lt;p&gt;Browse products and view personalized recommendations&lt;/p&gt;
+      &lt;/header&gt;
+
+      &lt;!-- IMMEDIATE CONTENT - Always loads upfront --&gt;
+      &lt;section class=&quot;hero-section&quot;&gt;
+        &lt;div class=&quot;hero-content&quot;&gt;
+          &lt;h2&gt;Welcome to Our Store&lt;/h2&gt;
+          &lt;p&gt;Discover premium products for your workspace&lt;/p&gt;
+        &lt;/div&gt;
+      &lt;/section&gt;
+
+      &lt;!-- Featured Products - Loads when viewport becomes visible --&gt;
+      &lt;section class=&quot;featured-products&quot;&gt;
+        &lt;h2&gt;Featured Products&lt;/h2&gt;
+        @defer (on viewport) {
+          &lt;app-product-list [products]=&quot;products()&quot; /&gt;
+        } @placeholder {
+          &lt;div class=&quot;placeholder-skeleton&quot;&gt;
+            &lt;div class=&quot;skeleton-card&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;skeleton-card&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;skeleton-card&quot;&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        } @loading {
+          &lt;div class=&quot;loading-state&quot;&gt;
+            &lt;div class=&quot;spinner&quot;&gt;&lt;/div&gt;
+            &lt;p&gt;Loading products...&lt;/p&gt;
+          &lt;/div&gt;
+        } @error {
+          &lt;div class=&quot;error-state&quot;&gt;
+            &lt;p&gt;❌ Failed to load products. Please refresh the page.&lt;/p&gt;
+          &lt;/div&gt;
+        }
+      &lt;/section&gt;
+
+      &lt;!-- Analytics Section - Loads on user interaction (click) --&gt;
+      &lt;section class=&quot;analytics-section&quot;&gt;
+        &lt;button class=&quot;btn-toggle&quot; (click)=&quot;showCharts.set(!showCharts())&quot;&gt;
+          {{ showCharts() ? &#x27;Hide&#x27; : &#x27;Show&#x27; }} Analytics
+        &lt;/button&gt;
+
+        @if (showCharts()) {
+          @defer (on interaction) {
+            &lt;app-analytics-chart /&gt;
+          } @placeholder {
+            &lt;div class=&quot;chart-placeholder&quot;&gt;
+              Click to view analytics
+            &lt;/div&gt;
+          } @loading (after 100ms; minimum 500ms) {
+            &lt;div class=&quot;loading-spinner&quot;&gt;
+              &lt;span&gt;Loading analytics...&lt;/span&gt;
+            &lt;/div&gt;
+          } @error {
+            &lt;div class=&quot;error-state&quot;&gt;
+              &lt;p&gt;⚠️ Could not load analytics chart&lt;/p&gt;
+            &lt;/div&gt;
+          }
+        }
+      &lt;/section&gt;
+
+      &lt;!-- Recommendations - Loads after a delay using timer --&gt;
+      &lt;section class=&quot;recommendations-section&quot;&gt;
+        @defer (on timer(3000)) {
+          &lt;app-recommendations /&gt;
+        } @placeholder {
+          &lt;div class=&quot;placeholder-content&quot;&gt;
+            &lt;p&gt;Personalized recommendations coming soon...&lt;/p&gt;
+          &lt;/div&gt;
+        } @loading {
+          &lt;div class=&quot;loading-state&quot;&gt;
+            &lt;p&gt;Generating recommendations based on your preferences...&lt;/p&gt;
+          &lt;/div&gt;
+        }
+      &lt;/section&gt;
+
+      &lt;!-- Advanced Section - Prefetches on idle, loads on hover --&gt;
+      &lt;section class=&quot;advanced-section&quot; #advancedSection&gt;
+        &lt;div class=&quot;section-header&quot;&gt;
+          &lt;h3&gt;Premium Features&lt;/h3&gt;
+          &lt;p&gt;Hover to unlock exclusive tools&lt;/p&gt;
+        &lt;/div&gt;
+
+        @defer (on hover(advancedSection); prefetch on idle) {
+          &lt;div class=&quot;premium-features&quot;&gt;
+            &lt;div class=&quot;feature&quot;&gt;
+              &lt;h4&gt;Advanced Analytics&lt;/h4&gt;
+              &lt;p&gt;Deep insights into your sales&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;feature&quot;&gt;
+              &lt;h4&gt;Custom Reports&lt;/h4&gt;
+              &lt;p&gt;Generate detailed business reports&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;feature&quot;&gt;
+              &lt;h4&gt;Real-time Monitoring&lt;/h4&gt;
+              &lt;p&gt;Monitor metrics as they happen&lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        } @placeholder {
+          &lt;div class=&quot;hover-prompt&quot;&gt;
+            👆 Hover over this section to load premium features
+          &lt;/div&gt;
+        } @loading {
+          &lt;div class=&quot;loading-state&quot;&gt;
+            &lt;p&gt;Loading premium features...&lt;/p&gt;
+          &lt;/div&gt;
+        }
+      &lt;/section&gt;
+    &lt;/div&gt;
+  `,
+  styleUrl: &#x27;./dashboard.component.css&#x27;,
+})
+export class DashboardComponent {
+  products = signal&lt;Product[]&gt;([
+    { id: 1, name: &#x27;Premium Headphones&#x27;, price: 199.99, category: &#x27;Electronics&#x27; },
+    { id: 2, name: &#x27;Wireless Keyboard&#x27;, price: 79.99, category: &#x27;Electronics&#x27; },
+    { id: 3, name: &#x27;Monitor Stand&#x27;, price: 49.99, category: &#x27;Accessories&#x27; },
+    { id: 4, name: &#x27;USB-C Cable&#x27;, price: 19.99, category: &#x27;Accessories&#x27; },
+    { id: 5, name: &#x27;Desk Lamp&#x27;, price: 39.99, category: &#x27;Accessories&#x27; },
+    { id: 6, name: &#x27;Webcam 4K&#x27;, price: 129.99, category: &#x27;Electronics&#x27; },
+  ]);
+
+  showCharts = signal(false);
+}
+
+interface Product {
+  id: number;
+  name: string;
+  price: number;
+  category: string;
+}
+</code></pre>
+<h3 id="step-4-add-styling">Step 4: Add Styling</h3>
+<p>Create professional styles for the dashboard:</p>
+<pre><code class="language-css">.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, Roboto, Oxygen, Ubuntu, sans-serif;
+}
+
+.dashboard-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.dashboard-header h1 {
+  font-size: 2.5rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-header p {
+  font-size: 1.1rem;
+  color: #718096;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 2rem;
+  border-radius: 8px;
+  margin-bottom: 3rem;
+  text-align: center;
+}
+
+.hero-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.featured-products {
+  margin-bottom: 3rem;
+}
+
+.featured-products h2 {
+  font-size: 1.8rem;
+  color: #1a202c;
+  margin-bottom: 2rem;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.product-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.product-card h3 {
+  font-size: 1.2rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.product-card .category {
+  color: #718096;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.product-card .price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 1rem;
+}
+
+.btn-add {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-add:hover {
+  background-color: #5568d3;
+}
+
+/* Placeholder and Loading States */
+.placeholder-skeleton {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.skeleton-card {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  height: 250px;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background: #f7fafc;
+  border-radius: 8px;
+  color: #4a5568;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error-state {
+  padding: 2rem;
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 8px;
+  color: #c53030;
+  text-align: center;
+}
+
+.analytics-section {
+  margin-bottom: 3rem;
+}
+
+.btn-toggle {
+  padding: 0.75rem 1.5rem;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+  margin-bottom: 2rem;
+}
+
+.btn-toggle:hover {
+  background-color: #5568d3;
+}
+
+.chart-container {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.chart {
+  min-height: 300px;
+}
+
+.chart-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  background: #f7fafc;
+  border-radius: 4px;
+  color: #718096;
+  text-align: center;
+}
+
+.recommendations-section {
+  margin-bottom: 3rem;
+  background: #edf2f7;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.recommendations {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.recommendations h3 {
+  font-size: 1.5rem;
+  color: #1a202c;
+  margin-bottom: 1.5rem;
+}
+
+.recommendation-item {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #f7fafc;
+  border-left: 4px solid #667eea;
+  border-radius: 4px;
+}
+
+.recommendation-item p {
+  color: #2d3748;
+  margin-bottom: 0.25rem;
+}
+
+.recommendation-item small {
+  color: #718096;
+  font-size: 0.85rem;
+}
+
+.advanced-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #faf089 0%, #f5f5f5 100%);
+  border-radius: 8px;
+}
+
+.section-header h3 {
+  font-size: 1.5rem;
+  color: #1a202c;
+  margin-bottom: 0.5rem;
+}
+
+.section-header p {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.premium-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.feature {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature h4 {
+  color: #667eea;
+  margin-bottom: 0.5rem;
+}
+
+.feature p {
+  color: #718096;
+  font-size: 0.95rem;
+}
+
+.hover-prompt {
+  padding: 2rem;
+  text-align: center;
+  color: #718096;
+  font-size: 1rem;
+  background: white;
+  border-radius: 8px;
+}
+
+.placeholder-content {
+  padding: 2rem;
+  text-align: center;
+  color: #718096;
+  background: #f7fafc;
+  border-radius: 8px;
+}
+</code></pre>
+<h2 id="key-concepts-explained">Key Concepts Explained</h2>
+<h3 id="1-which-dependencies-get-deferred">1. Which Dependencies Get Deferred?</h3>
+<p>For code to be deferred, dependencies must meet two conditions:</p>
+<ul>
+<li><strong>Must be standalone</strong> - Components, directives, and pipes in <code>@defer</code> blocks must be declared as standalone</li>
+<li><strong>Cannot be referenced outside</strong> - The dependency cannot be imported or used elsewhere in the same component template</li>
+</ul>
+<pre><code class="language-typescript">// ✅ Good - Can be deferred
+@Component({
+  selector: &#x27;app-chart&#x27;,
+  standalone: true,
+  template: `...`
+})
+export class ChartComponent {}
+
+// ❌ Cannot be deferred if used elsewhere
+@Component({
+  selector: &#x27;app-shared&#x27;,
+  template: `...`
+})
+export class SharedComponent {}
+</code></pre>
+<h3 id="2-understanding-state-blocks">2. Understanding State Blocks</h3>
+<p><code>@defer</code> blocks support multiple sub-blocks to manage the loading lifecycle:</p>
+<ul>
+<li><strong><code>@placeholder</code></strong> - Content shown before loading triggers (eagerly loaded)</li>
+<li><strong><code>@loading</code></strong> - Content shown while resources are being fetched</li>
+<li><strong><code>@error</code></strong> - Content shown if loading fails</li>
+</ul>
+<pre><code class="language-typescript">@defer (on viewport) {
+  &lt;large-component /&gt;
+} @placeholder {
+  &lt;div&gt;Placeholder content&lt;/div&gt;
+} @loading (after 200ms; minimum 1s) {
+  &lt;div&gt;Loading...&lt;/div&gt;
+} @error {
+  &lt;div&gt;Failed to load&lt;/div&gt;
+}
+</code></pre>
+<h3 id="3-triggers-the-power-of-control">3. Triggers - The Power of Control</h3>
+<p>Triggers determine when deferred content loads. Angular offers six built-in triggers and support for custom conditions:</p>
+<p><strong>Event-based triggers:</strong></p>
+<ul>
+<li><code>idle</code> - Load when browser is idle (default)</li>
+<li><code>viewport</code> - Load when element enters viewport</li>
+<li><code>interaction</code> - Load on click or keydown</li>
+<li><code>hover</code> - Load on mouse hover</li>
+</ul>
+<p><strong>Time-based triggers:</strong></p>
+<ul>
+<li><code>timer(duration)</code> - Load after specified duration</li>
+<li><code>immediate</code> - Load right after non-deferred content</li>
+</ul>
+<p><strong>Conditional trigger:</strong></p>
+<ul>
+<li><code>when condition</code> - Load when condition becomes truthy</li>
+</ul>
+<h3 id="4-prefetching-strategy">4. Prefetching Strategy</h3>
+<p>Prefetching loads resources before they&#x27;re needed, improving perceived performance:</p>
+<pre><code class="language-typescript">@defer (on interaction; prefetch on idle) {
+  &lt;large-component /&gt;
+}
+</code></pre>
+<p>This prefetches while idle but only displays when user interacts – best of both worlds!</p>
+<h2 id="advanced-features">Advanced Features</h2>
+<h3 id="combining-multiple-triggers">Combining Multiple Triggers</h3>
+<p>Use semicolons to combine triggers (OR logic):</p>
+<pre><code class="language-typescript">@defer (on viewport; on interaction) {
+  &lt;lazy-component /&gt;
+}
+</code></pre>
+<h3 id="intersectionobserver-customization">IntersectionObserver Customization</h3>
+<p>Fine-tune viewport detection with observer options:</p>
+<pre><code class="language-typescript">&lt;div #triggerElement&gt;&lt;/div&gt;
+
+@defer (on viewport({
+  trigger: triggerElement, 
+  rootMargin: &#x27;100px&#x27;, 
+  threshold: 0.5
+})) {
+  &lt;lazy-component /&gt;
+}
+</code></pre>
+<h3 id="preventing-content-flicker">Preventing Content Flicker</h3>
+<p>Use timing parameters to prevent rapid state transitions:</p>
+<pre><code class="language-typescript">@defer (on viewport) {
+  &lt;large-cmp /&gt;
+} @loading (after 200ms; minimum 500ms) {
+  &lt;div&gt;Loading...&lt;/div&gt;
+} @placeholder (minimum 300ms) {
+  &lt;div&gt;Placeholder&lt;/div&gt;
+}
+</code></pre>
+<h3 id="custom-conditional-loading">Custom Conditional Loading</h3>
+<p>Load content based on your application state:</p>
+<pre><code class="language-typescript">@defer (when isUserLoggedIn() &amp;&amp; hasAccessToken()) {
+  &lt;premium-feature /&gt;
+}
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="1-avoid-cascading-nested-defer-blocks">1. Avoid Cascading Nested @defer Blocks</h3>
+<pre><code class="language-typescript">// ❌ Bad - Both blocks trigger on idle, causing cascade
+@defer (on idle) {
+  @defer (on idle) {
+    &lt;component-a /&gt;
+  }
+}
+
+// ✅ Good - Different triggers prevent cascade
+@defer (on idle) {
+  @defer (on viewport) {
+    &lt;component-a /&gt;
+  }
+}
+</code></pre>
+<h3 id="2-avoid-layout-shifts">2. Avoid Layout Shifts</h3>
+<p>Don&#x27;t defer components visible on initial load:</p>
+<pre><code class="language-typescript">// ❌ Bad - Component is above the fold
+@defer (on immediate) {
+  &lt;hero-section /&gt;  // Visible on load!
+}
+
+// ✅ Good - Defer below-the-fold content
+@defer (on viewport) {
+  &lt;footer-section /&gt;
+}
+</code></pre>
+<h3 id="3-plan-placeholder-dimensions">3. Plan Placeholder Dimensions</h3>
+<p>Minimize Cumulative Layout Shift (CLS) with sized placeholders:</p>
+<pre><code class="language-html">&lt;!-- ✅ Good - Placeholder has fixed height --&gt;
+@defer (on viewport) {
+  &lt;lazy-component /&gt;
+} @placeholder {
+  &lt;div style=&quot;height: 400px; background: #f0f0f0;&quot;&gt;&lt;/div&gt;
+}
+
+&lt;!-- ❌ Bad - Placeholder causes layout shift --&gt;
+@defer (on viewport) {
+  &lt;lazy-component /&gt;
+} @placeholder {
+  &lt;p&gt;Loading...&lt;/p&gt;
+}
+</code></pre>
+<h3 id="4-accessibility-first">4. Accessibility First</h3>
+<p>Ensure screen readers are aware of deferred content changes:</p>
+<pre><code class="language-html">&lt;div aria-live=&quot;polite&quot; aria-atomic=&quot;true&quot;&gt;
+  @defer (on viewport) {
+    &lt;product-details /&gt;
+  } @placeholder {
+    Loading product information...
+  }
+&lt;/div&gt;
+</code></pre>
+<h3 id="5-test-defer-behavior">5. Test Defer Behavior</h3>
+<p>Angular provides testing utilities for <code>@defer</code> blocks:</p>
+<pre><code class="language-typescript">import { DeferBlockBehavior, DeferBlockState } from &#x27;@angular/core/testing&#x27;;
+
+it(&#x27;should handle defer block states&#x27;, async () =&gt; {
+  TestBed.configureTestingModule({
+    deferBlockBehavior: DeferBlockBehavior.Manual
+  });
+
+  const fixture = TestBed.createComponent(MyComponent);
+  const [deferBlock] = await fixture.getDeferBlocks();
+
+  // Manually control state progression
+  await deferBlock.render(DeferBlockState.Placeholder);
+  expect(fixture.nativeElement.innerHTML).toContain(&#x27;Loading...&#x27;);
+
+  await deferBlock.render(DeferBlockState.Complete);
+  expect(fixture.nativeElement.innerHTML).toContain(&#x27;Content loaded&#x27;);
+});
+</code></pre>
+<h2 id="comparison-deferrable-views-vs-traditional-lazy-loading">Comparison: Deferrable Views vs. Traditional Lazy Loading</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Feature</th><th>@defer Blocks</th><th>Route-based Lazy Loading</th><th>Manual Lazy Components</th></tr></thead><tbody><tr><td>Ease of Use</td><td>✅ Declarative</td><td>⚠️ Requires routing</td><td>❌ Complex</td></tr><tr><td>Bundle Size Reduction</td><td>✅ Yes</td><td>✅ Yes</td><td>✅ Yes</td></tr><tr><td>Granular Control</td><td>✅ Multiple triggers</td><td>⚠️ Route-only</td><td>⚠️ Manual</td></tr><tr><td>State Management</td><td>✅ Built-in</td><td>❌ Manual</td><td>❌ Manual</td></tr><tr><td>Learning Curve</td><td>✅ Low</td><td>Medium</td><td>High</td></tr><tr><td>Flexibility</td><td>✅ Highly flexible</td><td>⚠️ Limited</td><td>✅ Very flexible</td></tr><tr><td>Component Overhead</td><td>✅ Minimal</td><td>Medium</td><td>High</td></tr><tr><td>Best for</td><td>Page sections</td><td>App navigation</td><td>Special cases</td></tr></tbody></table></div>
+<h2 id="when-to-use-defer-blocks">When to Use @defer Blocks</h2>
+<p><strong>✅ Use @defer when:</strong></p>
+<ul>
+<li>You have heavy components not needed for initial render</li>
+<li>You want fine-grained control over lazy loading without routing</li>
+<li>Building dashboards with multiple non-critical sections</li>
+<li>Optimizing Core Web Vitals is a priority</li>
+<li>You need multiple trigger types for different content</li>
+</ul>
+<p><strong>❌ Use route-based lazy loading when:</strong></p>
+<ul>
+<li>Navigating between distinct application sections</li>
+<li>Following traditional SPA patterns</li>
+<li>Each route represents a major feature area</li>
+<li>You want automatic code splitting per route</li>
+</ul>
+<p><strong>❌ Avoid @defer when:</strong></p>
+<ul>
+<li>Content is critical for initial user experience</li>
+<li>Deferring would significantly impact perceived performance</li>
+<li>Component is referenced in multiple templates</li>
+<li>Using older Angular versions (&lt; v17)</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>Angular&#x27;s <code>@defer</code> blocks represent a significant evolution in how we approach performance optimization. By moving from an all-or-nothing approach to intelligent, trigger-based code loading, developers can create applications that feel faster and more responsive.</p>
+<p>The beauty of <code>@defer</code> lies in its simplicity – a single declarative syntax handles code splitting, prefetching, state management, and error handling. Whether you&#x27;re deferring analytics charts, recommendation engines, or premium features, <code>@defer</code> gives you the tools to optimize your bundle size and improve the user experience.</p>
+<p>As you build your next Angular application, think strategically about which components can be deferred. Your users will appreciate the faster load times, and your Core Web Vitals scores will thank you.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/devendramilmile121/angular-defer-demo" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a> - Full source code with all examples</li>
+<li><a href="https://angular.dev/guide/defer" target="_blank" rel="noopener noreferrer">Angular Deferrable Views Documentation</a></li>
+<li><a href="https://angular.dev/guide/bundling-code-splitting" target="_blank" rel="noopener noreferrer">Bundle Analysis Best Practices</a></li>
+<li><a href="https://web.dev/vitals/" target="_blank" rel="noopener noreferrer">Core Web Vitals Guide</a></li>
+<li><a href="https://angular.dev/guide/performance-best-practices" target="_blank" rel="noopener noreferrer">Angular Performance Optimization</a></li>
+</ul>
+<hr/>
+<p><em>Have you used @defer blocks in your Angular applications? Share your performance improvements and innovative trigger strategies in the comments below!</em></p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>

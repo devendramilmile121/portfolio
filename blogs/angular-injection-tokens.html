@@ -1,0 +1,1175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Angular Injection Tokens: Dependency Injection with Custom Tokens — Devendra Milmile</title>
+    <meta name="title" content="Angular Injection Tokens: Dependency Injection with Custom Tokens — Devendra Milmile" />
+    <meta name="description" content="How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content="Angular Injection Tokens: Dependency Injection with Custom Tokens — Devendra Milmile" />
+    <meta property="og:description" content="How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/angular-injection-tokens" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Angular Injection Tokens: Dependency Injection with Custom Tokens — Devendra Milmile" />
+    <meta name="twitter:description" content="How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/angular-injection-tokens" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/angular-injection-tokens" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Angular Injection Tokens: Dependency Injection with Custom Tokens","description":"How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled.","datePublished":"2026-04-02","dateModified":"2026-04-02","keywords":"Angular, Dependency Injection, TypeScript, Architecture, Design Patterns, Advanced","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/angular-injection-tokens"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2026-04-02">2 April 2026</time><span aria-hidden="true"> · </span>17<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">Angular Injection Tokens: Dependency Injection with Custom Tokens</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled.</p><p class="mt-6 font-mono text-xs text-muted-foreground">Angular / Dependency Injection / TypeScript / Architecture / Design Patterns / Advanced</p></header><div class="article mt-10"><p>Dependency injection is one of Angular&#x27;s most powerful features, yet many developers underutilize it. While injecting services through constructors feels natural, there&#x27;s a deeper layer that transforms how you architect applications: <strong>Injection Tokens</strong>.</p>
+<p>If you&#x27;ve ever wondered how to inject configuration objects, feature flags, or non-class dependencies, wondered how Angular magically provides <code>DOCUMENT</code> or <code>LOCALE_ID</code> without explicit class definitions, or hit a wall trying to inject primitive values—this guide reveals the elegant solution.</p>
+<p>By mastering Injection Tokens, you&#x27;ll write more flexible, testable, and maintainable code. Your future self will thank you.</p>
+<h2 id="what-are-dependency-injection-and-injection-tokens">What Are Dependency Injection and Injection Tokens?</h2>
+<p>Before diving into tokens, let&#x27;s establish the foundation.</p>
+<p><strong>Dependency Injection</strong> is a design pattern that decouples components from their dependencies. Instead of a component creating what it needs, the Angular injector provides it. This creates loose coupling, easier testing, and flexible architecture.</p>
+<p><strong>Injection Tokens</strong> are the mechanism that makes this magic work. According to the official Angular glossary:</p>
+<blockquote>
+<p>&quot;A lookup token associated with a dependency provider, for use with the dependency injection system.&quot;</p>
+</blockquote>
+<p>Think of it this way: imagine a cafe where customers order meals. The injector is the waiter who knows exactly what each customer wants based on their order (token) and has a recipe (provider) for preparing it.</p>
+<h3 id="the-cafe-metaphor">The Cafe Metaphor</h3>
+<p>Let&#x27;s establish our mental model:</p>
+<ul>
+<li><strong>Customers</strong> = Components that need dependencies</li>
+<li><strong>Orders</strong> = Injection tokens</li>
+<li><strong>Waiter</strong> = Angular&#x27;s injector</li>
+<li><strong>Recipes</strong> = Providers that define how to create dependencies</li>
+<li><strong>Meals</strong> = The actual dependency instances</li>
+</ul>
+<p>When a customer (component) orders something, the waiter (injector) checks the order token, looks up the recipe (provider), prepares the meal (instantiates the dependency), and serves it.</p>
+<h2 id="why-do-we-need-injection-tokens">Why Do We Need Injection Tokens?</h2>
+<h3 id="the-problem-with-class-only-dependencies">The Problem with Class-Only Dependencies</h3>
+<p>In many cases, class tokens work perfectly:</p>
+<pre><code class="language-typescript">constructor(private coffeeService: CoffeeService) {}
+</code></pre>
+<p>The <code>CoffeeService</code> class serves as both the token and the provider. Simple, elegant.</p>
+<p>But what happens when you need to inject something that isn&#x27;t a class?</p>
+<pre><code class="language-typescript">// ❌ What token do we use for a string?
+constructor(private appName: string) {}
+
+// ❌ How do we differentiate between multiple strings?
+constructor(private appName: string, private version: string) {}
+
+// ❌ What about configuration objects?
+constructor(private config: { apiUrl: string; timeout: number }) {}
+</code></pre>
+<p>This is where <strong>Injection Tokens</strong> solve the problem. They provide explicit, semantic tokens for any type of dependency.</p>
+<h2 id="key-concepts-explained">Key Concepts Explained</h2>
+<h3 id="1-understanding-the-injector-hierarchy">1. Understanding the Injector Hierarchy</h3>
+<p>Angular&#x27;s dependency injection system operates in a hierarchy. Each component has its own injector context, creating a tree structure from root to leaf components.</p>
+<pre><code>Root Injector (Application Level)
+├── Module A Injector
+│   ├── Component 1
+│   └── Component 2
+├── Module B Injector
+│   └── Component 3
+└── Lazy Loaded Module Injector
+    └── Component 4
+</code></pre>
+<p>When a component requests a dependency, Angular searches up the injector hierarchy:</p>
+<ol>
+<li>Check the component&#x27;s own providers</li>
+<li>Check the parent component&#x27;s providers</li>
+<li>Continue up to module providers</li>
+<li>Reach the root injector</li>
+</ol>
+<p>This hierarchical approach enables powerful patterns like feature-specific configurations and scope-limited overrides.</p>
+<h3 id="2-class-tokens-vs-injection-tokens">2. Class Tokens vs. Injection Tokens</h3>
+<p><strong>Class Tokens</strong> use the class itself as the token:</p>
+<pre><code class="language-typescript">providers: [CoffeeService]
+
+// Equivalent to:
+providers: [{ provide: CoffeeService, useClass: CoffeeService }]
+
+// Inject with:
+constructor(private coffee: CoffeeService) {}
+</code></pre>
+<p><strong>Injection Tokens</strong> are explicit token objects created for any dependency:</p>
+<pre><code class="language-typescript">const COFFEE_SERVICE = new InjectionToken&lt;CoffeeService&gt;(&#x27;coffee-service&#x27;);
+
+providers: [{ provide: COFFEE_SERVICE, useClass: CoffeeService }]
+
+// Inject with:
+constructor(@Inject(COFFEE_SERVICE) private coffee: CoffeeService) {}
+</code></pre>
+<h3 id="3-types-of-injection-tokens">3. Types of Injection Tokens</h3>
+<p>Angular provides <code>InjectionToken</code> for creating custom tokens, but also supports different provider strategies:</p>
+<ul>
+<li><strong>useClass</strong> - Provide an instance of the specified class</li>
+<li><strong>useValue</strong> - Provide a constant value</li>
+<li><strong>useFactory</strong> - Provide using a factory function</li>
+<li><strong>useExisting</strong> - Use an existing token (aliasing)</li>
+</ul>
+<h2 id="getting-started-with-injection-tokens">Getting Started with Injection Tokens</h2>
+<h3 id="basic-syntax">Basic Syntax</h3>
+<p>Create an injection token with <code>InjectionToken</code>:</p>
+<pre><code class="language-typescript">import { InjectionToken } from &#x27;@angular/core&#x27;;
+
+export const API_URL = new InjectionToken&lt;string&gt;(&#x27;api-url&#x27;);
+</code></pre>
+<p>Provide it:</p>
+<pre><code class="language-typescript">providers: [
+  { provide: API_URL, useValue: &#x27;https://api.example.com&#x27; }
+]
+</code></pre>
+<p>Inject it:</p>
+<pre><code class="language-typescript">import { Inject } from &#x27;@angular/core&#x27;;
+
+constructor(@Inject(API_URL) private apiUrl: string) {}
+</code></pre>
+<p>That&#x27;s it! You&#x27;ve mastered the basics. Now let&#x27;s explore practical applications.</p>
+<h2 id="building-a-real-world-application-configuration-system">Building a Real-World Application Configuration System</h2>
+<p>Let&#x27;s build a comprehensive example: a multi-tenant SaaS dashboard with environment-specific configuration, feature toggles, and dynamic API endpoints—all managed through Injection Tokens.</p>
+<blockquote>
+<p>💻 <strong><a href="https://github.com/devendramilmile121/angular-injection-tokens-demo" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a></strong> - Clone and run the full application with all the code from this tutorial!</p>
+</blockquote>
+<h3 id="step-1-define-your-configuration-tokens">Step 1: Define Your Configuration Tokens</h3>
+<p>Create a configuration module that defines all your application tokens:</p>
+<pre><code class="language-typescript">// src/app/config/app-config.token.ts
+import { InjectionToken } from &#x27;@angular/core&#x27;;
+
+/**
+ * Application-wide configuration tokens
+ */
+
+export interface AppConfig {
+  appName: string;
+  appVersion: string;
+  apiUrl: string;
+  apiTimeout: number;
+  enableLogging: boolean;
+}
+
+export const APP_CONFIG = new InjectionToken&lt;AppConfig&gt;(&#x27;app-config&#x27;);
+
+export interface FeatureFlags {
+  enableAnalytics: boolean;
+  enableDarkMode: boolean;
+  enableBeta: boolean;
+  enableExportCSV: boolean;
+  enableAdvancedSearch: boolean;
+}
+
+export const FEATURE_FLAGS = new InjectionToken&lt;FeatureFlags&gt;(&#x27;feature-flags&#x27;);
+
+export interface TenantConfig {
+  tenantId: string;
+  tenantName: string;
+  brandColor: string;
+  logo: string;
+  customDomain?: string;
+}
+
+export const TENANT_CONFIG = new InjectionToken&lt;TenantConfig&gt;(&#x27;tenant-config&#x27;);
+
+export const API_INTERCEPTOR_CONFIG = new InjectionToken&lt;{
+  retryAttempts: number;
+  retryDelay: number;
+}&gt;(&#x27;api-interceptor-config&#x27;);
+
+export const CACHE_CONFIG = new InjectionToken&lt;{
+  enabled: boolean;
+  ttl: number;
+  maxSize: number;
+}&gt;(&#x27;cache-config&#x27;);
+</code></pre>
+<h3 id="step-2-create-environment-specific-configurations">Step 2: Create Environment-Specific Configurations</h3>
+<p>Define different configurations for development, staging, and production:</p>
+<pre><code class="language-typescript">// src/app/config/app-config.dev.ts
+import { AppConfig, FeatureFlags, TenantConfig } from &#x27;./app-config.token&#x27;;
+
+export const DEV_CONFIG: AppConfig = {
+  appName: &#x27;Dashboard Pro&#x27;,
+  appVersion: &#x27;1.0.0-dev&#x27;,
+  apiUrl: &#x27;http://localhost:3000/api&#x27;,
+  apiTimeout: 30000,
+  enableLogging: true,
+};
+
+export const DEV_FEATURES: FeatureFlags = {
+  enableAnalytics: true,
+  enableDarkMode: true,
+  enableBeta: true,
+  enableExportCSV: true,
+  enableAdvancedSearch: true,
+};
+
+export const DEV_TENANT: TenantConfig = {
+  tenantId: &#x27;dev-tenant-001&#x27;,
+  tenantName: &#x27;Development Tenant&#x27;,
+  brandColor: &#x27;#667eea&#x27;,
+  logo: &#x27;/assets/logo-dev.png&#x27;,
+  customDomain: &#x27;dev.example.com&#x27;,
+};
+</code></pre>
+<pre><code class="language-typescript">// src/app/config/app-config.prod.ts
+import { AppConfig, FeatureFlags, TenantConfig } from &#x27;./app-config.token&#x27;;
+
+export const PROD_CONFIG: AppConfig = {
+  appName: &#x27;Dashboard Pro&#x27;,
+  appVersion: &#x27;1.0.0&#x27;,
+  apiUrl: &#x27;https://api.example.com&#x27;,
+  apiTimeout: 15000,
+  enableLogging: false,
+};
+
+export const PROD_FEATURES: FeatureFlags = {
+  enableAnalytics: true,
+  enableDarkMode: true,
+  enableBeta: false,
+  enableExportCSV: true,
+  enableAdvancedSearch: false,
+};
+
+export const PROD_TENANT: TenantConfig = {
+  tenantId: &#x27;prod-tenant-001&#x27;,
+  tenantName: &#x27;Production Tenant&#x27;,
+  brandColor: &#x27;#667eea&#x27;,
+  logo: &#x27;/assets/logo-prod.png&#x27;,
+};
+</code></pre>
+<h3 id="step-3-create-a-configuration-service">Step 3: Create a Configuration Service</h3>
+<p>Build a service that manages token injection and provides configuration state:</p>
+<pre><code class="language-typescript">// src/app/config/app-config.service.ts
+import { Injectable, signal, Inject } from &#x27;@angular/core&#x27;;
+import {
+  APP_CONFIG,
+  FEATURE_FLAGS,
+  TENANT_CONFIG,
+  AppConfig,
+  FeatureFlags,
+  TenantConfig,
+} from &#x27;./app-config.token&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class AppConfigService {
+  // Make configurations reactive using signals
+  private appConfig = signal&lt;AppConfig | null&gt;(null);
+  private featureFlags = signal&lt;FeatureFlags | null&gt;(null);
+  private tenantConfig = signal&lt;TenantConfig | null&gt;(null);
+
+  appConfig$ = this.appConfig.asReadonly();
+  featureFlags$ = this.featureFlags.asReadonly();
+  tenantConfig$ = this.tenantConfig.asReadonly();
+
+  constructor(
+    @Inject(APP_CONFIG) appCfg: AppConfig,
+    @Inject(FEATURE_FLAGS) flags: FeatureFlags,
+    @Inject(TENANT_CONFIG) tenant: TenantConfig
+  ) {
+    this.appConfig.set(appCfg);
+    this.featureFlags.set(flags);
+    this.tenantConfig.set(tenant);
+  }
+
+  get config(): AppConfig | null {
+    return this.appConfig();
+  }
+
+  get features(): FeatureFlags | null {
+    return this.featureFlags();
+  }
+
+  get tenant(): TenantConfig | null {
+    return this.tenantConfig();
+  }
+
+  isFeatureEnabled(feature: keyof FeatureFlags): boolean {
+    const flags = this.featureFlags();
+    return flags ? flags[feature] : false;
+  }
+
+  updateTenantConfig(tenant: Partial&lt;TenantConfig&gt;): void {
+    const current = this.tenantConfig();
+    if (current) {
+      this.tenantConfig.set({ ...current, ...tenant });
+    }
+  }
+}
+</code></pre>
+<h3 id="step-4-set-up-application-providers">Step 4: Set Up Application Providers</h3>
+<p>Configure your application with environment-specific tokens:</p>
+<pre><code class="language-typescript">// src/app/app.config.ts
+import { ApplicationConfig } from &#x27;@angular/core&#x27;;
+import { provideRouter } from &#x27;@angular/router&#x27;;
+import { provideAnimations } from &#x27;@angular/platform-browser/animations&#x27;;
+import {
+  APP_CONFIG,
+  FEATURE_FLAGS,
+  TENANT_CONFIG,
+  API_INTERCEPTOR_CONFIG,
+  CACHE_CONFIG,
+} from &#x27;./config/app-config.token&#x27;;
+import { DEV_CONFIG, DEV_FEATURES, DEV_TENANT } from &#x27;./config/app-config.dev&#x27;;
+import { PROD_CONFIG, PROD_FEATURES, PROD_TENANT } from &#x27;./config/app-config.prod&#x27;;
+import { routes } from &#x27;./app.routes&#x27;;
+
+// Determine environment
+const isProduction = process.env[&#x27;NG_APP_ENV&#x27;] === &#x27;production&#x27;;
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(routes),
+    provideAnimations(),
+
+    // Inject environment-specific configuration
+    {
+      provide: APP_CONFIG,
+      useValue: isProduction ? PROD_CONFIG : DEV_CONFIG,
+    },
+    {
+      provide: FEATURE_FLAGS,
+      useValue: isProduction ? PROD_FEATURES : DEV_FEATURES,
+    },
+    {
+      provide: TENANT_CONFIG,
+      useValue: isProduction ? PROD_TENANT : DEV_TENANT,
+    },
+
+    // API and caching configuration
+    {
+      provide: API_INTERCEPTOR_CONFIG,
+      useValue: {
+        retryAttempts: isProduction ? 3 : 1,
+        retryDelay: 1000,
+      },
+    },
+    {
+      provide: CACHE_CONFIG,
+      useValue: {
+        enabled: isProduction,
+        ttl: 3600000, // 1 hour
+        maxSize: 100,
+      },
+    },
+  ],
+};
+</code></pre>
+<h3 id="step-5-create-components-that-use-configuration">Step 5: Create Components That Use Configuration</h3>
+<p>Build components that consume the injected configuration:</p>
+<pre><code class="language-typescript">// src/app/dashboard/dashboard.component.ts
+import { Component, computed, signal } from &#x27;@angular/core&#x27;;
+import { CommonModule } from &#x27;@angular/common&#x27;;
+import { AppConfigService } from &#x27;../config/app-config.service&#x27;;
+
+@Component({
+  selector: &#x27;app-dashboard&#x27;,
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    &lt;div class=&quot;dashboard-container&quot; [style.--brand-color]=&quot;brandColor()&quot;&gt;
+      &lt;header class=&quot;dashboard-header&quot;&gt;
+        &lt;div class=&quot;header-content&quot;&gt;
+          &lt;img [src]=&quot;logoUrl()&quot; [alt]=&quot;tenantName()&quot; class=&quot;logo&quot; /&gt;
+          &lt;h1&gt;{{ appName() }}&lt;/h1&gt;
+          &lt;span class=&quot;version&quot;&gt;v{{ appVersion() }}&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;tenant-badge&quot;&gt;{{ tenantName() }}&lt;/div&gt;
+      &lt;/header&gt;
+
+      &lt;nav class=&quot;feature-toggles&quot;&gt;
+        &lt;h3&gt;Available Features&lt;/h3&gt;
+        &lt;div class=&quot;feature-list&quot;&gt;
+          @for (feature of availableFeatures(); track feature.name) {
+            &lt;div class=&quot;feature-item&quot; [class.disabled]=&quot;!feature.enabled&quot;&gt;
+              &lt;span class=&quot;feature-status&quot;&gt;
+                {{ feature.enabled ? &#x27;✓&#x27; : &#x27;✗&#x27; }}
+              &lt;/span&gt;
+              &lt;span&gt;{{ feature.label }}&lt;/span&gt;
+            &lt;/div&gt;
+          }
+        &lt;/div&gt;
+      &lt;/nav&gt;
+
+      &lt;main class=&quot;content-area&quot;&gt;
+        &lt;section class=&quot;config-display&quot;&gt;
+          &lt;h2&gt;Application Configuration&lt;/h2&gt;
+          &lt;div class=&quot;config-grid&quot;&gt;
+            &lt;div class=&quot;config-item&quot;&gt;
+              &lt;label&gt;API URL&lt;/label&gt;
+              &lt;code&gt;{{ apiUrl() }}&lt;/code&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;config-item&quot;&gt;
+              &lt;label&gt;API Timeout&lt;/label&gt;
+              &lt;code&gt;{{ apiTimeout() }}ms&lt;/code&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;config-item&quot;&gt;
+              &lt;label&gt;Logging&lt;/label&gt;
+              &lt;code&gt;{{ loggingEnabled() ? &#x27;Enabled&#x27; : &#x27;Disabled&#x27; }}&lt;/code&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;config-item&quot;&gt;
+              &lt;label&gt;Environment&lt;/label&gt;
+              &lt;code&gt;{{ environment() }}&lt;/code&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/section&gt;
+
+        &lt;!-- Conditional Features --&gt;
+        @if (isAnalyticsEnabled()) {
+          &lt;section class=&quot;feature-section&quot;&gt;
+            &lt;h2&gt;📊 Analytics Dashboard&lt;/h2&gt;
+            &lt;p&gt;This section only appears when analytics feature is enabled.&lt;/p&gt;
+          &lt;/section&gt;
+        }
+
+        @if (isDarkModeEnabled()) {
+          &lt;section class=&quot;feature-section&quot;&gt;
+            &lt;h2&gt;🌙 Dark Mode Settings&lt;/h2&gt;
+            &lt;button (click)=&quot;toggleDarkMode()&quot;&gt;
+              Toggle Dark Mode
+            &lt;/button&gt;
+          &lt;/section&gt;
+        }
+
+        @if (isExportEnabled()) {
+          &lt;section class=&quot;feature-section&quot;&gt;
+            &lt;h2&gt;📥 Export Data&lt;/h2&gt;
+            &lt;button (click)=&quot;exportAsCSV()&quot;&gt;
+              Export as CSV
+            &lt;/button&gt;
+          &lt;/section&gt;
+        }
+
+        @if (isAdvancedSearchEnabled()) {
+          &lt;section class=&quot;feature-section&quot;&gt;
+            &lt;h2&gt;🔍 Advanced Search&lt;/h2&gt;
+            &lt;input
+              type=&quot;text&quot;
+              placeholder=&quot;Search with advanced filters...&quot;
+              class=&quot;advanced-search&quot;
+            /&gt;
+          &lt;/section&gt;
+        }
+      &lt;/main&gt;
+    &lt;/div&gt;
+  `,
+  styleUrl: &#x27;./dashboard.component.css&#x27;,
+})
+export class DashboardComponent {
+  private configService = AppConfigService;
+
+  constructor(private appConfig: AppConfigService) {}
+
+  // Computed signals for ease of use
+  appName = computed(() =&gt; this.appConfig.config?.appName ?? &#x27;Dashboard Pro&#x27;);
+  appVersion = computed(() =&gt; this.appConfig.config?.appVersion ?? &#x27;1.0.0&#x27;);
+  apiUrl = computed(() =&gt; this.appConfig.config?.apiUrl ?? &#x27;&#x27;);
+  apiTimeout = computed(() =&gt; this.appConfig.config?.apiTimeout ?? 30000);
+  loggingEnabled = computed(() =&gt; this.appConfig.config?.enableLogging ?? false);
+  tenantName = computed(() =&gt; this.appConfig.tenant?.tenantName ?? &#x27;&#x27;);
+  logoUrl = computed(() =&gt; this.appConfig.tenant?.logo ?? &#x27;&#x27;);
+  brandColor = computed(() =&gt; this.appConfig.tenant?.brandColor ?? &#x27;#667eea&#x27;);
+  environment = computed(() =&gt;
+    this.apiUrl().includes(&#x27;localhost&#x27;) ? &#x27;Development&#x27; : &#x27;Production&#x27;
+  );
+
+  // Feature flags
+  isAnalyticsEnabled = computed(() =&gt;
+    this.appConfig.isFeatureEnabled(&#x27;enableAnalytics&#x27;)
+  );
+  isDarkModeEnabled = computed(() =&gt;
+    this.appConfig.isFeatureEnabled(&#x27;enableDarkMode&#x27;)
+  );
+  isExportEnabled = computed(() =&gt;
+    this.appConfig.isFeatureEnabled(&#x27;enableExportCSV&#x27;)
+  );
+  isAdvancedSearchEnabled = computed(() =&gt;
+    this.appConfig.isFeatureEnabled(&#x27;enableAdvancedSearch&#x27;)
+  );
+
+  availableFeatures = computed(() =&gt; [
+    {
+      name: &#x27;analytics&#x27;,
+      label: &#x27;Analytics Dashboard&#x27;,
+      enabled: this.isAnalyticsEnabled(),
+    },
+    {
+      name: &#x27;darkMode&#x27;,
+      label: &#x27;Dark Mode&#x27;,
+      enabled: this.isDarkModeEnabled(),
+    },
+    {
+      name: &#x27;export&#x27;,
+      label: &#x27;CSV Export&#x27;,
+      enabled: this.isExportEnabled(),
+    },
+    {
+      name: &#x27;advancedSearch&#x27;,
+      label: &#x27;Advanced Search&#x27;,
+      enabled: this.isAdvancedSearchEnabled(),
+    },
+  ]);
+
+  darkMode = signal(false);
+
+  toggleDarkMode(): void {
+    this.darkMode.set(!this.darkMode());
+  }
+
+  exportAsCSV(): void {
+    console.log(&#x27;Exporting data as CSV...&#x27;);
+  }
+}
+</code></pre>
+<h3 id="step-6-add-professional-styling">Step 6: Add Professional Styling</h3>
+<p>Create CSS for a polished dashboard:</p>
+<pre><code class="language-css">/* src/app/dashboard/dashboard.component.css */
+
+:host {
+  --brand-color: #667eea;
+}
+
+.dashboard-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.dashboard-header {
+  background: linear-gradient(135deg, var(--brand-color) 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.logo {
+  height: 50px;
+  width: auto;
+}
+
+.dashboard-header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+.version {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.tenant-badge {
+  background: rgba(255, 255, 255, 0.3);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.feature-toggles {
+  background: white;
+  padding: 2rem;
+  margin: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.feature-toggles h3 {
+  margin-top: 0;
+  color: #1a202c;
+  font-size: 1.1rem;
+}
+
+.feature-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: #f7fafc;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #2d3748;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+  background: #edf2f7;
+  transform: translateX(4px);
+}
+
+.feature-item.disabled {
+  opacity: 0.6;
+  color: #a0aec0;
+}
+
+.feature-status {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.feature-item:not(.disabled) .feature-status {
+  color: #48bb78;
+}
+
+.feature-item.disabled .feature-status {
+  color: #cbd5e0;
+}
+
+.content-area {
+  padding: 0 1.5rem 2rem;
+}
+
+.config-display {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.config-display h2 {
+  color: #1a202c;
+  font-size: 1.5rem;
+  margin-top: 0;
+}
+
+.config-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.config-item {
+  padding: 1rem;
+  background: #f7fafc;
+  border-radius: 6px;
+  border-left: 4px solid var(--brand-color);
+}
+
+.config-item label {
+  display: block;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.config-item code {
+  display: block;
+  background: white;
+  padding: 0.75rem;
+  border-radius: 4px;
+  color: var(--brand-color);
+  font-family: &#x27;Courier New&#x27;, monospace;
+  word-break: break-all;
+}
+
+.feature-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.feature-section h2 {
+  color: #1a202c;
+  margin-top: 0;
+}
+
+.feature-section p {
+  color: #718096;
+  margin-bottom: 1rem;
+}
+
+.feature-section button {
+  padding: 0.75rem 1.5rem;
+  background-color: var(--brand-color);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.feature-section button:hover {
+  opacity: 0.9;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.advanced-search {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.advanced-search:focus {
+  outline: none;
+  border-color: var(--brand-color);
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .header-content {
+    justify-content: center;
+  }
+
+  .config-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .feature-list {
+    grid-template-columns: 1fr;
+  }
+}
+</code></pre>
+<h3 id="step-7-advanced-pattern-factory-functions">Step 7: Advanced Pattern - Factory Functions</h3>
+<p>For more complex dependency creation, use factory functions:</p>
+<pre><code class="language-typescript">// src/app/config/config-factory.ts
+import { InjectionToken } from &#x27;@angular/core&#x27;;
+import { AppConfig, FeatureFlags } from &#x27;./app-config.token&#x27;;
+
+export const CONFIG_FACTORY = new InjectionToken&lt;() =&gt; AppConfig&gt;(&#x27;config-factory&#x27;);
+
+export function createConfigFactory(environment: &#x27;dev&#x27; | &#x27;prod&#x27;): () =&gt; AppConfig {
+  return () =&gt; {
+    if (environment === &#x27;prod&#x27;) {
+      return {
+        appName: &#x27;Dashboard Pro&#x27;,
+        appVersion: &#x27;1.0.0&#x27;,
+        apiUrl: &#x27;https://api.example.com&#x27;,
+        apiTimeout: 15000,
+        enableLogging: false,
+      };
+    }
+
+    return {
+      appName: &#x27;Dashboard Pro&#x27;,
+      appVersion: &#x27;1.0.0-dev&#x27;,
+      apiUrl: &#x27;http://localhost:3000/api&#x27;,
+      apiTimeout: 30000,
+      enableLogging: true,
+    };
+  };
+}
+
+// Usage in app config:
+{
+  provide: CONFIG_FACTORY,
+  useValue: createConfigFactory(
+    process.env[&#x27;NG_APP_ENV&#x27;] === &#x27;production&#x27; ? &#x27;prod&#x27; : &#x27;dev&#x27;
+  ),
+}
+</code></pre>
+<h3 id="step-8-using-tokens-in-services">Step 8: Using Tokens in Services</h3>
+<p>Services can also consume injection tokens:</p>
+<pre><code class="language-typescript">// src/app/services/api.service.ts
+import { Injectable, Inject } from &#x27;@angular/core&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { APP_CONFIG, API_INTERCEPTOR_CONFIG } from &#x27;../config/app-config.token&#x27;;
+
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class ApiService {
+  constructor(
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private config: any,
+    @Inject(API_INTERCEPTOR_CONFIG) private interceptorConfig: any
+  ) {}
+
+  fetchData&lt;T&gt;(endpoint: string): Promise&lt;T&gt; {
+    const url = `${this.config.apiUrl}/${endpoint}`;
+    return this.http.get&lt;T&gt;(url).toPromise().then(data =&gt; data as T);
+  }
+
+  get retryAttempts(): number {
+    return this.interceptorConfig.retryAttempts;
+  }
+}
+</code></pre>
+<h2 id="advanced-injection-patterns">Advanced Injection Patterns</h2>
+<h3 id="1-multi-value-tokens">1. Multi-Value Tokens</h3>
+<p>Provide multiple implementations of the same token:</p>
+<pre><code class="language-typescript">const PLUGIN = new InjectionToken&lt;Plugin&gt;(&#x27;plugin&#x27;);
+
+providers: [
+  { provide: PLUGIN, useValue: new AnalyticsPlugin(), multi: true },
+  { provide: PLUGIN, useValue: new LoggingPlugin(), multi: true },
+  { provide: PLUGIN, useValue: new ErrorTrackingPlugin(), multi: true },
+]
+
+// Inject all plugins:
+constructor(@Inject(PLUGIN) private plugins: Plugin[]) {}
+</code></pre>
+<h3 id="2-token-aliasing">2. Token Aliasing</h3>
+<p>Reference one token using another:</p>
+<pre><code class="language-typescript">const OLD_API_URL = new InjectionToken&lt;string&gt;(&#x27;old-api-url&#x27;);
+const API_URL = new InjectionToken&lt;string&gt;(&#x27;api-url&#x27;);
+
+providers: [
+  { provide: API_URL, useValue: &#x27;https://api.example.com&#x27; },
+  { provide: OLD_API_URL, useExisting: API_URL }, // Alias
+]
+</code></pre>
+<h3 id="3-conditional-providers">3. Conditional Providers</h3>
+<p>Use factory functions with conditions:</p>
+<pre><code class="language-typescript">const LOGGER = new InjectionToken&lt;Logger&gt;(&#x27;logger&#x27;);
+
+providers: [
+  {
+    provide: LOGGER,
+    useFactory: (config: AppConfig) =&gt; {
+      if (config.enableLogging) {
+        return new ConsoleLogger();
+      }
+      return new NoOpLogger();
+    },
+    deps: [APP_CONFIG],
+  },
+]
+</code></pre>
+<h3 id="4-optional-dependencies">4. Optional Dependencies</h3>
+<p>Mark dependencies as optional with <code>@Optional()</code>:</p>
+<pre><code class="language-typescript">import { Optional, Inject } from &#x27;@angular/core&#x27;;
+
+constructor(
+  @Optional() @Inject(ANALYTICS_TOKEN) private analytics?: AnalyticsService
+) {
+  if (this.analytics) {
+    this.analytics.trackEvent(&#x27;component-initialized&#x27;);
+  }
+}
+</code></pre>
+<h2 id="best-practices">Best Practices</h2>
+<h3 id="-dos">✅ Do&#x27;s</h3>
+<p><strong>1. Use Semantic Token Names</strong></p>
+<pre><code class="language-typescript">// ✅ Good - Clear intent
+export const API_BASE_URL = new InjectionToken&lt;string&gt;(&#x27;api-base-url&#x27;);
+export const API_TIMEOUT = new InjectionToken&lt;number&gt;(&#x27;api-timeout&#x27;);
+export const FEATURE_FLAGS = new InjectionToken&lt;FeatureFlags&gt;(&#x27;feature-flags&#x27;);
+
+// ❌ Bad - Unclear purpose
+export const CONFIG = new InjectionToken&lt;any&gt;(&#x27;config&#x27;);
+export const DATA = new InjectionToken&lt;any&gt;(&#x27;data&#x27;);
+</code></pre>
+<p><strong>2. Type Your Tokens Generically</strong></p>
+<pre><code class="language-typescript">// ✅ Good - Type-safe
+export const USER_PREFERENCES = new InjectionToken&lt;UserPreferences&gt;(&#x27;user-prefs&#x27;);
+
+// ❌ Bad - Loses type information
+export const USER_PREFERENCES = new InjectionToken(&#x27;user-prefs&#x27;);
+</code></pre>
+<p><strong>3. Document Complex Tokens</strong></p>
+<pre><code class="language-typescript">/**
+ * Feature flags token for toggling experimental features.
+ * Used across the application to conditionally enable/disable functionality.
+ *
+ * @example
+ * constructor(@Inject(FEATURE_FLAGS) private flags: FeatureFlags) {}
+ */
+export const FEATURE_FLAGS = new InjectionToken&lt;FeatureFlags&gt;(&#x27;feature-flags&#x27;);
+</code></pre>
+<p><strong>4. Group Related Tokens</strong></p>
+<pre><code class="language-typescript">// ✅ Good - Organized in a module
+export namespace ApiConfig {
+  export const BASE_URL = new InjectionToken&lt;string&gt;(&#x27;api-base-url&#x27;);
+  export const TIMEOUT = new InjectionToken&lt;number&gt;(&#x27;api-timeout&#x27;);
+  export const RETRY_ATTEMPTS = new InjectionToken&lt;number&gt;(&#x27;api-retry-attempts&#x27;);
+}
+</code></pre>
+<h3 id="-donts">❌ Don&#x27;ts</h3>
+<p><strong>1. Don&#x27;t Mix Class and Injection Tokens</strong></p>
+<pre><code class="language-typescript">// ❌ Bad - Inconsistent patterns
+providers: [
+  CoffeeService,
+  { provide: TEA_SERVICE, useClass: TeaService }
+]
+</code></pre>
+<p><strong>2. Don&#x27;t Create Tokens Without Purpose</strong></p>
+<pre><code class="language-typescript">// ❌ Bad - Unnecessary indirection
+export const STRING_VALUE = new InjectionToken&lt;string&gt;(&#x27;string-value&#x27;);
+providers: [{ provide: STRING_VALUE, useValue: &#x27;hello&#x27; }]
+
+// Use direct class injection or values when possible
+</code></pre>
+<p><strong>3. Don&#x27;t Inject Deeply Nested Objects</strong></p>
+<pre><code class="language-typescript">// ❌ Bad - Brittle, hard to test
+export const ENTIRE_CONFIG = new InjectionToken&lt;any&gt;(&#x27;config&#x27;);
+
+// ✅ Good - Granular tokens
+export const API_URL = new InjectionToken&lt;string&gt;(&#x27;api-url&#x27;);
+export const API_TIMEOUT = new InjectionToken&lt;number&gt;(&#x27;api-timeout&#x27;);
+</code></pre>
+<p><strong>4. Don&#x27;t Forget @Optional() When Appropriate</strong></p>
+<pre><code class="language-typescript">// ❌ Bad - Crashes if token not provided
+constructor(@Inject(ANALYTICS) private analytics: Analytics) {}
+
+// ✅ Good - Gracefully handles missing dependency
+constructor(@Optional() @Inject(ANALYTICS) private analytics?: Analytics) {}
+</code></pre>
+<h2 id="testing-with-injection-tokens">Testing with Injection Tokens</h2>
+<p>Tokens make testing exceptionally easy by allowing easy mock replacement:</p>
+<pre><code class="language-typescript">// src/app/dashboard.component.spec.ts
+import { TestBed } from &#x27;@angular/core/testing&#x27;;
+import { DashboardComponent } from &#x27;./dashboard.component&#x27;;
+import { APP_CONFIG, FEATURE_FLAGS, TENANT_CONFIG } from &#x27;./config/app-config.token&#x27;;
+
+describe(&#x27;DashboardComponent&#x27;, () =&gt; {
+  let component: DashboardComponent;
+
+  beforeEach(async () =&gt; {
+    const mockConfig = {
+      appName: &#x27;Test App&#x27;,
+      appVersion: &#x27;1.0.0-test&#x27;,
+      apiUrl: &#x27;http://test-api.local&#x27;,
+      apiTimeout: 5000,
+      enableLogging: true,
+    };
+
+    const mockFeatures = {
+      enableAnalytics: true,
+      enableDarkMode: false,
+      enableBeta: true,
+      enableExportCSV: true,
+      enableAdvancedSearch: false,
+    };
+
+    const mockTenant = {
+      tenantId: &#x27;test-tenant&#x27;,
+      tenantName: &#x27;Test Tenant&#x27;,
+      brandColor: &#x27;#ff0000&#x27;,
+      logo: &#x27;/test-logo.png&#x27;,
+    };
+
+    TestBed.configureTestingModule({
+      imports: [DashboardComponent],
+      providers: [
+        { provide: APP_CONFIG, useValue: mockConfig },
+        { provide: FEATURE_FLAGS, useValue: mockFeatures },
+        { provide: TENANT_CONFIG, useValue: mockTenant },
+      ],
+    });
+
+    component = TestBed.createComponent(DashboardComponent).componentInstance;
+  });
+
+  it(&#x27;should display app name from config&#x27;, () =&gt; {
+    expect(component.appName()).toBe(&#x27;Test App&#x27;);
+  });
+
+  it(&#x27;should enable analytics feature when flag is true&#x27;, () =&gt; {
+    expect(component.isAnalyticsEnabled()).toBe(true);
+  });
+
+  it(&#x27;should disable advanced search when flag is false&#x27;, () =&gt; {
+    expect(component.isAdvancedSearchEnabled()).toBe(false);
+  });
+});
+</code></pre>
+<h2 id="when-to-use-injection-tokens">When to Use Injection Tokens</h2>
+<h3 id="-use-injection-tokens-when">✅ Use Injection Tokens When:</h3>
+<ul>
+<li><strong>Configuration Management</strong> - API URLs, timeouts, feature flags</li>
+<li><strong>Environment-Specific Values</strong> - Dev vs. prod settings</li>
+<li><strong>Primitive Values</strong> - Strings, numbers, booleans</li>
+<li><strong>Non-Class Objects</strong> - Configuration objects, maps, collections</li>
+<li><strong>Conditional Injection</strong> - Different implementations per environment</li>
+<li><strong>Multi-Value Dependencies</strong> - Multiple implementations of the same interface</li>
+<li><strong>Dynamic Values</strong> - Factory-generated dependencies</li>
+<li><strong>Scoped Dependencies</strong> - Module or component-level providers</li>
+</ul>
+<h3 id="-dont-use-injection-tokens-when">❌ Don&#x27;t Use Injection Tokens When:</h3>
+<ul>
+<li><strong>Simple Services</strong> - Use class injection directly</li>
+<li><strong>Always One Implementation</strong> - No benefit over class tokens</li>
+<li><strong>Primitive Values Without Configuration</strong> - Hardcode if truly static</li>
+<li><strong>Single Use Dependencies</strong> - Unnecessary abstraction layer</li>
+</ul>
+<h2 id="real-world-scenarios">Real-World Scenarios</h2>
+<h3 id="scenario-1-multi-tenant-saas">Scenario 1: Multi-Tenant SaaS</h3>
+<pre><code class="language-typescript">export const TENANT_STORAGE = new InjectionToken&lt;TenantStore&gt;(&#x27;tenant-storage&#x27;);
+
+providers: [
+  {
+    provide: TENANT_STORAGE,
+    useFactory: (auth: AuthService) =&gt; {
+      return new TenantStore(auth.currentTenant);
+    },
+    deps: [AuthService],
+  },
+]
+</code></pre>
+<h3 id="scenario-2-feature-flags-via-api">Scenario 2: Feature Flags via API</h3>
+<pre><code class="language-typescript">export const FEATURE_FLAGS = new InjectionToken&lt;Observable&lt;FeatureFlags&gt;&gt;(&#x27;feature-flags&#x27;);
+
+providers: [
+  {
+    provide: FEATURE_FLAGS,
+    useFactory: (http: HttpClient) =&gt; {
+      return http.get&lt;FeatureFlags&gt;(&#x27;/api/flags&#x27;).pipe(
+        shareReplay(1),
+        catchError(() =&gt; of(DEFAULT_FLAGS))
+      );
+    },
+    deps: [HttpClient],
+  },
+]
+</code></pre>
+<h3 id="scenario-3-plugin-system">Scenario 3: Plugin System</h3>
+<pre><code class="language-typescript">export const PLUGINS = new InjectionToken&lt;Plugin[]&gt;(&#x27;plugins&#x27;, {
+  factory: () =&gt; [],
+});
+
+providers: [
+  { provide: PLUGINS, useValue: new AnalyticsPlugin(), multi: true },
+  { provide: PLUGINS, useValue: new CrashReportingPlugin(), multi: true },
+]
+</code></pre>
+<h2 id="comparison-approaches-to-dependency-configuration">Comparison: Approaches to Dependency Configuration</h2>
+<div class="overflow-x-auto"><table><thead><tr><th>Approach</th><th>Use Case</th><th>Type Safety</th><th>Flexibility</th><th>Testing</th></tr></thead><tbody><tr><td>Class Injection</td><td>Services</td><td>✅ Excellent</td><td>Medium</td><td>✅ Easy</td></tr><tr><td>Injection Tokens</td><td>Configuration</td><td>✅ Excellent</td><td>✅ High</td><td>✅ Easy</td></tr><tr><td>Environment Variables</td><td>Env-specific</td><td>⚠️ Medium</td><td>Low</td><td>❌ Hard</td></tr><tr><td>Config Files</td><td>Static config</td><td>⚠️ Medium</td><td>Low</td><td>❌ Hard</td></tr><tr><td>Service Locator</td><td>Dynamic deps</td><td>❌ Poor</td><td>✅ High</td><td>❌ Hard</td></tr></tbody></table></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>Injection Tokens are Angular&#x27;s elegant solution to the &quot;what if the dependency isn&#x27;t a class?&quot; problem. They unlock powerful patterns for configuration management, feature toggling, multi-tenancy support, and more.</p>
+<p>By mastering Injection Tokens, you transform your Angular applications from rigid, tightly-coupled structures into flexible, maintainable architectures. You gain precise control over dependency injection, making testing trivial and configuration management painless.</p>
+<p>The cafe metaphor might seem whimsical, but it captures the essence: the injector is your waiter, tokens are your orders, and providers are your recipes. With this mental model and the patterns shown in this guide, you&#x27;re ready to architect sophisticated Angular applications with confidence.</p>
+<p>Your future self – and your team – will thank you for leveraging this powerful feature.</p>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/devendramilmile121/angular-injection-tokens-demo" target="_blank" rel="noopener noreferrer">Complete Working Example on GitHub</a> - Full source code with all examples</li>
+<li><a href="https://angular.dev/guide/dependency-injection" target="_blank" rel="noopener noreferrer">Angular Dependency Injection Guide</a></li>
+<li><a href="https://angular.dev/api/core/InjectionToken" target="_blank" rel="noopener noreferrer">Injection Token API Documentation</a></li>
+<li><a href="https://angular.dev/guide/creating-injectable-service" target="_blank" rel="noopener noreferrer">Advanced DI Patterns</a></li>
+<li><a href="https://angular.dev/guide/testing-services" target="_blank" rel="noopener noreferrer">Angular Testing with DI</a></li>
+<li><a href="https://angular.dev/guide/dependency-injection-providers" target="_blank" rel="noopener noreferrer">Multi-Provider Pattern</a></li>
+</ul>
+<hr/>
+<p><em>Have you implemented creative injection token patterns in your Angular applications? Share your use cases and innovative configurations in the comments below! What configuration challenge did tokens solve for you?</em></p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>

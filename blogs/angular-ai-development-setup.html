@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Character Encoding & Viewport -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Primary Meta Tags (SEO) -->
+    <title>Teaching AI Coding Assistants to Write Modern Angular — Devendra Milmile</title>
+    <meta name="title" content="Teaching AI Coding Assistants to Write Modern Angular — Devendra Milmile" />
+    <meta name="description" content="A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
+    <meta name="author" content="Devendra Milmile" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="7 days" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    
+    <!-- Open Graph Meta Tags (Social Media) -->
+    <meta property="og:title" content="Teaching AI Coding Assistants to Write Modern Angular — Devendra Milmile" />
+    <meta property="og:description" content="A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://devendramilmile.com/blogs/angular-ai-development-setup" />
+    <meta property="og:image" content="https://devendramilmile.com/og-image.png" />
+    <meta property="og:site_name" content="Devendra Milmile - Full Stack Developer" />
+    <meta property="og:locale" content="en_US" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Teaching AI Coding Assistants to Write Modern Angular — Devendra Milmile" />
+    <meta name="twitter:description" content="A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together." />
+    <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
+    <meta name="twitter:url" content="https://devendramilmile.com/blogs/angular-ai-development-setup" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://devendramilmile.com/blogs/angular-ai-development-setup" />
+    
+    <!-- Sitemap & Robots -->
+    <link rel="sitemap" href="https://devendramilmile.com/sitemap.xml" />
+    
+    <!-- Favicon & Icons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <!-- Additional SEO -->
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
+    <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
+    
+    <!-- JSON-LD Structured Data (Person + Professional Profile) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Devendra Milmile",
+      "jobTitle": "Full Stack Developer",
+      "email": "milmiledh@gmail.com",
+      "url": "https://devendramilmile.com",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Pune",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://github.com/devendramilmile121",
+        "https://linkedin.com/in/devendramilmile",
+        "https://www.npmjs.com/~devendramilmile"
+      ],
+      "image": "https://devendramilmile.com/profile-image.jpg",
+      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
+      "worksFor": {
+        "@type": "Organization",
+        "name": "Systems Plus",
+        "url": "https://systems-plus.com"
+      }
+    }
+    </script>
+    
+    <script type="module" crossorigin src="/assets/index-uZboMnBA.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-DLq-g55q.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-scheduler-7OC5HNn7.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-dom-CKK-Pugm.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-clsx-B-dksMZM.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-tailwind-merge-COJ8Fh6m.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-react-router-CKuWbNAl.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-lucide-react-BeyV9g5p.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-base64-js-1da7ELQG.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-kind-of-v64bg6wO.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-is-extendable-Dra_dFqs.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-extend-shallow-B1fq11aq.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-section-matter-V3C1XxBU.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-strip-bom-string-RXuFAGIK.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-gray-matter-vf1yZiCi.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-ieee754-DqQQEDOD.js">
+    <link rel="modulepreload" crossorigin href="/assets/vendor-buffer-DXMK02ny.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-CYiMamU7.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-newsreader-Dv2dPSob.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-variable-inter-CJjU_8H4.css">
+    <link rel="stylesheet" crossorigin href="/assets/vendor--fontsource-ibm-plex-mono-DzDiDb_Q.css">
+      <script>window.__PORTFOLIO_CONFIG__={"seo":{"title":"Devendra Milmile - Full Stack Developer | Angular & .NET Core","description":"Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.","keywords":"Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"},"blogs":{"enabled":true},"hero":{"name":"Devendra Milmile","title":"I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.","description":"7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.","contact":{"location":"Pune, India"},"social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"},{"name":"npm","url":"https://www.npmjs.com/~devendramilmile"},{"name":"resume","url":"/resume"}],"role":"Full stack engineer","now":[{"label":"Day job","text":"Replatforming College Coach onto micro frontends at Systems Plus"},{"label":"Building","text":"Samyo, a booking app for event businesses","link":"https://samyo.in"},{"label":"Maintaining","text":"@datelane/core, an Angular scheduler on npm","link":"https://www.npmjs.com/package/@datelane/core"}]},"navigation":[{"label":"Work","id":"work"},{"label":"Experience","id":"experience"},{"label":"Writing","id":"writing"},{"label":"About","id":"about"},{"label":"Contact","id":"contact"}],"about":{"bio":["I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.","Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.","Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."]},"resume":{"headline":"Full stack engineer · Angular and .NET","summary":"Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.","pdf":"/devendra-milmile-resume.pdf"},"skills":{"description":"Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.","categories":[{"title":"Frontend","skills":["Angular","Micro Frontends","TypeScript","HTML5","CSS/SCSS","React","Angular Material","PrimeNG"]},{"title":"Backend","skills":[".NET Core","C#","Entity Framework Core","YARP","Microservices","RESTful APIs"]},{"title":"Database","skills":["SQL Server","PostgreSQL","Database Design","Performance Optimization"]},{"title":"Cloud & DevOps","skills":["Azure","AWS","CI/CD","GitHub Actions","Docker"]},{"title":"Tools & Libraries","skills":["AmCharts5","Survey.js","Angular Gridster2","JWT Authentication","Swagger","GitHub Copilot"]}]},"experience":{"description":"Four companies since 2019. Most of that time went into Angular front ends and the .NET Core APIs behind them.","jobs":[{"company":"Systems Plus","role":"Senior Software Engineer","period":"Jan 2026 - Present","location":"Pune","description":["Moving a legacy monolith onto a micro frontend architecture as part of a replatform project","Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects","Upgrading backend services to .NET 9","Delivered the planned features ahead of schedule","Helping the team use AI tools wisely and correctly in day-to-day work","Proposed a solution at a company hackathon that is now on the upcoming roadmap"],"technologies":["Angular","Micro Frontends",".NET Core","TypeScript","SQL Server","EF Core","Azure"]},{"company":"EPAM Systems","role":"Software Engineer","period":"Nov 2024 - Dec 2025","location":"Pune","description":["Built an Angular micro frontend app that several products run on","Maintained a shared Angular library so each app didn't rebuild the same components","Worked on .NET Core APIs sitting behind a YARP reverse proxy","Wrote service aggregators that combine several backend calls into one endpoint","Worked in agile sprints with cross-functional teams"],"technologies":["Angular","Micro Frontends",".NET Core","YARP","TypeScript"]},{"company":"Nitor Infotech","role":"Lead Software Engineer","period":"Aug 2021 - Nov 2024","location":"Pune","description":["Shipped several full-stack projects on Angular, .NET Core, and SQL Server","Built reusable UI components with Angular Material and PrimeNG","Sped up API responses by adding caching and gzip compression","Led a team of 3 developers and 1 QA on UNIDO DIPS","Recognized for delivering on time without cutting corners on quality"],"technologies":["Angular",".NET Core","SQL Server","Angular Material","PrimeNG"]},{"company":"smartData Enterprises (I) Ltd.","role":"Associate Level 3","period":"Feb 2019 - Aug 2021","location":"Nagpur","description":["Built full-stack features for healthcare and service-business apps","Built a PDF form builder and an appointment calendar module from scratch","Talked with clients directly to pin down requirements","Estimated tasks during sprint planning","Was the go-between for clients and the dev team"],"technologies":[]}]},"projects":[{"title":"Samyo","period":"Sep 2026 - Present","description":"My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.","highlights":["Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event","Equipment checklists generated from the services each business offers","Works offline at the venue and installs on a phone","Interface in English, Hindi, and Marathi"],"technologies":["Angular",".NET","PostgreSQL","Azure"],"type":"SaaS Product","links":{"website":"https://samyo.in"},"summary":"Booking and operations app for event businesses","role":"Founder, sole engineer","image":{"src":"/projects/samyo.webp","alt":"Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone","width":1600,"height":1000}},{"title":"@datelane/core","period":"Jul 2026 - Present","description":"An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.","highlights":["12 views: day, week, month, year, agenda and timeline","Drag to move and resize, recurring events, resources","Dark mode and right-to-left layouts","Pluggable date adapters: Native, Luxon, Moment","Zero runtime dependencies"],"technologies":["Angular","TypeScript"],"type":"Open Source","links":{"demo":"https://devendramilmile121.github.io/datelane/","npm":"https://www.npmjs.com/package/@datelane/core","github":"https://github.com/devendramilmile121/datelane"},"summary":"Zero-dependency Angular scheduler and calendar","role":"Author and maintainer","image":{"src":"/projects/datelane.webp","alt":"datelane week view: colored events across seven days, an all-day band, and a red line marking the current time","width":1600,"height":924}},{"title":"CLARIO","period":"Dec 2024 - Dec 2025","description":"A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.","highlights":["Custom Swagger UI for the API docs","Notification rule engine built as a micro frontend","Expression Designer library with a visual editor","YARP reverse proxy setup"],"technologies":[".NET 8","YARP","Micro Frontends","Swagger"],"type":"Enterprise Platform","summary":"Public API platform on .NET 8 and YARP","role":"Software engineer at EPAM","client":"Clario"},{"title":"College Coach","period":"Jan 2026 - Present","description":"Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.","highlights":["Breaking a monolith into micro frontends backed by new .NET 9 services","Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"],"technologies":[".NET 9","Angular 19","Micro Frontends","Azure","SQL Server"],"type":"Enterprise Platform","summary":"Moving a monolith onto micro frontends","role":"Senior engineer at Systems Plus","client":"Bright Horizons"},{"title":"SymphonyAI","period":"Jan 2022 - Oct 2024","description":"An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.","highlights":["Customer engagement up 25%","Drag-and-drop dashboard built on Angular Gridster2","Configurable charts with AmCharts5","Menus driven by JSON config"],"technologies":["Angular","Angular Gridster2","AmCharts5","TypeScript"],"type":"Product Platform","summary":"Shared Angular library and configurable dashboards","role":"Lead engineer at Nitor","client":"SymphonyAI"},{"title":"UNIDO DIPS","period":"Sep 2021 - Nov 2024","description":"Full-stack web app with multi-language support, external surveys, and JWT auth. I led a team of 3 developers and 1 QA.","highlights":["Multi-language support","External surveys built on Survey.js","JWT authentication for the web APIs","Led the team from kickoff through delivery"],"technologies":["Angular",".NET Core","Survey.js","JWT"],"type":"Enterprise Application","summary":"Multilingual web app with external surveys","role":"Team lead at Nitor"},{"title":"ngx-custom-carousel","period":"Apr 2024 - Aug 2026","description":"An open source Angular carousel that renders whatever template you hand it. Releases follow semver and publish automatically through GitHub Actions. I stopped maintaining it in August 2026.","highlights":["Published on npm","Semantic versioning","CI/CD with GitHub Actions","Renders custom Angular templates"],"technologies":["Angular","GitHub Actions","TypeScript"],"type":"Open Source","links":{"npm":"https://www.npmjs.com/package/ngx-custom-carousel","github":"https://github.com/devendramilmile121/ngx-custom-carousel"},"summary":"Template-driven Angular carousel, now retired","role":"Author"}],"education":{"degrees":[{"degree":"Master of Computer Applications","institution":"Shri Ramdeo Baba College of Engineering and Management","period":"Jun 2016 - Jun 2019","type":"Masters Degree"},{"degree":"Bachelor of Computer Applications","institution":"College of Management and Computer Science","period":"Jun 2012 - Jun 2016","type":"Bachelors Degree"}],"certifications":[{"title":"Microsoft Certified: Azure Fundamentals","provider":"Microsoft","date":"Sep 2025","link":"https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C","featured":true},{"title":"Angular Architecture: How to Build Scalable Web Applications","provider":"Udemy","date":"Nov 2022","link":"https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"},{"title":"AZ-900: Microsoft Azure Fundamentals Exam Prep 2023","provider":"Udemy","date":"May 2023","link":"https://www.udemy.com/certificate/UC-911ca684-8615-47b1-97a1-c650883699a8/"},{"title":".NET Core Microservices - The Complete Guide (.NET 8 MVC)","provider":"Udemy","date":"Dec 2022","link":"https://www.udemy.com/certificate/UC-fa108816-d744-4f1c-8655-99f31132ab7b/"},{"title":"Cloud Fundamentals: AWS Services for C# Developers","provider":"Dometrain","date":"May 2023"},{"title":"AWS Cloud Practitioner course","provider":"GeeksforGeeks","date":"May 2024"},{"title":"Career Essentials in GitHub Professional Certificate","provider":"LinkedIn","date":"Jun 2024","link":"https://lnkd.in/d6YwfzpD"}]},"contact":{"heading":"Have something in mind?","description":"Email is the best way to reach me.","info":[{"label":"Email","value":"milmiledh@gmail.com","link":"mailto:milmiledh@gmail.com","icon":"mail"},{"label":"Phone","value":"+91 7263967111","link":"tel:+917263967111","icon":"phone"},{"label":"Location","value":"Pune, India","icon":"mapPin"}],"social":[{"label":"GitHub","username":"devendramilmile121","url":"https://github.com/devendramilmile121","icon":"github"},{"label":"LinkedIn","username":"devendramilmile","url":"https://linkedin.com/in/devendramilmile","icon":"linkedin"},{"label":"npm","username":"devendramilmile","url":"https://www.npmjs.com/~devendramilmile","icon":"externalLink"}]},"footer":{"name":"Devendra Milmile","title":"Full Stack Developer • Angular & .NET Core","copyright":"All rights reserved.","builtWith":"Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.","social":[{"name":"github","url":"https://github.com/devendramilmile121"},{"name":"linkedin","url":"https://linkedin.com/in/devendramilmile"},{"name":"email","url":"mailto:milmiledh@gmail.com"}]}}</script>
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Teaching AI Coding Assistants to Write Modern Angular","description":"A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together.","datePublished":"2026-05-24","dateModified":"2026-05-24","keywords":"Angular, AI, Claude Code, GitHub Copilot, MCP, Cursor, TypeScript, Developer Tools","author":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"publisher":{"@type":"Person","name":"Devendra Milmile","url":"https://devendramilmile.com"},"image":"https://devendramilmile.com/og-image.png","mainEntityOfPage":"https://devendramilmile.com/blogs/angular-ai-development-setup"}</script>
+  </head>
+
+  <body>
+    <div id="root"><!--$--><div class="flex min-h-screen flex-col"><header class="sticky top-0 z-40 border-b bg-background/90 backdrop-blur-sm transition-colors border-transparent"><div class="mx-auto flex h-16 max-w-page items-center justify-between px-5 sm:px-8"><a class="text-[0.9375rem] font-medium tracking-tight" href="/" data-discover="true">Devendra Milmile</a><div class="flex items-center gap-1 sm:gap-6"><nav aria-label="Primary" class="hidden sm:block"><ul class="flex items-center gap-6 text-sm"><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#work" data-discover="true">Work</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#experience" data-discover="true">Experience</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#writing" data-discover="true">Writing</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#about" data-discover="true">About</a></li><li><a class="link py-1 transition-colors hover:text-foreground text-muted-foreground" href="/#contact" data-discover="true">Contact</a></li></ul></nav><button type="button" aria-label="Toggle dark theme" title="Toggle dark theme" class="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition-colors hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-moon h-4 w-4 dark:hidden" aria-hidden="true"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"></path></svg><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-sun hidden h-4 w-4 dark:block" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg></button><button type="button" class="label h-9 px-2 text-foreground sm:hidden" aria-expanded="false" aria-controls="mobile-menu">Menu</button></div></div></header><main class="flex-1"><article class="mx-auto max-w-[44rem] px-5 pb-24 pt-10 sm:px-8 md:pt-16"><a class="label link hover:text-foreground" href="/blogs" data-discover="true"><span aria-hidden="true">←</span> Writing</a><header class="mt-10 border-b border-rule pb-10"><p class="font-mono text-xs text-muted-foreground"><time dateTime="2026-05-24">24 May 2026</time><span aria-hidden="true"> · </span>26<!-- --> min read</p><h1 class="mt-4 font-serif text-[2.25rem] leading-[1.1] tracking-[-0.015em] sm:text-[3rem]">Teaching AI Coding Assistants to Write Modern Angular</h1><p class="mt-5 font-serif text-xl italic leading-snug text-muted-foreground">A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together.</p><p class="mt-6 font-mono text-xs text-muted-foreground">Angular / AI / Claude Code / GitHub Copilot / MCP / Cursor / TypeScript / Developer Tools</p></header><div class="article mt-10"><p>You asked your AI to generate an Angular component. It came back with this:</p>
+<pre><code class="language-typescript">@Component({
+  selector: &#x27;app-user-card&#x27;,
+  templateUrl: &#x27;./user-card.component.html&#x27;,
+})
+export class UserCardComponent implements OnInit {
+  @Input() userId!: number;
+  @Output() selected = new EventEmitter&lt;User&gt;();
+  user: User | null = null;
+  isLoading = false;
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    this.isLoading = true;
+    this.userService.getUser(this.userId).subscribe(user =&gt; {
+      this.user = user;
+      this.isLoading = false;
+    });
+  }
+}
+</code></pre>
+<p>Technically correct. Ships. Passes code review. And it&#x27;s <strong>completely wrong for modern Angular</strong>.</p>
+<p>No <code>ChangeDetectionStrategy.OnPush</code>. Constructor injection instead of <code>inject()</code>. <code>@Input()</code> / <code>@Output()</code> decorators. A raw <code>.subscribe()</code> leaking memory. This is Angular circa 2019 — and your AI is churning it out confidently, at scale, across your entire codebase.</p>
+<p>Here&#x27;s the thing: <strong>it&#x27;s not the AI&#x27;s fault.</strong> The internet is overflowing with NgModule-based Angular code from Stack Overflow answers, old blog posts, and GitHub repos. That&#x27;s what LLMs trained on. Without explicit guardrails, they&#x27;ll keep doing it — regardless of which AI tool you use.</p>
+<p>The fix is a <strong>one-time configuration investment</strong> — done properly it works across every AI tool on your team: Claude Code, GitHub Copilot, Cursor, Codex, or whatever ships next month. By the end of this guide, every AI in your workflow will produce this instead:</p>
+<pre><code class="language-typescript">@Component({
+  selector: &#x27;app-user-card&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (isLoading()) {
+      &lt;app-spinner /&gt;
+    } @else if (user()) {
+      &lt;div class=&quot;user-card&quot; (click)=&quot;selected.emit(user()!)&quot;&gt;
+        &lt;h3&gt;{{ user()!.name }}&lt;/h3&gt;
+      &lt;/div&gt;
+    }
+  `,
+})
+export class UserCardComponent {
+  userId = input.required&lt;number&gt;();
+  selected = output&lt;User&gt;();
+
+  private userService = inject(UserService);
+
+  user = toSignal(
+    toObservable(this.userId).pipe(switchMap(id =&gt; this.userService.getUser(id))),
+    { initialValue: null }
+  );
+  isLoading = computed(() =&gt; this.user() === null);
+}
+</code></pre>
+<p>OnPush. <code>inject()</code>. Signals. No memory leaks. No legacy patterns. Let&#x27;s build the setup.</p>
+<hr/>
+<h2 id="why-most-ai-setups-fail-after-a-week">Why Most AI Setups Fail After a Week</h2>
+<p>The most common mistake is building an AI setup that&#x27;s <strong>locked to a single tool</strong>. You write a <code>CLAUDE.md</code> for Claude Code, a separate <code>.github/copilot-instructions.md</code> for Copilot, and a <code>.cursorrules</code> for Cursor. Three files, three sources of truth, three times the maintenance — and the moment your colleague uses a different tool than you, the rules don&#x27;t apply.</p>
+<p>The better approach: put your canonical conventions in <code>.github/</code> — a directory that&#x27;s already in every Angular repo, already tracked in git, and already readable by every AI tool on the market.</p>
+<pre><code>.github/
+├── AGENTS.md                        ← The single source of truth
+├── agents/                          ← Specialized AI agents
+│   ├── angular-reviewer.agent.md
+│   ├── feature-scaffolder.agent.md
+│   ├── signal-store.agent.md
+│   ├── unit-test-writer.agent.md
+│   └── refactor-to-signals.agent.md
+├── prompts/                         ← Reusable prompt templates
+│   ├── code-review.prompt.md
+│   ├── ngrx-store-crud.prompt.md
+│   └── analyze-codebase-bugs.prompt.md
+└── skills/                          ← Deep domain knowledge
+    ├── project-architecture/SKILL.md
+    └── vitest-angular-testing/SKILL.md
+</code></pre>
+<p>Every AI tool — Claude Code, Copilot, Cursor — picks up from this directory. You write the rules once. Everyone&#x27;s AI follows them.</p>
+<hr/>
+<h2 id="part-1-agentsmd-the-single-source-of-truth">Part 1: AGENTS.md — The Single Source of Truth</h2>
+<p><code>AGENTS.md</code> is the master convention document for your entire project. It replaces the scattered approach of one file per AI tool. Claude Code loads it automatically. Copilot agents reference it via VS Code settings. Cursor picks it up as a global rule. One file. Every tool.</p>
+<p>Create <code>AGENTS.md</code> at your project root and mirror it inside <code>.github/</code> — both locations ensure maximum compatibility:</p>
+<pre><code class="language-markdown"># Project Conventions — AI Agent Reference
+
+## Tech Stack
+- Angular 21 (standalone by default — no standalone: true needed)
+- TypeScript 5.9 strict mode
+- NgRx Signals (@ngrx/signals) for global state
+- Angular Material 3
+- Vitest 4 + Angular Testing Library (unit tests)
+- Playwright 1.59 (E2E)
+- ESLint 9 + Prettier 3 + Lefthook 2
+- npm exclusively (never pnpm or yarn)
+
+## Architecture: Domain-Driven Design
+
+Feature folder structure — no exceptions:
+src/app/features/&lt;domain&gt;/
+├── feature/     # Smart container components (route-level, inject stores)
+├── ui/          # Presentational components (OnPush, signals, NO store injection)
+├── data/        # Models, HTTP services, NgRx Signal Stores
+└── util/        # Pure helper functions, no side effects
+
+### Rules that are absolute
+- NO barrel files (no index.ts re-exports — ever)
+- NO shared/ folder (feature boundaries enforce isolation)
+- NO type suffixes in class names — TaskCard not TaskCardComponent,
+  TaskApi not TaskApiService, TaskStore not TaskStoreClass
+- Files: kebab-case (task-card.ts)
+- Classes: PascalCase (TaskCard)
+- Every ui/ component stays free of store dependencies
+
+## The 6 Coding Rules. Zero Exceptions.
+
+### 1 — No standalone: true (Angular 21 default)
+Components are standalone by default in Angular 21.
+Do NOT write standalone: true explicitly. Just omit it.
+
+### 2 — inject() only. Constructor DI is banned.
+\```typescript
+// ✅
+export class TaskApi {
+  private http = inject(HttpClient);
+}
+
+// ❌ banned
+export class TaskApi {
+  constructor(private http: HttpClient) {}
+}
+\```
+
+### 3 — input() / output() functions. Decorators are banned.
+\```typescript
+// ✅
+export class TaskCard {
+  task = input.required&lt;Task&gt;();
+  deleted = output&lt;number&gt;();
+}
+
+// ❌ banned
+export class TaskCard {
+  @Input() task!: Task;
+  @Output() deleted = new EventEmitter&lt;number&gt;();
+}
+\```
+
+### 4 — @if / @for / @switch. Structural directives are banned.
+\```html
+&lt;!-- ✅ --&gt;
+@if (isLoading()) { &lt;app-spinner /&gt; }
+@for (task of tasks(); track task.id) { &lt;app-task-card [task]=&quot;task&quot; /&gt; }
+@empty { &lt;p&gt;No tasks found.&lt;/p&gt; }
+
+&lt;!-- ❌ banned --&gt;
+&lt;app-spinner *ngIf=&quot;isLoading&quot;&gt;&lt;/app-spinner&gt;
+&lt;app-task-card *ngFor=&quot;let task of tasks&quot; [task]=&quot;task&quot;&gt;&lt;/app-task-card&gt;
+\```
+
+### 5 — OnPush on every component. Default is not good enough.
+\```typescript
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,  // always
+})
+\```
+
+### 6 — Signals for state. BehaviorSubject is banned.
+\```typescript
+// ✅ local state
+isOpen = signal(false);
+activeTasks = computed(() =&gt; this.tasks().filter(t =&gt; t.active));
+
+// ❌ banned for state
+isOpen$ = new BehaviorSubject(false);
+\```
+
+## After Generating Code
+Always run: ng build
+Fix ALL TypeScript and template errors before marking the task complete.
+
+## What AI Must NEVER Generate
+- standalone: true (redundant in Angular 21)
+- NgModule class with declarations/imports/exports
+- Constructor injection
+- @Input() / @Output() decorators
+- *ngIf / *ngFor / *ngSwitch structural directives
+- BehaviorSubject for state
+- index.ts barrel files
+- .subscribe() in components without takeUntilDestroyed()
+- any type (use unknown with type guards)
+- shared/ folder
+</code></pre>
+<blockquote>
+<p><strong>Why no barrel files?</strong> <code>index.ts</code> re-exports look tidy but they force bundlers to load entire feature modules just to import a single function. They also create circular dependency traps and slow down TypeScript compilation on large projects. The reference workflow used by the Angular team itself bans them. Import directly from the source file — always.</p>
+</blockquote>
+<hr/>
+<h2 id="part-2-specialized-agents-one-job-each-done-right">Part 2: Specialized Agents — One Job Each, Done Right</h2>
+<p>A single instruction file covering everything produces generic output. The solution is <strong>specialized agents</strong>: focused files that activate for specific tasks. Each one carries deep expertise for a narrow job.</p>
+<p>Create these in <code>.github/agents/</code>:</p>
+<h3 id="agent-angular-reviewer">Agent: Angular Reviewer</h3>
+<p><strong><code>.github/agents/angular-reviewer.agent.md</code>:</strong></p>
+<pre><code class="language-markdown"># Angular Code Reviewer
+
+You perform systematic code review of Angular code. Check every file for:
+
+## Critical Issues (block merge)
+- Barrel files (index.ts with re-exports) — flag every occurrence
+- Missing OnPush change detection on any component
+- Constructor injection anywhere in the codebase
+- @Input()/@Output() decorators (must be input()/output())
+- *ngIf/*ngFor/*ngSwitch in any template
+- BehaviorSubject used for component or feature state
+- explicit standalone: true in Angular 21+ (redundant, remove it)
+- Any use of `any` type
+
+## Medium Issues (fix before next PR)
+- Files exceeding 400 lines — flag for extraction
+- Missing error handling in async operations
+- Test files missing provideZonelessChangeDetection()
+- Services in the wrong DDD layer (ui/ importing from data/ is fine;
+  data/ importing from feature/ is forbidden)
+
+## Low Issues (nice to have)
+- Missing ARIA labels on interactive elements
+- console.log() left in production code
+
+## Output Format
+Summary → Critical (file:line, issue, fix) → Medium → Low → Passing checks
+
+## Handoff Rules
+- If store refactoring is needed → delegate to signal-store agent
+- If tests are missing → delegate to unit-test-writer agent
+</code></pre>
+<h3 id="agent-feature-scaffolder">Agent: Feature Scaffolder</h3>
+<p><strong><code>.github/agents/feature-scaffolder.agent.md</code>:</strong></p>
+<pre><code class="language-markdown"># Feature Scaffolder
+
+You generate complete DDD features for Angular 21 applications.
+
+## Before Starting — Gather Requirements
+1. Domain name (e.g., &quot;tasks&quot;, &quot;invoices&quot;)
+2. Entity shape (fields and types)
+3. Required views (list page, detail page, form?)
+4. API endpoints (base URL and methods)
+5. Whether global state is needed or local signals suffice
+
+## Generation Order
+1. Entity model in data/ (TypeScript interface, no class)
+2. API service in data/ (inject HttpClient, return typed Observables)
+3. NgRx Signal Store in data/ (signalStore with withEntities)
+4. UI components in ui/ (presentational, OnPush, signals only)
+5. Feature/page components in feature/ (smart, inject store)
+6. Route config in &lt;domain&gt;.routes.ts (lazy loaded)
+7. Unit tests with Vitest for store + service
+8. Register route in app.routes.ts
+
+## Non-Negotiable Patterns
+- No standalone: true (Angular 21 default)
+- inject() only — no constructor DI
+- input()/output() — no decorators
+- @if/@for in all templates
+- OnPush on every component
+- No barrel files
+- Class names without type suffixes (TaskCard, TaskApi, TaskStore)
+- Run ng build after scaffolding — fix errors before finishing
+</code></pre>
+<h3 id="agent-signal-store-creator">Agent: Signal Store Creator</h3>
+<p><strong><code>.github/agents/signal-store.agent.md</code>:</strong></p>
+<pre><code class="language-markdown"># NgRx Signal Store Creator
+
+You build @ngrx/signals stores for Angular 21 features.
+
+## Store Template
+\```typescript
+import { signalStore, withState, withComputed, withMethods, patchState } from &#x27;@ngrx/signals&#x27;;
+import { withEntities, setAllEntities, addEntity, updateEntity, removeEntity } from &#x27;@ngrx/signals/entities&#x27;;
+import { rxMethod } from &#x27;@ngrx/signals/rxjs-interop&#x27;;
+import { tapResponse } from &#x27;@ngrx/operators&#x27;;
+import { inject } from &#x27;@angular/core&#x27;;
+import { pipe, switchMap, tap } from &#x27;rxjs&#x27;;
+
+interface TaskState {
+  isLoading: boolean;
+  error: string | null;
+  selectedId: number | null;
+}
+
+export const TaskStore = signalStore(
+  { providedIn: &#x27;root&#x27; },
+  withEntities&lt;Task&gt;(),
+  withState&lt;TaskState&gt;({ isLoading: false, error: null, selectedId: null }),
+  withComputed(({ entities, selectedId }) =&gt; ({
+    selectedTask: computed(() =&gt; entities().find(t =&gt; t.id === selectedId())),
+    activeTasks: computed(() =&gt; entities().filter(t =&gt; t.active)),
+  })),
+  withMethods((store, api = inject(TaskApi)) =&gt; ({
+    loadTasks: rxMethod&lt;void&gt;(pipe(
+      tap(() =&gt; patchState(store, { isLoading: true, error: null })),
+      switchMap(() =&gt; api.getAll().pipe(
+        tapResponse({
+          next: tasks =&gt; patchState(store, setAllEntities(tasks), { isLoading: false }),
+          error: (err: Error) =&gt; patchState(store, { error: err.message, isLoading: false }),
+        })
+      ))
+    )),
+    addTask: rxMethod&lt;Omit&lt;Task, &#x27;id&#x27;&gt;&gt;(pipe(
+      switchMap(task =&gt; api.create(task).pipe(
+        tapResponse({
+          next: created =&gt; patchState(store, addEntity(created)),
+          error: (err: Error) =&gt; patchState(store, { error: err.message }),
+        })
+      ))
+    )),
+    selectTask: (id: number) =&gt; patchState(store, { selectedId: id }),
+  }))
+);
+\```
+
+## Rules
+- Never convert Observables to Promises inside store methods
+- Always use atomic operations: addEntity, updateEntity, removeEntity
+- patchState is the only way to mutate store state
+- Computed signals live in withComputed, not withMethods
+</code></pre>
+<h3 id="agent-unit-test-writer">Agent: Unit Test Writer</h3>
+<p><strong><code>.github/agents/unit-test-writer.agent.md</code>:</strong></p>
+<pre><code class="language-markdown"># Unit Test Writer (Vitest + Angular)
+
+You write unit tests for Angular 21 apps using Vitest.
+
+## Critical: Zoneless Change Detection
+Every TestBed config must include provideZonelessChangeDetection():
+
+\```typescript
+beforeEach(async () =&gt; {
+  await TestBed.configureTestingModule({
+    imports: [MyComponent],
+    providers: [
+      provideZonelessChangeDetection(),  // REQUIRED
+      provideHttpClient(),
+      provideHttpClientTesting(),
+    ],
+  }).compileComponents();
+});
+\```
+
+## Signal Input Testing Pattern
+Signal inputs require setInput() — not direct property assignment:
+
+\```typescript
+it(&#x27;renders task name&#x27;, async () =&gt; {
+  const fixture = TestBed.createComponent(TaskCard);
+  fixture.componentRef.setInput(&#x27;task&#x27;, mockTask);  // correct
+  await fixture.whenStable();
+
+  expect(fixture.nativeElement.textContent).toContain(mockTask.name);
+});
+\```
+
+## Coverage Targets
+- Components: 80%+ branch coverage
+- Services/APIs: 90%+ coverage (every HTTP path tested)
+- Stores: 95%+ (all state transitions)
+- Guards: 100% (all redirect paths)
+
+## Test Structure
+Follow Arrange → Act → Assert with strong typing throughout.
+Use vi.fn() and vi.spyOn() for mocking — not jasmine spies.
+\```typescript
+describe(&#x27;TaskStore&#x27;, () =&gt; {
+  it(&#x27;loads tasks on loadTasks call&#x27;, async () =&gt; {
+    // Arrange
+    const mockTasks: Task[] = [{ id: 1, name: &#x27;Fix bug&#x27;, active: true }];
+    vi.spyOn(taskApi, &#x27;getAll&#x27;).mockReturnValue(of(mockTasks));
+
+    // Act
+    store.loadTasks();
+    await TestBed.inject(ApplicationRef).whenStable();
+
+    // Assert
+    expect(store.entities()).toEqual(mockTasks);
+    expect(store.isLoading()).toBe(false);
+  });
+});
+\```
+</code></pre>
+<h3 id="agent-refactor-to-signals">Agent: Refactor to Signals</h3>
+<p><strong><code>.github/agents/refactor-to-signals.agent.md</code>:</strong></p>
+<pre><code class="language-markdown"># Refactor to Angular Signals
+
+You modernize Angular code to Angular 21+ patterns.
+
+## Migration Checklist
+- @Input() → input() or input.required()
+- @Output() EventEmitter → output()
+- @ViewChild → viewChild()
+- *ngIf → @if, *ngFor → @for (add track), *ngSwitch → @switch
+- BehaviorSubject state → signal()
+- Observable-based derivations → computed()
+- Constructor injection → inject()
+- Observable subscriptions in components → toSignal() with takeUntilDestroyed()
+- Remove explicit standalone: true (default in Angular 21)
+
+## For @for — track is mandatory
+\```html
+&lt;!-- ✅ --&gt;
+@for (item of items(); track item.id) { ... }
+
+&lt;!-- ❌ missing track --&gt;
+@for (item of items()) { ... }
+\```
+
+## Template access changes
+- Before migration: {{ title }}
+- After migration: {{ title() }}  ← don&#x27;t forget the call signature
+
+## Behavior-preserving rule
+Only change what&#x27;s listed above. Do not add features or
+refactor logic during migration.
+</code></pre>
+<hr/>
+<h2 id="part-3-reusable-prompt-templates">Part 3: Reusable Prompt Templates</h2>
+<p>Specialized prompts in <code>.github/prompts/</code> give you one-liner invocations for complex repeatable tasks. These work in every AI tool — reference them in chat or attach them as context files.</p>
+<h3 id="prompt-code-review">Prompt: Code Review</h3>
+<p><strong><code>.github/prompts/code-review.prompt.md</code>:</strong></p>
+<pre><code class="language-markdown"># Code Review
+
+Perform a systematic review of the staged changes.
+
+## Steps
+1. Run git diff --staged to see what changed
+2. Check for linting issues: ng lint
+3. Verify test coverage hasn&#x27;t dropped
+
+## Review Dimensions
+Check against these criteria in order:
+
+### Angular 21+ Patterns
+- No standalone: true (redundant)
+- OnPush on every new component
+- inject() used — no constructor DI
+- input()/output() — no @Input/@Output
+- @if/@for/@switch — no structural directives
+- No BehaviorSubject for state
+- No barrel files (index.ts)
+- No shared/ folder additions
+
+### Architecture (DDD)
+- New files in the right layer (feature/, ui/, data/, util/)
+- ui/ components free of store dependencies
+- Class names without type suffixes
+
+### Type Safety
+- No any type
+- All function parameters and return types explicit
+- Strict null checks respected
+
+### Tests
+- Every new component has a spec file
+- provideZonelessChangeDetection() present in all TestBed configs
+- Signal inputs tested with setInput()
+
+## Output Format
+**Summary** → **Critical** (file:line — issue — fix) →
+**Warnings** → **Passing** (what looks good)
+</code></pre>
+<h3 id="prompt-ngrx-signal-store-crud">Prompt: NgRx Signal Store CRUD</h3>
+<p><strong><code>.github/prompts/ngrx-store-crud.prompt.md</code>:</strong></p>
+<pre><code class="language-markdown"># NgRx Signal Store CRUD Generator
+
+Generate a complete CRUD-capable Signal Store for an entity.
+
+## What I Need From You First
+1. Entity name and TypeScript interface (fields + types)
+2. API base URL (e.g., /api/tasks)
+3. Which operations are needed (list, get-by-id, create, update, delete)
+4. Any computed signals needed (e.g., active count, filtered subset)
+
+## What You Will Generate (in order)
+1. Entity model file in data/&lt;entity&gt;.model.ts
+2. API service in data/&lt;entity&gt;.api.ts
+3. Signal store in data/&lt;entity&gt;.store.ts with:
+   - withEntities for collection management
+   - withState for loading/error/selectedId
+   - withComputed for derived signals
+   - withMethods wrapping all API calls via rxMethod
+4. Integration example showing how a feature/ component injects and uses the store
+
+## Rules
+- Never Promises inside rxMethod — use Observables throughout
+- patchState only — never mutate store state directly
+- tapResponse handles both success and error paths
+- addEntity/updateEntity/removeEntity for atomic collection changes
+</code></pre>
+<h3 id="prompt-bug-analysis">Prompt: Bug Analysis</h3>
+<p><strong><code>.github/prompts/analyze-bugs.prompt.md</code>:</strong></p>
+<pre><code class="language-markdown"># Codebase Bug Analysis
+
+Systematically find functional bugs in the current codebase.
+
+## Methodology
+1. Search for patterns known to cause Angular bugs:
+   - Missing track in @for loops
+   - Signals read outside reactive contexts (effect/computed/template)
+   - Store state mutations bypassing patchState
+   - Memory leaks: subscriptions without takeUntilDestroyed()
+   - Async race conditions in rxMethod switchMap vs mergeMap vs concatMap
+2. Validate findings against the actual code — no assumed bugs
+3. Check if failing tests exist for the issue
+4. Rank by severity: Critical → High → Medium → Low
+
+## Output Per Bug
+- Location (file:line)
+- What&#x27;s wrong
+- How to reproduce
+- Suggested fix
+- Test that would catch it
+
+## Quality Rule
+If no functional bugs are found, explicitly state: &quot;No functional bugs found.&quot;
+Do not invent issues without code evidence.
+</code></pre>
+<hr/>
+<h2 id="part-4-skills-deep-domain-knowledge-on-demand">Part 4: Skills — Deep Domain Knowledge on Demand</h2>
+<p>Skills are detailed reference documents that agents consult for patterns too complex to fit in AGENTS.md. Unlike the instruction files above, skills are <strong>pulled in on demand</strong> — loaded when the task requires them, not injected into every conversation.</p>
+<h3 id="skills-lock-file-reproducible-across-the-team">Skills Lock File — Reproducible Across the Team</h3>
+<p>The real power of the skills system is the <strong>lock file</strong>. Like <code>package-lock.json</code> for npm, <code>skills-lock.json</code> pins external skills to a specific commit hash so every developer and every AI gets identical behaviour.</p>
+<p><strong><code>skills-lock.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;skills&quot;: {
+    &quot;angular-developer&quot;: {
+      &quot;source&quot;: &quot;angular/angular&quot;,
+      &quot;sourceType&quot;: &quot;github&quot;,
+      &quot;source_path&quot;: &quot;skills/dev-skills/angular-developer/SKILL.md&quot;,
+      &quot;hash&quot;: &quot;sha256-abc123...&quot;
+    },
+    &quot;ngrx-signals&quot;: {
+      &quot;source&quot;: &quot;danielsogl/skills&quot;,
+      &quot;sourceType&quot;: &quot;github&quot;,
+      &quot;source_path&quot;: &quot;skills/ngrx-signals/SKILL.md&quot;,
+      &quot;hash&quot;: &quot;sha256-def456...&quot;
+    }
+  }
+}
+</code></pre>
+<p>When the Angular team updates the official Angular developer skill, you opt in by updating the hash — just like bumping a package version.</p>
+<h3 id="project-architecture-skill">Project Architecture Skill</h3>
+<p><strong><code>.github/skills/project-architecture/SKILL.md</code>:</strong></p>
+<pre><code class="language-markdown"># Project Architecture Reference
+
+## Folder Structure
+
+src/app/features/&lt;domain&gt;/
+├── feature/   Smart components. Inject stores. Handle navigation.
+├── ui/        Dumb components. Signals in, outputs out. No store injection.
+├── data/      Models, HTTP, Signal Stores.
+└── util/      Pure functions. No Angular imports. Easily testable.
+
+## Dependency Flow (one direction only)
+feature/ → ui/ and data/
+data/ → util/
+ui/ → util/
+util/ → nothing
+
+## Naming Without Suffixes
+TaskCard (not TaskCardComponent)
+TaskApi (not TaskApiService)
+TaskStore (not TaskSignalStore)
+provideTaskStore() (factory function for root-level provision)
+
+## What Absolutely Does Not Exist in This Codebase
+- src/app/shared/ folder
+- Any index.ts file
+- Any file named *.module.ts
+- Any constructor(private ...)
+</code></pre>
+<h3 id="vitest-angular-testing-skill">Vitest + Angular Testing Skill</h3>
+<p><strong><code>.github/skills/vitest-angular-testing/SKILL.md</code>:</strong></p>
+<pre><code class="language-markdown"># Testing Reference: Vitest + Angular 21
+
+## TestBed Setup (copy-paste template)
+\```typescript
+import { TestBed } from &#x27;@angular/core/testing&#x27;;
+import { provideZonelessChangeDetection } from &#x27;@angular/core&#x27;;
+
+beforeEach(async () =&gt; {
+  await TestBed.configureTestingModule({
+    imports: [ComponentUnderTest],
+    providers: [
+      provideZonelessChangeDetection(),
+      provideHttpClient(),
+      provideHttpClientTesting(),
+    ],
+  }).compileComponents();
+});
+\```
+
+## Testing Signal Inputs
+\```typescript
+const fixture = TestBed.createComponent(TaskCard);
+fixture.componentRef.setInput(&#x27;task&#x27;, { id: 1, name: &#x27;Test&#x27; });
+await fixture.whenStable();
+// now query the DOM
+\```
+
+## Async Patterns
+- Promises: await directly
+- Observables: subscribe with done callback
+- Timers: vi.useFakeTimers() + vi.runAllTimers()
+- Signal effects: fakeAsync() + tick()
+
+## Mocking HTTP
+\```typescript
+const httpMock = TestBed.inject(HttpTestingController);
+afterEach(() =&gt; httpMock.verify());
+
+it(&#x27;calls GET /api/tasks&#x27;, () =&gt; {
+  service.getAll().subscribe();
+  const req = httpMock.expectOne(&#x27;/api/tasks&#x27;);
+  expect(req.request.method).toBe(&#x27;GET&#x27;);
+  req.flush([mockTask]);
+});
+\```
+</code></pre>
+<hr/>
+<h2 id="part-5-mcp-servers-live-tools-instead-of-frozen-knowledge">Part 5: MCP Servers — Live Tools Instead of Frozen Knowledge</h2>
+<p>AI tools stop guessing and start knowing when you connect them to live services via <strong>Model Context Protocol (MCP)</strong>. Here&#x27;s the stack that covers Angular development end to end.</p>
+<h3 id="the-complete-object-object">The Complete <code>.mcp.json</code></h3>
+<pre><code class="language-json">{
+  &quot;mcpServers&quot;: {
+    &quot;angular-cli&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@angular/cli&quot;, &quot;mcp&quot;]
+    },
+    &quot;context7&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@upstash/context7-mcp@latest&quot;]
+    },
+    &quot;eslint&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@eslint/mcp@latest&quot;]
+    },
+    &quot;playwright&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@playwright/mcp@latest&quot;]
+    },
+    &quot;filesystem&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [
+        &quot;-y&quot;,
+        &quot;@modelcontextprotocol/server-filesystem&quot;,
+        &quot;./src&quot;
+      ]
+    },
+    &quot;git&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-git&quot;, &quot;.&quot;]
+    },
+    &quot;sequential-thinking&quot;: {
+      &quot;command&quot;: &quot;npx&quot;,
+      &quot;args&quot;: [&quot;-y&quot;, &quot;@modelcontextprotocol/server-sequentialthinking&quot;]
+    }
+  }
+}
+</code></pre>
+<h3 id="what-each-server-does-for-you">What Each Server Does for You</h3>
+<div class="overflow-x-auto"><table><thead><tr><th>Server</th><th>What It Unlocks</th><th>The Killer Use Case</th></tr></thead><tbody><tr><td><code>angular-cli</code></td><td>Live Angular CLI — build, lint, generate, migrate</td><td>AI runs <code>ng build</code> after generating code and fixes errors immediately</td></tr><tr><td><code>context7</code></td><td>Current library documentation for any npm package</td><td>&quot;Show me the Angular Material 3 badge API&quot; — gets today&#x27;s docs, not 2023 training data</td></tr><tr><td><code>eslint</code></td><td>Live ESLint analysis during generation</td><td>AI checks its own output against your rules before returning it</td></tr><tr><td><code>playwright</code></td><td>Real browser automation</td><td>AI opens your running app, tests it, and reports what it sees</td></tr><tr><td><code>filesystem</code></td><td>Direct project file access</td><td>Multi-file refactors without copy-pasting — AI reads and writes files directly</td></tr><tr><td><code>git</code></td><td>Full repository history</td><td>&quot;Why was this pattern introduced?&quot; — AI reads the actual commit</td></tr><tr><td><code>sequential-thinking</code></td><td>Explicit step-by-step reasoning</td><td>Complex migrations get planned before they get executed</td></tr></tbody></table></div>
+<p><strong>The <code>context7</code> server deserves special attention.</strong> Every Angular developer has experienced asking an AI about a library API and getting a confidently wrong answer. <code>context7</code> resolves this by fetching live documentation for any npm package on demand. Ask about Angular Material 3 component APIs, NgRx Signal Store methods, or anything else — it returns current documentation, not training data.</p>
+<pre><code>How do I use the Angular Material 3 progress indicator component?
+</code></pre>
+<p>Without <code>context7</code>: answer based on Material 2 training data, possibly wrong.
+With <code>context7</code>: answer based on the actual current <code>@angular/material</code> documentation.</p>
+<h3 id="connecting-mcp-servers-quick-commands">Connecting MCP Servers: Quick Commands</h3>
+<pre><code class="language-bash"># Verify Angular CLI version (19.2+ required for MCP)
+ng version
+
+# Add servers to Claude Code globally
+claude mcp add angular-cli --transport stdio -- npx -y @angular/cli mcp
+claude mcp add context7 --transport stdio -- npx -y @upstash/context7-mcp@latest
+claude mcp add sequential-thinking \
+  --transport stdio -- npx -y @modelcontextprotocol/server-sequentialthinking
+
+# Verify all connected
+claude mcp list
+</code></pre>
+<hr/>
+<h2 id="part-6-tool-specific-configuration">Part 6: Tool-Specific Configuration</h2>
+<p>Your <code>.github/</code> folder is the universal foundation. Each AI tool then reads from it in its own way — with one small per-tool config file that points back to the canonical source.</p>
+<h3 id="claude-code-object-object">Claude Code: <code>CLAUDE.md</code></h3>
+<p>Create <code>CLAUDE.md</code> at the project root with a single directive — don&#x27;t duplicate content:</p>
+<pre><code class="language-markdown"># Claude Code Project Reference
+
+Read .github/AGENTS.md for all project conventions.
+
+## Claude-Specific Additions
+
+### MCP Servers Available
+- angular-cli: build, lint, generate, modernize
+- context7: live npm documentation
+- sequential-thinking: complex migration planning
+- playwright: browser automation and testing
+
+### Workflow
+1. Before writing new code: check .github/AGENTS.md for conventions
+2. After generating TypeScript/templates: run ng build via angular-cli MCP
+3. For complex migrations: activate sequential-thinking MCP to plan first
+4. After code generation: run ESLint via eslint MCP to self-check output
+</code></pre>
+<h3 id="github-copilot-object-object">GitHub Copilot: <code>.github/copilot-instructions.md</code></h3>
+<pre><code class="language-markdown"># GitHub Copilot Instructions
+
+Read .github/AGENTS.md for all project conventions.
+
+## Summary of Non-Negotiables
+- No standalone: true (Angular 21 default — omit it)
+- No NgModule, no constructor DI, no @Input/@Output decorators
+- No *ngIf/*ngFor — use @if/@for
+- OnPush change detection on every component
+- No barrel files (no index.ts)
+- No shared/ folder
+- Signals for state, never BehaviorSubject
+
+## Agent Discovery
+Specialized agents are in .github/agents/*.agent.md
+Prompt templates are in .github/prompts/*.prompt.md
+Skills are in .github/skills/
+</code></pre>
+<h3 id="vs-code-object-object">VS Code: <code>.vscode/settings.json</code></h3>
+<p>The VS Code settings wire up GitHub Copilot&#x27;s agent and skill discovery to your <code>.github/</code> folder:</p>
+<pre><code class="language-json">{
+  &quot;editor.defaultFormatter&quot;: &quot;esbenp.prettier-vscode&quot;,
+  &quot;editor.formatOnSave&quot;: true,
+  &quot;editor.codeActionsOnSave&quot;: {
+    &quot;source.fixAll.eslint&quot;: &quot;explicit&quot;
+  },
+  &quot;github.copilot.enable&quot;: {
+    &quot;*&quot;: true,
+    &quot;markdown&quot;: true,
+    &quot;yaml&quot;: true
+  },
+  &quot;github.copilot.agents.defaultAgent&quot;: &quot;AGENTS.md&quot;,
+  &quot;github.copilot.agents.supportedAgentDiscoveryLocations&quot;: [
+    &quot;agents.md&quot;,
+    &quot;AGENTS.md&quot;,
+    &quot;.github/agents/*.agent.md&quot;
+  ],
+  &quot;github.copilot.skills.locations&quot;: [
+    &quot;.github/skills&quot;,
+    &quot;.agents/skills&quot;
+  ],
+  &quot;github.copilot.advanced.ignoreInstructionFiles&quot;: true,
+  &quot;mcp&quot;: {
+    &quot;servers&quot;: {
+      &quot;angular-cli&quot;: {
+        &quot;type&quot;: &quot;stdio&quot;,
+        &quot;command&quot;: &quot;npx&quot;,
+        &quot;args&quot;: [&quot;-y&quot;, &quot;@angular/cli&quot;, &quot;mcp&quot;]
+      },
+      &quot;context7&quot;: {
+        &quot;type&quot;: &quot;stdio&quot;,
+        &quot;command&quot;: &quot;npx&quot;,
+        &quot;args&quot;: [&quot;-y&quot;, &quot;@upstash/context7-mcp@latest&quot;]
+      }
+    }
+  }
+}
+</code></pre>
+<p><code>&quot;github.copilot.agents.supportedAgentDiscoveryLocations&quot;</code> is the key setting — it tells Copilot exactly where to find your specialized agent definitions. Without this, Copilot ignores everything in <code>.github/agents/</code>.</p>
+<h3 id="cursor-object-object">Cursor: <code>.cursor/rules/angular-always.mdc</code></h3>
+<pre><code class="language-markdown">---
+description: Core Angular 21 rules from AGENTS.md
+alwaysApply: true
+---
+
+See .github/AGENTS.md for full project conventions.
+
+## Quick Reference
+- No standalone: true (Angular 21 default)
+- inject() — no constructor DI
+- input() / output() — no @Input/@Output decorators
+- @if / @for / @switch — no structural directives
+- OnPush on every component
+- No barrel files, no index.ts, no shared/ folder
+- Signals for state — BehaviorSubject is banned
+- Class names without suffixes: TaskCard not TaskCardComponent
+</code></pre>
+<p>Cursor can also consume scoped rules for specific file patterns — add them in <code>.cursor/rules/</code> using the <code>.mdc</code> format with <code>globs</code> frontmatter when you need per-file-type behaviour.</p>
+<hr/>
+<h2 id="part-7-pre-commit-hooks-enforce-standards-before-they-hit-git">Part 7: Pre-commit Hooks — Enforce Standards Before They Hit Git</h2>
+<p>The best AI configuration in the world means nothing if developers bypass it with copy-paste and the code makes it into git. Pre-commit hooks are the last line of defense — they run automatically on every <code>git commit</code> and reject anything that doesn&#x27;t meet your standards.</p>
+<p>Use <strong>Lefthook</strong> — it&#x27;s faster than Husky, has parallel execution built in, and the config lives in a single YAML file.</p>
+<h3 id="install-lefthook">Install Lefthook</h3>
+<pre><code class="language-bash">npm install --save-dev lefthook
+npx lefthook install
+</code></pre>
+<h3 id="object-object"><code>lefthook.yml</code></h3>
+<pre><code class="language-yaml">pre-commit:
+  parallel: true
+  commands:
+    prettier:
+      glob: &quot;*.{js,ts,html,css,scss,md,json,yaml}&quot;
+      run: npx prettier --write {staged_files}
+      stage_fixed: true
+
+    eslint:
+      glob: &quot;*.{ts,html}&quot;
+      run: npx eslint --fix {staged_files}
+      stage_fixed: true
+      fail_text: &quot;ESLint errors found. Fix them before committing.&quot;
+</code></pre>
+<p><code>parallel: true</code> runs both hooks simultaneously — typically under 3 seconds even on large files. <code>stage_fixed: true</code> automatically re-stages files that Prettier or ESLint modified, so your commit includes the fixed version.</p>
+<h3 id="what-this-catches-that-ai-misses">What This Catches That AI Misses</h3>
+<div class="overflow-x-auto"><table><thead><tr><th>Check</th><th>Catches</th></tr></thead><tbody><tr><td>ESLint + <code>@angular-eslint</code></td><td><code>@Input()</code> decorators, constructor injection, missing track in <code>@for</code></td></tr><tr><td>ESLint + <code>@ngrx/eslint-plugin</code></td><td>Direct state mutations, store misuse patterns</td></tr><tr><td>Prettier</td><td>Inconsistent formatting that slips past AI generation</td></tr></tbody></table></div>
+<p>When Lefthook blocks a commit, the error message tells you exactly what to fix. No guessing.</p>
+<hr/>
+<h2 id="part-8-the-typescript-config-that-catches-what-everything-else-misses">Part 8: The TypeScript Config That Catches What Everything Else Misses</h2>
+<p>Strict TypeScript is a multiplier on everything else in this guide. When the compiler enforces strict null checks and explicit return types, AI-generated code either compiles or it doesn&#x27;t — ambiguity disappears.</p>
+<p><strong><code>tsconfig.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;strict&quot;: true,
+    &quot;noImplicitOverride&quot;: true,
+    &quot;noPropertyAccessFromIndexSignature&quot;: true,
+    &quot;noImplicitReturns&quot;: true,
+    &quot;target&quot;: &quot;ES2022&quot;,
+    &quot;module&quot;: &quot;preserve&quot;,
+    &quot;strictTemplates&quot;: true,
+    &quot;strictInjectionParameters&quot;: true,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;skipLibCheck&quot;: false
+  }
+}
+</code></pre>
+<p><code>strictTemplates: true</code> is the hidden gem here. It runs TypeScript&#x27;s strict type checker inside your Angular templates. Typos in template bindings, wrong signal call signatures, missing required inputs — all of them become compile errors instead of runtime surprises.</p>
+<hr/>
+<h2 id="part-9-prompt-engineering-that-actually-works">Part 9: Prompt Engineering That Actually Works</h2>
+<p>Even with all the configuration above in place, the quality of individual prompts still matters. Here&#x27;s the framework that produces production-ready Angular on the first attempt.</p>
+<h3 id="the-star-prompt-framework">The STAR Prompt Framework</h3>
+<p><strong>S</strong>tack context → <strong>T</strong>ask → <strong>A</strong>cceptance criteria → <strong>R</strong>estrictions</p>
+<pre><code>[S] Angular 21, signals, OnPush, inject(), DDD structure
+
+[T] Create a TaskSearchComponent in src/app/features/tasks/ui/
+that lets users filter the task list by name and status.
+
+[A] Acceptance criteria:
+- Debounce name input by 300ms
+- Status filter derived from computed() over unique statuses
+- Zero subscriptions — toSignal() for any async
+- @empty block for no results
+- ARIA labels on form controls
+
+[R] Restrictions:
+- No @for without track
+- No BehaviorSubject
+- No index.ts created
+- Class name: TaskSearch (not TaskSearchComponent)
+</code></pre>
+<h3 id="scaffolding-an-entire-feature">Scaffolding an Entire Feature</h3>
+<pre><code>Using the feature-scaffolder agent conventions, create the tasks feature:
+
+Entities: Task { id, name, status: &#x27;todo&#x27;|&#x27;in-progress&#x27;|&#x27;done&#x27;, assigneeId }
+Views: task list page, task detail page, create/edit form
+API: /api/tasks (GET, GET/:id, POST, PUT/:id, DELETE/:id)
+
+Location: src/app/features/tasks/
+Run ng build after each file. Report when the build is clean.
+</code></pre>
+<h3 id="migrating-a-legacy-feature-to-signals">Migrating a Legacy Feature to Signals</h3>
+<pre><code>Using the refactor-to-signals agent, migrate src/app/features/legacy-orders/.
+
+Use sequential-thinking MCP to plan before executing:
+1. List every file and what needs to change
+2. Process one file at a time
+3. Run ng build after each file — fix errors before the next
+4. Remove NgModule file last, after all components are migrated
+5. Final ng build should be clean
+
+Show before and after for each file with changes.
+</code></pre>
+<h3 id="self-reviewing-generated-code">Self-Reviewing Generated Code</h3>
+<pre><code>Using the code-review prompt template in .github/prompts/code-review.prompt.md,
+review the files I just generated in src/app/features/invoices/.
+
+Use the eslint MCP to run the actual linter, not just eyeball the code.
+Report critical issues first. For each issue: file, line, problem, fix.
+</code></pre>
+<hr/>
+<h2 id="part-10-the-complete-project-setup">Part 10: The Complete Project Setup</h2>
+<p>Here&#x27;s the entire file structure for an Angular project fully wired for AI-assisted development:</p>
+<pre><code>my-angular-app/
+├── .github/
+│   ├── AGENTS.md                          ← Universal AI convention file
+│   ├── agents/
+│   │   ├── angular-reviewer.agent.md
+│   │   ├── feature-scaffolder.agent.md
+│   │   ├── signal-store.agent.md
+│   │   ├── unit-test-writer.agent.md
+│   │   └── refactor-to-signals.agent.md
+│   ├── prompts/
+│   │   ├── code-review.prompt.md
+│   │   ├── ngrx-store-crud.prompt.md
+│   │   └── analyze-bugs.prompt.md
+│   ├── skills/
+│   │   ├── project-architecture/SKILL.md
+│   │   └── vitest-angular-testing/SKILL.md
+│   └── copilot-instructions.md            ← Copilot pointer to AGENTS.md
+│
+├── .cursor/
+│   └── rules/
+│       └── angular-always.mdc             ← Cursor pointer to AGENTS.md
+│
+├── .vscode/
+│   ├── extensions.json
+│   └── settings.json                      ← Agent/skill discovery + MCP wiring
+│
+├── .mcp.json                              ← MCP servers for all tools
+├── AGENTS.md                              ← Mirror of .github/AGENTS.md
+├── CLAUDE.md                              ← Claude Code pointer to AGENTS.md
+├── skills-lock.json                       ← Locked external skill versions
+├── lefthook.yml                           ← Pre-commit hooks
+├── tsconfig.json                          ← Strict mode + strictTemplates
+│
+└── src/app/
+    ├── core/                              ← Guards, interceptors, root config
+    └── features/
+        └── tasks/                         ← DDD feature example
+            ├── data/
+            │   ├── task.model.ts
+            │   ├── task.api.ts
+            │   └── task.store.ts
+            ├── ui/
+            │   ├── task-card/
+            │   │   ├── task-card.ts
+            │   │   └── task-card.spec.ts
+            │   └── task-search/
+            │       ├── task-search.ts
+            │       └── task-search.spec.ts
+            ├── feature/
+            │   └── task-list-page/
+            │       └── task-list-page.ts
+            └── tasks.routes.ts
+</code></pre>
+<p>Notice what&#x27;s missing: no <code>shared/</code> folder, no <code>index.ts</code> files anywhere, no <code>*.module.ts</code> files. That&#x27;s not an accident.</p>
+<h3 id="bootstrap-script">Bootstrap Script</h3>
+<pre><code class="language-bash"># Create the entire AI config structure
+mkdir -p .github/{agents,prompts,skills/project-architecture,skills/vitest-angular-testing}
+mkdir -p .cursor/rules
+mkdir -p .vscode
+
+# Add MCP servers to Claude Code globally
+claude mcp add angular-cli --transport stdio -- npx -y @angular/cli mcp
+claude mcp add context7 --transport stdio -- npx -y @upstash/context7-mcp@latest
+claude mcp add sequential-thinking \
+  --transport stdio -- npx -y @modelcontextprotocol/server-sequentialthinking
+
+# Install pre-commit hooks
+npm install --save-dev lefthook
+npx lefthook install
+
+# Verify
+claude mcp list
+npx lefthook run pre-commit  # dry run with no staged files
+</code></pre>
+<hr/>
+<h2 id="before-and-after-the-same-request-two-worlds">Before and After: The Same Request, Two Worlds</h2>
+<p><strong>Request:</strong> <em>&quot;Create a task list component that fetches tasks from an API&quot;</em></p>
+<p><strong>Without this setup:</strong></p>
+<pre><code class="language-typescript">// NgModule required, constructor DI, @Input, *ngFor, subscribe leak
+@Component({ selector: &#x27;app-task-list&#x27;, templateUrl: &#x27;./task-list.html&#x27; })
+export class TaskListComponent implements OnInit {
+  @Input() showCompleted = false;
+  tasks: Task[] = [];
+
+  constructor(private taskService: TaskService) {}
+
+  ngOnInit() {
+    this.taskService.getTasks().subscribe(tasks =&gt; this.tasks = tasks);
+  }
+}
+</code></pre>
+<p><strong>With this setup:</strong></p>
+<pre><code class="language-typescript">// inject(), input(), signal, @for with track, toSignal, OnPush
+// No standalone: true needed in Angular 21
+@Component({
+  selector: &#x27;app-task-list&#x27;,
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  template: `
+    @if (isLoading()) {
+      &lt;app-skeleton-list /&gt;
+    } @else {
+      @for (task of visibleTasks(); track task.id) {
+        &lt;app-task-card [task]=&quot;task&quot; /&gt;
+      } @empty {
+        &lt;p class=&quot;empty&quot;&gt;No tasks found.&lt;/p&gt;
+      }
+    }
+  `,
+})
+export class TaskList {
+  showCompleted = input(false);
+
+  private store = inject(TaskStore);
+
+  private allTasks = this.store.entities;
+  isLoading = this.store.isLoading;
+  visibleTasks = computed(() =&gt;
+    this.showCompleted()
+      ? this.allTasks()
+      : this.allTasks().filter(t =&gt; t.status !== &#x27;done&#x27;)
+  );
+}
+</code></pre>
+<p>Notice the class is named <code>TaskList</code>, not <code>TaskListComponent</code>. No suffix. No <code>standalone: true</code>. No imports that a standalone array would need — the store is injected, not imported. This is what AGENTS.md produces when followed correctly.</p>
+<hr/>
+<h2 id="common-mistakes-to-fix-right-now">Common Mistakes to Fix Right Now</h2>
+<h3 id="my-ai-still-generates-standalone-true">&quot;My AI still generates standalone: true&quot;</h3>
+<p>Add this to AGENTS.md explicitly:</p>
+<pre><code class="language-markdown">## BANNED PATTERNS — Never generate these
+
+❌ Do not write this in Angular 21:
+standalone: true
+
+✅ Just omit it. It&#x27;s the default.
+</code></pre>
+<h3 id="my-ai-creates-a-shared-folder">&quot;My AI creates a shared/ folder&quot;</h3>
+<p>The pull toward <code>shared/</code> is strong — it feels tidy. But it creates coupling between features that should be independent. Add to AGENTS.md:</p>
+<pre><code class="language-markdown">## Architecture Violations — Block These
+
+There is NO shared/ folder in this project.
+If a component seems &quot;shared,&quot; it belongs to the feature that owns it,
+or it should be extracted into a new feature domain.
+</code></pre>
+<h3 id="my-ai-creates-indexts-barrel-files">&quot;My AI creates index.ts barrel files&quot;</h3>
+<pre><code class="language-markdown">## Barrel Files — Absolutely Forbidden
+
+There are NO index.ts files in this project.
+Always import directly from the source file:
+✅ import { TaskCard } from &#x27;../ui/task-card/task-card&#x27;;
+❌ import { TaskCard } from &#x27;../ui&#x27;;
+</code></pre>
+<h3 id="copilot-ignores-my-githubagents-folder">&quot;Copilot ignores my .github/agents/ folder&quot;</h3>
+<p>Check <code>.vscode/settings.json</code> for the discovery config:</p>
+<pre><code class="language-json">{
+  &quot;github.copilot.agents.supportedAgentDiscoveryLocations&quot;: [
+    &quot;AGENTS.md&quot;,
+    &quot;.github/agents/*.agent.md&quot;
+  ]
+}
+</code></pre>
+<p>Without this, Copilot only looks for its default instruction files.</p>
+<hr/>
+<h2 id="tool-comparison-at-a-glance">Tool Comparison at a Glance</h2>
+<div class="overflow-x-auto"><table><thead><tr><th></th><th>Claude Code</th><th>GitHub Copilot</th><th>Cursor</th></tr></thead><tbody><tr><td>Reads AGENTS.md</td><td>✅ automatic</td><td>✅ via VS Code setting</td><td>✅ via alwaysApply rule</td></tr><tr><td>Specialized agents</td><td>✅ via skills</td><td>✅ <code>.github/agents/*.agent.md</code></td><td>✅ via <code>.mdc</code> globs</td></tr><tr><td>Prompt templates</td><td>✅ reference in chat</td><td>✅ <code>#file:.github/prompts/…</code></td><td>✅ reference in chat</td></tr><tr><td>MCP servers</td><td>✅ full support</td><td>✅ VS Code only</td><td>✅ full support</td></tr><tr><td>Angular MCP</td><td>✅ <code>ng mcp</code></td><td>✅ <code>ng mcp</code></td><td>✅ <code>ng mcp</code></td></tr><tr><td>context7 MCP</td><td>✅</td><td>✅</td><td>✅</td></tr><tr><td>Pre-commit hooks</td><td>Independent (Lefthook)</td><td>Independent (Lefthook)</td><td>Independent (Lefthook)</td></tr></tbody></table></div>
+<p>Lefthook, TypeScript strict mode, and ESLint are <strong>tool-independent</strong>. They enforce your standards regardless of which AI generated the code. That&#x27;s the safety net.</p>
+<hr/>
+<h2 id="conclusion">Conclusion</h2>
+<p>The teams shipping the best Angular code with AI aren&#x27;t using a better model. They&#x27;ve built better infrastructure around whatever model they use.</p>
+<p>The setup in this guide takes a few hours end-to-end. In return:</p>
+<ul>
+<li><strong>Any AI tool</strong> your team uses reads from the same <code>.github/</code> conventions</li>
+<li><strong>AGENTS.md</strong> eliminates the &quot;which tool wrote this?&quot; inconsistency</li>
+<li><strong>Specialized agents</strong> bring domain expertise to specific tasks without bloating the global context</li>
+<li><strong>MCP servers</strong> give AI access to live documentation and your actual running app</li>
+<li><strong>Lefthook hooks</strong> enforce standards at commit time — no AI-generated legacy pattern survives</li>
+<li><strong>DDD without barrel files</strong> keeps your bundle lean and your feature boundaries honest</li>
+</ul>
+<p>The Angular team is shipping <code>ng mcp</code>, <code>llms.txt</code>, and AI-aware schematics in every release. AI tooling for Angular is getting better fast. The developers who invest in proper configuration now will compound those improvements — because their AI gets smarter with every Angular update, not just every model release.</p>
+<p>Start with <code>AGENTS.md</code>. Add the Angular MCP and <code>context7</code>. Write the feature-scaffolder agent for the feature type you build most often. Run it once. You&#x27;ll have the rest built out before the week is over.</p>
+<hr/>
+<h2 id="resources">Resources</h2>
+<ul>
+<li><a href="https://github.com/danielsogl/copilot-workflow-demo" target="_blank" rel="noopener noreferrer">Reference Repo: copilot-workflow-demo</a> — Production-grade Angular AI workflow this guide is based on</li>
+<li><a href="https://angular.dev/ai/develop-with-ai" target="_blank" rel="noopener noreferrer">Angular AI Development Guide</a> — Official Angular AI/IDE setup</li>
+<li><a href="https://angular.dev/ai/mcp" target="_blank" rel="noopener noreferrer">Angular MCP Server</a> — Official <code>ng mcp</code> documentation</li>
+<li><a href="https://angular.dev/context/llm-files/llms-full.txt" target="_blank" rel="noopener noreferrer">Angular llms.txt</a> — AI-friendly Angular documentation</li>
+<li><a href="https://github.com/upstash/context7" target="_blank" rel="noopener noreferrer">context7 MCP</a> — Live npm documentation for any package</li>
+<li><a href="https://github.com/modelcontextprotocol/servers" target="_blank" rel="noopener noreferrer">MCP Server Collection</a> — Official MCP server implementations</li>
+<li><a href="https://ngrx.io/guide/signals" target="_blank" rel="noopener noreferrer">NgRx Signal Store</a> — Modern Angular state management</li>
+<li><a href="https://github.com/evilmartians/lefthook" target="_blank" rel="noopener noreferrer">Lefthook</a> — Fast parallel pre-commit hooks</li>
+</ul>
+<hr/>
+<p><em>What&#x27;s the most useful agent you&#x27;ve built for your Angular project? The community learns fastest from real configurations — share yours in the comments.</em></p></div><section aria-labelledby="comments-heading" class="mt-20 border-t border-rule pt-10"><h2 id="comments-heading" class="label">Comments</h2><div class="mt-6"><div class="w-full giscus-wrapper"></div></div></section></article></main><footer class="border-t border-rule"><div class="mx-auto grid max-w-page gap-4 px-5 py-10 text-sm text-muted-foreground sm:grid-cols-[auto_1fr_auto] sm:gap-8 sm:px-8"><p>© <!-- -->2026<!-- --> <!-- -->Devendra Milmile</p><p class="sm:text-center">Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.</p><p><a href="#top" class="link hover:text-foreground">Back to top <span aria-hidden="true">↑</span></a></p></div></footer></div><!--/$--></div>
+  </body>
+</html>
