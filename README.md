@@ -2,7 +2,7 @@
 
 A modern, feature-rich portfolio template built with React, TypeScript, and Tailwind CSS. Perfect for developers, designers, and tech professionals to showcase their work and create a strong online presence.
 
-**Live Demo:** [https://devendramilmile.online](https://devendramilmile.online)  
+**Live Demo:** [https://devendramilmile.com](https://devendramilmile.com)  
 **Repository:** [github.com/devendramilmile121/portfolio](https://github.com/devendramilmile121/portfolio)
 
 ---
