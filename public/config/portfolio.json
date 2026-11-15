@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Devendra Milmile - Full Stack Developer | Angular & .NET Core",
-    "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
+    "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core. I turn legacy monoliths into microservices and micro frontends that ship on their own.",
     "keywords": "Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Micro Frontends, React Developer, TypeScript"
   },
   "blogs": {
@@ -9,8 +9,8 @@
   },
   "hero": {
     "name": "Devendra Milmile",
-    "title": "I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.",
-    "description": "7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.",
+    "title": "I turn legacy monoliths into *microservices* and *micro frontends* that ship on their own.",
+    "description": "7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and the .NET services behind them.",
     "contact": {
       "location": "Pune, India"
     },
@@ -79,7 +79,7 @@
   "about": {
     "bio": [
       "I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at [four companies](#experience) in Nagpur and Pune.",
-      "Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.",
+      "Most of that work now is micro frontends: splitting monoliths into apps that deploy independently, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.",
       "Outside the day job I build [Samyo](https://samyo.in), maintain a couple of [Angular libraries on npm](https://www.npmjs.com/~devendramilmile), and [write up what I learn](/blogs)."
     ],
     "highlights": [
