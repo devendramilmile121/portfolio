@@ -75,7 +75,7 @@ export const Projects = () => {
     });
 
   return (
-    <Section id="work" index="01" title="Selected work" aside={<p>My own product and libraries first, then client platforms.</p>}>
+    <Section id="work" index="01" title="Selected work" aside={<p>What I&apos;m working on now, then side projects and earlier client work.</p>}>
       <ol className="border-t border-rule">
         {projects.map((project, i) => {
           const isOpen = open.has(project.title);

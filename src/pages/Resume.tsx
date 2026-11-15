@@ -34,7 +34,7 @@ export default function Resume() {
   const { hero, resume, experience, projects = [], skills, education, contact } = config;
   const email = contact.info.find((item) => item.icon === "mail");
   const phone = contact.info.find((item) => item.icon === "phone");
-  // Own products: still active and publicly available (client platforms have no public link).
+  // Side projects: still active and publicly available (client platforms have no public link).
   // Retired ones stay on the website only.
   const ownWork = projects.filter(
     (project) => /present/i.test(project.period) && Boolean(project.links?.website || project.links?.npm)
@@ -105,7 +105,7 @@ export default function Resume() {
           </ResumeSection>
 
           {ownWork.length > 0 && (
-            <ResumeSection title="Own products">
+            <ResumeSection title="Side projects">
               <ul className="space-y-2 print:space-y-0.5">
                 {ownWork.map((project) => {
                   const link = project.links?.website ?? project.links?.npm;

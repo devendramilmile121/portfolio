@@ -43,7 +43,7 @@
         "text": "Replatforming College Coach onto micro frontends at Systems Plus"
       },
       {
-        "label": "Building",
+        "label": "On weekends",
         "text": "Samyo, a booking app for event businesses",
         "link": "https://samyo.in"
       },
@@ -256,9 +256,29 @@
   },
   "projects": [
     {
+      "title": "College Coach",
+      "period": "Jan 2026 - Present",
+      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
+      "highlights": [
+        "Breaking a monolith into micro frontends backed by new .NET 9 services",
+        "Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"
+      ],
+      "technologies": [
+        ".NET 9",
+        "Angular 19",
+        "Micro Frontends",
+        "Azure",
+        "SQL Server"
+      ],
+      "type": "Enterprise Platform",
+      "summary": "Moving a monolith onto micro frontends",
+      "role": "Senior engineer at Systems Plus",
+      "client": "Bright Horizons"
+    },
+    {
       "title": "Samyo",
       "period": "Sep 2026 - Present",
-      "description": "My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.",
+      "description": "A SaaS I build on weekends for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.",
       "highlights": [
         "Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event",
         "Equipment checklists generated from the services each business offers",
@@ -276,7 +296,7 @@
         "website": "https://samyo.in"
       },
       "summary": "Booking and operations app for event businesses",
-      "role": "Founder, sole engineer",
+      "role": "Side project: designed, built and run outside work",
       "image": {
         "src": "/projects/samyo.webp",
         "alt": "Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone",
@@ -343,26 +363,6 @@
       "summary": "Public API platform on .NET 8 and YARP",
       "role": "Software engineer at EPAM",
       "client": "Clario"
-    },
-    {
-      "title": "College Coach",
-      "period": "Jan 2026 - Present",
-      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
-      "highlights": [
-        "Breaking a monolith into micro frontends backed by new .NET 9 services",
-        "Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"
-      ],
-      "technologies": [
-        ".NET 9",
-        "Angular 19",
-        "Micro Frontends",
-        "Azure",
-        "SQL Server"
-      ],
-      "type": "Enterprise Platform",
-      "summary": "Moving a monolith onto micro frontends",
-      "role": "Senior engineer at Systems Plus",
-      "client": "Bright Horizons"
     },
     {
       "title": "SymphonyAI",
