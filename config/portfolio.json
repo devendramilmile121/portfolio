@@ -43,7 +43,7 @@
         "text": "Replatforming College Coach onto micro frontends at Systems Plus"
       },
       {
-        "label": "Building",
+        "label": "On weekends",
         "text": "Samyo, a booking app for event businesses",
         "link": "https://samyo.in"
       },
@@ -78,9 +78,34 @@
   ],
   "about": {
     "bio": [
-      "I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.",
+      "I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at [four companies](#experience) in Nagpur and Pune.",
       "Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.",
-      "Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."
+      "Outside the day job I build [Samyo](https://samyo.in), maintain a couple of [Angular libraries on npm](https://www.npmjs.com/~devendramilmile), and [write up what I learn](/blogs)."
+    ],
+    "highlights": [
+      {
+        "title": "Hackathon proposal adopted",
+        "detail": "A solution I proposed at a company hackathon is going into the upcoming product roadmap",
+        "org": "Systems Plus",
+        "year": "2026"
+      },
+      {
+        "title": "Shared UI library in 4 projects",
+        "detail": "Every micro frontend now uses the component library I migrated local components into",
+        "org": "Systems Plus",
+        "year": "2026"
+      },
+      {
+        "title": "Led the UNIDO DIPS team",
+        "detail": "3 developers and 1 QA, from kickoff through delivery",
+        "org": "Nitor Infotech",
+        "year": "2021–24"
+      },
+      {
+        "title": "Recognized for delivery",
+        "detail": "For delivering on time without cutting corners on quality",
+        "org": "Nitor Infotech"
+      }
     ]
   },
   "resume": {
@@ -231,9 +256,29 @@
   },
   "projects": [
     {
+      "title": "College Coach",
+      "period": "Jan 2026 - Present",
+      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
+      "highlights": [
+        "Breaking a monolith into micro frontends backed by new .NET 9 services",
+        "Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"
+      ],
+      "technologies": [
+        ".NET 9",
+        "Angular 19",
+        "Micro Frontends",
+        "Azure",
+        "SQL Server"
+      ],
+      "type": "Enterprise Platform",
+      "summary": "Moving a monolith onto micro frontends",
+      "role": "Senior engineer at Systems Plus",
+      "client": "Bright Horizons"
+    },
+    {
       "title": "Samyo",
       "period": "Sep 2026 - Present",
-      "description": "My own SaaS for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.",
+      "description": "A SaaS I build on weekends for small event businesses in India: balloon decorators, DJs, photographers, stage and lighting crews. It replaces the paper booking diary with one app for bookings, equipment, payments, and team assignments.",
       "highlights": [
         "Reminders on WhatsApp, email, or push 7 days, 2 days, and 4 hours before each event",
         "Equipment checklists generated from the services each business offers",
@@ -251,13 +296,14 @@
         "website": "https://samyo.in"
       },
       "summary": "Booking and operations app for event businesses",
-      "role": "Founder, sole engineer",
+      "role": "Side project: designed, built and run outside work",
       "image": {
         "src": "/projects/samyo.webp",
         "alt": "Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone",
         "width": 1600,
         "height": 1000
-      }
+      },
+      "status": "live"
     },
     {
       "title": "@datelane/core",
@@ -287,6 +333,14 @@
         "alt": "datelane week view: colored events across seven days, an all-day band, and a red line marking the current time",
         "width": 1600,
         "height": 924
+      },
+      "status": "live",
+      "video": {
+        "src": "/projects/datelane-demo.mp4",
+        "poster": "/projects/datelane-demo-poster.webp",
+        "width": 1142,
+        "height": 682,
+        "label": "datelane demo: an event is dragged from Tuesday to Thursday, another is resized by its bottom edge, then the view switches through Month and Timeline Week back to Week"
       }
     },
     {
@@ -309,26 +363,6 @@
       "summary": "Public API platform on .NET 8 and YARP",
       "role": "Software engineer at EPAM",
       "client": "Clario"
-    },
-    {
-      "title": "College Coach",
-      "period": "Jan 2026 - Present",
-      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
-      "highlights": [
-        "Breaking a monolith into micro frontends backed by new .NET 9 services",
-        "Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"
-      ],
-      "technologies": [
-        ".NET 9",
-        "Angular 19",
-        "Micro Frontends",
-        "Azure",
-        "SQL Server"
-      ],
-      "type": "Enterprise Platform",
-      "summary": "Moving a monolith onto micro frontends",
-      "role": "Senior engineer at Systems Plus",
-      "client": "Bright Horizons"
     },
     {
       "title": "SymphonyAI",
@@ -392,7 +426,8 @@
         "github": "https://github.com/devendramilmile121/ngx-custom-carousel"
       },
       "summary": "Template-driven Angular carousel, now retired",
-      "role": "Author"
+      "role": "Author",
+      "status": "retired"
     }
   ],
   "education": {
