@@ -9,15 +9,10 @@
   },
   "hero": {
     "name": "Devendra Milmile",
-    "title": "Full Stack Developer",
-    "description": "I've been building web apps with Angular and .NET Core for over 7 years. These days that mostly means micro frontends, and moving old monoliths onto them.",
-    "ctaPrimary": "Get In Touch",
-    "ctaPrimaryTarget": "contact",
-    "ctaSecondary": "View Projects",
-    "ctaSecondaryTarget": "projects",
+    "title": "I break Angular monoliths into *micro frontends* and build the .NET APIs behind them.",
+    "description": "7+ years of Angular and .NET Core. These days most of it is shared UI libraries, YARP gateways and moving legacy apps onto micro frontends.",
     "contact": {
-      "location": "Pune, India",
-      "phone": "+91 7263967111"
+      "location": "Pune, India"
     },
     "social": [
       {
@@ -31,17 +26,68 @@
       {
         "name": "email",
         "url": "mailto:milmiledh@gmail.com"
+      },
+      {
+        "name": "npm",
+        "url": "https://www.npmjs.com/~devendramilmile"
+      },
+      {
+        "name": "resume",
+        "url": "/resume"
+      }
+    ],
+    "role": "Full stack engineer",
+    "now": [
+      {
+        "label": "Day job",
+        "text": "Replatforming College Coach onto micro frontends at Systems Plus"
+      },
+      {
+        "label": "Building",
+        "text": "Samyo, a booking app for event businesses",
+        "link": "https://samyo.in"
+      },
+      {
+        "label": "Maintaining",
+        "text": "@datelane/core, an Angular scheduler on npm",
+        "link": "https://www.npmjs.com/package/@datelane/core"
       }
     ]
   },
   "navigation": [
-    { "label": "Home", "id": "hero" },
-    { "label": "Skills", "id": "skills" },
-    { "label": "Experience", "id": "experience" },
-    { "label": "Projects", "id": "projects" },
-    { "label": "Education", "id": "education" },
-    { "label": "Contact", "id": "contact" }
+    {
+      "label": "Work",
+      "id": "work"
+    },
+    {
+      "label": "Experience",
+      "id": "experience"
+    },
+    {
+      "label": "Writing",
+      "id": "writing"
+    },
+    {
+      "label": "About",
+      "id": "about"
+    },
+    {
+      "label": "Contact",
+      "id": "contact"
+    }
   ],
+  "about": {
+    "bio": [
+      "I've spent more than seven years on Angular front ends and the .NET APIs behind them, across healthcare, UN and enterprise products, at four companies in Nagpur and Pune.",
+      "Most of that work now is micro frontends: splitting monoliths into apps that can ship on their own, building the shared UI libraries that keep them consistent, and putting YARP gateways in front of the services.",
+      "Outside the day job I build Samyo, maintain a couple of Angular libraries on npm, and write up what I learn."
+    ]
+  },
+  "resume": {
+    "headline": "Full stack engineer · Angular and .NET",
+    "summary": "Full stack engineer with 7+ years of Angular and .NET Core across healthcare, UN and enterprise products. I work mostly on micro frontends: breaking monoliths into apps that ship on their own, building the shared UI libraries that keep them consistent, and the YARP gateways and .NET APIs behind them.",
+    "pdf": "/devendra-milmile-resume.pdf"
+  },
   "skills": {
     "description": "Most of my work is Angular on the front end and .NET Core on the back end. Here's the rest of what I use.",
     "categories": [
@@ -49,10 +95,11 @@
         "title": "Frontend",
         "skills": [
           "Angular",
+          "Micro Frontends",
           "TypeScript",
           "HTML5",
           "CSS/SCSS",
-          "React JS",
+          "React",
           "Angular Material",
           "PrimeNG"
         ]
@@ -62,7 +109,7 @@
         "skills": [
           ".NET Core",
           "C#",
-          "Entity Framework",
+          "Entity Framework Core",
           "YARP",
           "Microservices",
           "RESTful APIs"
@@ -70,11 +117,22 @@
       },
       {
         "title": "Database",
-        "skills": ["SQL Server", "PostgreSQL", "Database Design", "Performance Optimization"]
+        "skills": [
+          "SQL Server",
+          "PostgreSQL",
+          "Database Design",
+          "Performance Optimization"
+        ]
       },
       {
         "title": "Cloud & DevOps",
-        "skills": ["Azure", "AWS", "CI/CD", "GitHub Actions", "Docker"]
+        "skills": [
+          "Azure",
+          "AWS",
+          "CI/CD",
+          "GitHub Actions",
+          "Docker"
+        ]
       },
       {
         "title": "Tools & Libraries",
@@ -84,17 +142,7 @@
           "Angular Gridster2",
           "JWT Authentication",
           "Swagger",
-          "Github Copilot"
-        ]
-      },
-      {
-        "title": "Methodologies",
-        "skills": [
-          "Agile",
-          "Scrum",
-          "Code Reviews",
-          "Team Leadership",
-          "Client Communication"
+          "GitHub Copilot"
         ]
       }
     ]
@@ -109,8 +157,11 @@
         "location": "Pune",
         "description": [
           "Moving a legacy monolith onto a micro frontend architecture as part of a replatform project",
+          "Migrated local components into a shared UI library; every micro frontend now uses it, across 4 projects",
           "Upgrading backend services to .NET 9",
-          "Joined in January 2026, so this list is still short"
+          "Delivered the planned features ahead of schedule",
+          "Helping the team use AI tools wisely and correctly in day-to-day work",
+          "Proposed a solution at a company hackathon that is now on the upcoming roadmap"
         ],
         "technologies": [
           "Angular",
@@ -123,7 +174,7 @@
         ]
       },
       {
-        "company": "Epam Systems",
+        "company": "EPAM Systems",
         "role": "Software Engineer",
         "period": "Nov 2024 - Dec 2025",
         "location": "Pune",
@@ -174,12 +225,7 @@
           "Estimated tasks during sprint planning",
           "Was the go-between for clients and the dev team"
         ],
-        "technologies": [
-          "Full Stack Development",
-          "Healthcare Apps",
-          "PDF Generation",
-          "Client Management"
-        ]
+        "technologies": []
       }
     ]
   },
@@ -198,34 +244,53 @@
         "Angular",
         ".NET",
         "PostgreSQL",
-        "Azure",
-        "SaaS"
+        "Azure"
       ],
       "type": "SaaS Product",
       "links": {
         "website": "https://samyo.in"
+      },
+      "summary": "Booking and operations app for event businesses",
+      "role": "Founder, sole engineer",
+      "image": {
+        "src": "/projects/samyo.webp",
+        "alt": "Samyo's landing page: \"Stop forgetting bookings\", beside the app's dashboard on a phone",
+        "width": 1600,
+        "height": 1000
       }
     },
     {
-      "title": "Bright Horizons - College Coach",
-      "period": "Jan 2026 - Present",
-      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
+      "title": "@datelane/core",
+      "period": "Jul 2026 - Present",
+      "description": "An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.",
       "highlights": [
-        "Breaking a monolith into micro frontends backed by new .NET 9 services",
-        "Moved copy-pasted components into a shared UI library, so every micro frontend behaves the same and bugs get fixed in one place"
+        "12 views: day, week, month, year, agenda and timeline",
+        "Drag to move and resize, recurring events, resources",
+        "Dark mode and right-to-left layouts",
+        "Pluggable date adapters: Native, Luxon, Moment",
+        "Zero runtime dependencies"
       ],
       "technologies": [
-        ".NET 9",
-        "Angular 19",
-        "Micro Frontend",
-        "API Design",
-        "Azure",
-        "SQL Server"
+        "Angular",
+        "TypeScript"
       ],
-      "type": "Enterprise Platform"
+      "type": "Open Source",
+      "links": {
+        "demo": "https://devendramilmile121.github.io/datelane/",
+        "npm": "https://www.npmjs.com/package/@datelane/core",
+        "github": "https://github.com/devendramilmile121/datelane"
+      },
+      "summary": "Zero-dependency Angular scheduler and calendar",
+      "role": "Author and maintainer",
+      "image": {
+        "src": "/projects/datelane.webp",
+        "alt": "datelane week view: colored events across seven days, an all-day band, and a red line marking the current time",
+        "width": 1600,
+        "height": 924
+      }
     },
     {
-      "title": "CLARIO - Public API Platform",
+      "title": "CLARIO",
       "period": "Dec 2024 - Dec 2025",
       "description": "A public API on .NET 8, with YARP routing requests to the services underneath. I also built a notification rule engine and an Expression Designer library that lets users define their own triggers.",
       "highlights": [
@@ -237,11 +302,54 @@
       "technologies": [
         ".NET 8",
         "YARP",
-        "Micro Frontend",
-        "Swagger",
-        "API Design"
+        "Micro Frontends",
+        "Swagger"
       ],
-      "type": "Enterprise Platform"
+      "type": "Enterprise Platform",
+      "summary": "Public API platform on .NET 8 and YARP",
+      "role": "Software engineer at EPAM",
+      "client": "Clario"
+    },
+    {
+      "title": "College Coach",
+      "period": "Jan 2026 - Present",
+      "description": "Moving a legacy monolith onto micro frontends, with Angular 19 on the front end and .NET 9 behind it. Part of the job is pulling duplicated components into one shared UI library.",
+      "highlights": [
+        "Breaking a monolith into micro frontends backed by new .NET 9 services",
+        "Moved local components into a shared UI library that every micro frontend now uses, across 4 projects, so bugs get fixed in one place"
+      ],
+      "technologies": [
+        ".NET 9",
+        "Angular 19",
+        "Micro Frontends",
+        "Azure",
+        "SQL Server"
+      ],
+      "type": "Enterprise Platform",
+      "summary": "Moving a monolith onto micro frontends",
+      "role": "Senior engineer at Systems Plus",
+      "client": "Bright Horizons"
+    },
+    {
+      "title": "SymphonyAI",
+      "period": "Jan 2022 - Oct 2024",
+      "description": "An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.",
+      "highlights": [
+        "Customer engagement up 25%",
+        "Drag-and-drop dashboard built on Angular Gridster2",
+        "Configurable charts with AmCharts5",
+        "Menus driven by JSON config"
+      ],
+      "technologies": [
+        "Angular",
+        "Angular Gridster2",
+        "AmCharts5",
+        "TypeScript"
+      ],
+      "type": "Product Platform",
+      "summary": "Shared Angular library and configurable dashboards",
+      "role": "Lead engineer at Nitor",
+      "client": "SymphonyAI"
     },
     {
       "title": "UNIDO DIPS",
@@ -257,51 +365,11 @@
         "Angular",
         ".NET Core",
         "Survey.js",
-        "JWT",
-        "Multi-language"
+        "JWT"
       ],
-      "type": "Enterprise Application"
-    },
-    {
-      "title": "SymphonyAI Platform",
-      "period": "Jan 2022 - Oct 2024",
-      "description": "An Angular library of shared components and navigation used across SymphonyAI products. I also built a drag-and-drop dashboard with configurable charts.",
-      "highlights": [
-        "Customer engagement up 25%",
-        "Drag-and-drop dashboard built on Angular Gridster2",
-        "Configurable charts with AmCharts5",
-        "Menus driven by JSON config"
-      ],
-      "technologies": [
-        "Angular",
-        "Angular Gridster2",
-        "AmCharts5",
-        "TypeScript",
-        "Library Development"
-      ],
-      "type": "Product Platform"
-    },
-    {
-      "title": "@datelane/core",
-      "period": "Jul 2026 - Present",
-      "description": "An Angular scheduler and calendar library with no runtime dependencies. Date handling is pluggable, so it works with native Dates, Luxon, or Moment. MIT licensed and on npm.",
-      "highlights": [
-        "Published on npm",
-        "Pluggable date adapters: Native, Luxon, Moment",
-        "Zero runtime dependencies",
-        "Scheduler, calendar, timeline, and agenda views"
-      ],
-      "technologies": [
-        "Angular",
-        "TypeScript",
-        "NPM",
-        "Open Source"
-      ],
-      "type": "Open Source",
-      "links": {
-        "npm": "https://www.npmjs.com/package/@datelane/core",
-        "github": "https://github.com/devendramilmile121/datelane"
-      }
+      "type": "Enterprise Application",
+      "summary": "Multilingual web app with external surveys",
+      "role": "Team lead at Nitor"
     },
     {
       "title": "ngx-custom-carousel",
@@ -315,28 +383,28 @@
       ],
       "technologies": [
         "Angular",
-        "NPM",
         "GitHub Actions",
-        "TypeScript",
-        "Open Source"
+        "TypeScript"
       ],
       "type": "Open Source",
       "links": {
         "npm": "https://www.npmjs.com/package/ngx-custom-carousel",
-        "github": "https://github.com/devendramilmile/ngx-custom-carousel"
-      }
+        "github": "https://github.com/devendramilmile121/ngx-custom-carousel"
+      },
+      "summary": "Template-driven Angular carousel, now retired",
+      "role": "Author"
     }
   ],
   "education": {
     "degrees": [
       {
-        "degree": "Master of Computer Application",
+        "degree": "Master of Computer Applications",
         "institution": "Shri Ramdeo Baba College of Engineering and Management",
         "period": "Jun 2016 - Jun 2019",
         "type": "Masters Degree"
       },
       {
-        "degree": "Bachelor of Computer Application",
+        "degree": "Bachelor of Computer Applications",
         "institution": "College of Management and Computer Science",
         "period": "Jun 2012 - Jun 2016",
         "type": "Bachelors Degree"
@@ -347,10 +415,11 @@
         "title": "Microsoft Certified: Azure Fundamentals",
         "provider": "Microsoft",
         "date": "Sep 2025",
-        "link": "https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C"
+        "link": "https://learn.microsoft.com/api/credentials/share/en-us/DevendraMilmile-1837/DE1F9B5D1243CB4E?sharingId=49B75DA84853852C",
+        "featured": true
       },
       {
-        "title": "Angular Architecture. How to Build Scalable Web Applications",
+        "title": "Angular Architecture: How to Build Scalable Web Applications",
         "provider": "Udemy",
         "date": "Nov 2022",
         "link": "https://www.udemy.com/certificate/UC-92e3e67f-5416-4f70-8ca2-4e0c654394b7/"
@@ -373,7 +442,7 @@
         "date": "May 2023"
       },
       {
-        "title": "AWS Cloud Practitioner",
+        "title": "AWS Cloud Practitioner course",
         "provider": "GeeksforGeeks",
         "date": "May 2024"
       },
@@ -386,8 +455,8 @@
     ]
   },
   "contact": {
-    "heading": "Let's Connect",
-    "description": "Have a project or a role you think I'd fit? Send me an email and tell me about it.",
+    "heading": "Have something in mind?",
+    "description": "Email is the best way to reach me.",
     "info": [
       {
         "label": "Email",
@@ -421,7 +490,7 @@
         "icon": "linkedin"
       },
       {
-        "label": "NPM Profile",
+        "label": "npm",
         "username": "devendramilmile",
         "url": "https://www.npmjs.com/~devendramilmile",
         "icon": "externalLink"
@@ -432,7 +501,7 @@
     "name": "Devendra Milmile",
     "title": "Full Stack Developer • Angular & .NET Core",
     "copyright": "All rights reserved.",
-    "builtWith": "Built with React, TypeScript & Tailwind CSS",
+    "builtWith": "Set in Newsreader, Inter and IBM Plex Mono. Built with React and Tailwind CSS.",
     "social": [
       {
         "name": "github",
@@ -445,59 +514,6 @@
       {
         "name": "email",
         "url": "mailto:milmiledh@gmail.com"
-      }
-    ]
-  },
-  "seasonalEffects": {
-    "enabled": true,
-    "effects": [
-      {
-        "name": "christmas",
-        "type": "snow",
-        "enabled": true,
-        "startMonth": 12,
-        "startDay": 10,
-        "endMonth": 1,
-        "endDay": 1,
-        "settings": {
-          "particleCount": 80,
-          "particleSize": "1px-3px",
-          "particleOpacity": 0.8,
-          "fallSpeed": "8s-15s",
-          "color": "#ffffff",
-          "blur": "0px"
-        }
-      },
-      {
-        "name": "diwali",
-        "type": "crackers",
-        "enabled": false,
-        "startMonth": 10,
-        "startDay": 1,
-        "endMonth": 10,
-        "endDay": 14,
-        "settings": {
-          "crackerCount": 50,
-          "crackerSize": "3px-10px",
-          "color": "#FFD700,#FF6347,#00CED1,#FF1493",
-          "duration": "1s-3s",
-          "particlesPerCracker": 20
-        }
-      },
-      {
-        "name": "newyear",
-        "type": "confetti",
-        "enabled": false,
-        "startMonth": 12,
-        "startDay": 31,
-        "endMonth": 1,
-        "endDay": 1,
-        "settings": {
-          "particleCount": 150,
-          "particleSize": "3px-6px",
-          "colors": ["#FFD700", "#FF6347", "#00CED1", "#FF1493", "#32CD32"],
-          "fallSpeed": "3s-6s"
-        }
       }
     ]
   }

@@ -8,8 +8,8 @@
     <!-- Primary Meta Tags (SEO) -->
     <title>Devendra Milmile - Full Stack Developer | Angular & .NET Core</title>
     <meta name="title" content="Devendra Milmile - Full Stack Developer | Angular & .NET Core" />
-    <meta name="description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them. Open to freelance and contract work." />
-    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Freelance Developer, Pune Developer, React, TypeScript, C#, Microservices, Cloud Architecture" />
+    <meta name="description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them." />
+    <meta name="keywords" content="Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer, Pune Developer, Micro Frontends, React, TypeScript, C#, Microservices" />
     <meta name="author" content="Devendra Milmile" />
     <meta name="language" content="English" />
     <meta name="revisit-after" content="7 days" />
@@ -29,7 +29,6 @@
     <meta name="twitter:title" content="Devendra Milmile - Full Stack Developer | Angular & .NET Core" />
     <meta name="twitter:description" content="Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them." />
     <meta name="twitter:image" content="https://devendramilmile.com/og-image.png" />
-    <meta name="twitter:creator" content="@devendramilmile" />
     <meta name="twitter:url" content="https://devendramilmile.com" />
     
     <!-- Canonical URL -->
@@ -43,8 +42,25 @@
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     
     <!-- Additional SEO -->
-    <meta name="theme-color" content="#000000" />
+    <meta name="theme-color" content="#f5f2ec" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#131211" media="(prefers-color-scheme: dark)" />
     <meta name="color-scheme" content="light dark" />
+
+    <!-- Apply the theme before first paint, so the page never flashes the wrong palette. Mirrors getInitialTheme in src/hooks/use-theme.tsx -->
+    <script>
+      (function () {
+        var theme = null;
+        try {
+          theme = localStorage.getItem('portfolio-theme');
+        } catch (e) {
+          // Storage blocked (private mode): fall back to the system setting
+        }
+        if (theme !== 'light' && theme !== 'dark') {
+          theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark');
+      })();
+    </script>
     
     <!-- JSON-LD Structured Data (Person + Professional Profile) -->
     <script type="application/ld+json">
@@ -55,23 +71,20 @@
       "jobTitle": "Full Stack Developer",
       "email": "milmiledh@gmail.com",
       "url": "https://devendramilmile.com",
-      "telephone": "+91 7263967111",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Pune",
         "addressLocality": "Pune",
         "addressRegion": "Maharashtra",
-        "postalCode": "411001",
         "addressCountry": "IN"
       },
       "sameAs": [
         "https://github.com/devendramilmile121",
         "https://linkedin.com/in/devendramilmile",
-        "https://twitter.com/devendramilmile"
+        "https://www.npmjs.com/~devendramilmile"
       ],
-      "image": "https://devendramilmile.com/profile-image.png",
+      "image": "https://devendramilmile.com/profile-image.jpg",
       "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work. I build web apps, micro frontends, and the APIs behind them.",
-      "knowsAbout": ["Angular", ".NET Core", "TypeScript", "React", "C#", "SQL Server", "Azure", "AWS", "Microservices", "Cloud Architecture"],
+      "knowsAbout": ["Angular", "Micro Frontends", ".NET Core", "YARP", "TypeScript", "C#", "SQL Server", "PostgreSQL", "Azure", "Microservices"],
       "worksFor": {
         "@type": "Organization",
         "name": "Systems Plus",
@@ -80,29 +93,6 @@
     }
     </script>
     
-    <!-- JSON-LD Structured Data (Organization) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Devendra Milmile",
-      "url": "https://devendramilmile.com",
-      "logo": "https://devendramilmile.com/logo.png",
-      "description": "Full stack developer in Pune with 7+ years of Angular and .NET Core work.",
-      "email": "milmiledh@gmail.com",
-      "telephone": "+91 7263967111",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Pune",
-        "addressRegion": "Maharashtra",
-        "addressCountry": "IN"
-      },
-      "sameAs": [
-        "https://github.com/devendramilmile121",
-        "https://linkedin.com/in/devendramilmile"
-      ]
-    }
-    </script>
   </head>
 
   <body>

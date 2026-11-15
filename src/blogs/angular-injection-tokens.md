@@ -1,11 +1,11 @@
 ---
-title: "Angular Injection Tokens: Master Dependency Injection with Custom Tokens"
+title: "Angular Injection Tokens: Dependency Injection with Custom Tokens"
 date: "2026-04-02"
-summary: "Unlock the full power of Angular's dependency injection system. Learn how to create custom InjectionTokens for configuration, features toggles, and complex dependencies—turning your loosely-coupled architecture into pure gold."
+summary: "How to create custom InjectionTokens in Angular for configuration, feature toggles and complex dependencies, and use them to keep your architecture loosely coupled."
 tags: ["Angular", "Dependency Injection", "TypeScript", "Architecture", "Design Patterns", "Advanced"]
 ---
 
-# Angular Injection Tokens: Master Dependency Injection with Custom Tokens
+# Angular Injection Tokens: Dependency Injection with Custom Tokens
 
 Dependency injection is one of Angular's most powerful features, yet many developers underutilize it. While injecting services through constructors feels natural, there's a deeper layer that transforms how you architect applications: **Injection Tokens**.
 

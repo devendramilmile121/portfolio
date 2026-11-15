@@ -3,6 +3,7 @@ title: "Web Performance Optimization: Making Your Site Lightning Fast"
 date: "2025-11-15"
 summary: "Learn practical techniques to optimize your web application's performance. Including image optimization, code splitting, and caching strategies."
 tags: ["performance", "optimization", "web-development", "best-practices"]
+unlisted: true
 ---
 
 # Web Performance Optimization: Making Your Site Lightning Fast

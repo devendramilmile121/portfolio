@@ -3,6 +3,7 @@ title: "Getting Started with React: A Complete Guide"
 date: "2025-11-20"
 summary: "Learn the fundamentals of React, including components, hooks, and state management. Perfect for beginners starting their React journey."
 tags: ["react", "javascript", "web-development", "tutorial"]
+unlisted: true
 ---
 
 # Getting Started with React: A Complete Guide

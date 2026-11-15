@@ -1,11 +1,11 @@
 ---
-title: ".NET 10 Server-Sent Events: Real-Time Updates Made Easy"
+title: ".NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser"
 date: "2026-01-09"
-summary: "Learn how to build real-time applications with .NET 10's new Server-Sent Events API. Stream live stock market data to your clients using a simple, efficient approach that's perfect for dashboards, notifications, and live updates."
+summary: "Build real-time features with .NET 10's Server-Sent Events API, using a live stock-price stream as the example. A simple fit for dashboards, notifications and live updates."
 tags: [".NET", "ASP.NET Core", "Real-Time", "Server-Sent Events", "Web Development", "Stock Market"]
 ---
 
-# .NET 10 Server-Sent Events: Real-Time Updates Made Easy
+# .NET 10 Server-Sent Events: Streaming Real-Time Updates to the Browser
 
 Ever wondered how those slick live dashboards update without refreshing the page? Or how notification feeds just magically appear? That's real-time communication at work. And with .NET 10, Microsoft just made it super easy to build these features with Server-Sent Events (SSE).
 
@@ -512,8 +512,8 @@ Ready to make your apps more interactive? Give SSE a shot. Your users will love 
 
 - [Complete Working Example on GitHub](https://github.com/devendramilmile121/server-sent-events) - Full source code from this tutorial
 - [Server-Sent Events on MDN](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)
-- [Minimal API SSE Sample](https://github.com/dotnet/aspnetcore/tree/main/src/Http/samples/MinimalApiSse)
-- [Controller API SSE Sample](https://github.com/dotnet/aspnetcore/tree/main/src/Mvc/samples/ControllerApiSse)
+- [Server-sent events in minimal API responses](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/minimal-apis/responses?view=aspnetcore-10.0) - Microsoft Learn
+- [TypedResults.ServerSentEvents API reference](https://learn.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.http.typedresults.serversentevents?view=aspnetcore-10.0) - Microsoft Learn
 - [ASP.NET Core Documentation](https://learn.microsoft.com/en-us/aspnet/core)
 - [EventSource API Reference](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)
 

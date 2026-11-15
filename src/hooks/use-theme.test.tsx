@@ -1,216 +1,73 @@
-import React from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
-import { ThemeProvider, useTheme } from './use-theme'
+import { fireEvent, render, screen } from '@testing-library/react'
+import { ThemeProvider } from './use-theme'
+import { useTheme, getInitialTheme } from '@/lib/theme'
 
-const getThemeMigrationKey = (storageKey = 'portfolio-theme') =>
-  `${storageKey}-default-theme-v3`
-
-const TestComponent = () => {
-  const { theme, setTheme } = useTheme()
-
+const Probe = () => {
+  const { theme, setTheme, toggleTheme } = useTheme()
   return (
     <div>
-      <p data-testid="current-theme">{theme}</p>
-      <button onClick={() => setTheme('dark')} data-testid="dark-btn">
-        Dark
-      </button>
-      <button onClick={() => setTheme('yellow')} data-testid="yellow-btn">
-        Yellow
-      </button>
-      <button onClick={() => setTheme('green')} data-testid="green-btn">
-        Green
-      </button>
-      <button onClick={() => setTheme('white')} data-testid="white-btn">
-        White
-      </button>
-      <button onClick={() => setTheme('glass-dark')} data-testid="glass-btn">
-        Glass
-      </button>
+      <p data-testid="theme">{theme}</p>
+      <button onClick={() => setTheme('dark')}>dark</button>
+      <button onClick={toggleTheme}>toggle</button>
     </div>
   )
 }
 
-describe('ThemeProvider and useTheme', () => {
+const prefersDark = (dark: boolean) =>
+  (window.matchMedia as jest.Mock).mockImplementation((query: string) => ({
+    matches: dark && query.includes('dark'),
+    media: query,
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+  }))
+
+describe('ThemeProvider', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
     localStorage.clear()
     document.documentElement.className = ''
+    prefersDark(false)
   })
 
-  it('should provide default theme', () => {
+  it('follows the system setting when nothing is saved', () => {
+    prefersDark(true)
     render(
       <ThemeProvider>
-        <TestComponent />
+        <Probe />
       </ThemeProvider>
     )
-
-    const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('glass-dark')
+    expect(screen.getByTestId('theme')).toHaveTextContent('dark')
+    expect(document.documentElement).toHaveClass('dark')
   })
 
-  it('should apply default theme class to root element', () => {
-    render(
-      <ThemeProvider defaultTheme="github">
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    expect(document.documentElement.classList.contains('theme-github')).toBe(true)
+  it('prefers a saved choice over the system setting', () => {
+    prefersDark(true)
+    localStorage.setItem('portfolio-theme', 'light')
+    expect(getInitialTheme('portfolio-theme')).toBe('light')
   })
 
-  it('should use custom default theme', () => {
-    render(
-      <ThemeProvider defaultTheme="dark">
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('dark')
+  it('ignores saved values from the old theme set', () => {
+    localStorage.setItem('portfolio-theme', 'glass-dark')
+    expect(getInitialTheme('portfolio-theme')).toBe('light')
   })
 
-  it('should change theme when setTheme is called', async () => {
+  it('saves and applies a chosen theme, and toggles back', () => {
     render(
       <ThemeProvider>
-        <TestComponent />
+        <Probe />
       </ThemeProvider>
     )
+    fireEvent.click(screen.getByText('dark'))
+    expect(localStorage.getItem('portfolio-theme')).toBe('dark')
+    expect(document.documentElement).toHaveClass('dark')
 
-    const darkButton = screen.getByTestId('dark-btn')
-    fireEvent.click(darkButton)
-
-    await waitFor(() => {
-      const themeElement = screen.getByTestId('current-theme')
-      expect(themeElement).toHaveTextContent('dark')
-    })
+    fireEvent.click(screen.getByText('toggle'))
+    expect(screen.getByTestId('theme')).toHaveTextContent('light')
+    expect(document.documentElement).not.toHaveClass('dark')
   })
 
-  it('should update class on root element when theme changes', async () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const darkButton = screen.getByTestId('dark-btn')
-    fireEvent.click(darkButton)
-
-    await waitFor(() => {
-      expect(document.documentElement.classList.contains('theme-dark')).toBe(true)
-      expect(document.documentElement.classList.contains('theme-github')).toBe(false)
-    })
-  })
-
-  it('should apply the liquid glass dark theme class', async () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    fireEvent.click(screen.getByTestId('glass-btn'))
-
-    await waitFor(() => {
-      expect(document.documentElement.classList.contains('theme-glass-dark')).toBe(true)
-      expect(document.documentElement.classList.contains('theme-github')).toBe(false)
-      expect(localStorage.getItem('portfolio-theme')).toBe('glass-dark')
-    })
-  })
-
-  it('should persist theme to localStorage', async () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const yellowButton = screen.getByTestId('yellow-btn')
-    fireEvent.click(yellowButton)
-
-    await waitFor(() => {
-      expect(localStorage.getItem('portfolio-theme')).toBe('yellow')
-    })
-  })
-
-  it('should use custom storage key', async () => {
-    render(
-      <ThemeProvider storageKey="custom-theme-key">
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const greenButton = screen.getByTestId('green-btn')
-    fireEvent.click(greenButton)
-
-    await waitFor(() => {
-      expect(localStorage.getItem('custom-theme-key')).toBe('green')
-    })
-  })
-
-  it('should override a previously stored theme with the default theme once', () => {
-    localStorage.setItem('portfolio-theme', 'dark')
-
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('glass-dark')
-    expect(localStorage.getItem('portfolio-theme')).toBe('glass-dark')
-    expect(localStorage.getItem(getThemeMigrationKey())).toBe('true')
-  })
-
-  it('should restore theme from localStorage after the default theme migration has run', () => {
-    localStorage.setItem(getThemeMigrationKey(), 'true')
-    localStorage.setItem('portfolio-theme', 'dark')
-
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toHaveTextContent('dark')
-  })
-
-  it('should provide default context', () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const themeElement = screen.getByTestId('current-theme')
-    expect(themeElement).toBeTruthy()
-  })
-
-  it('should handle multiple theme changes', async () => {
-    render(
-      <ThemeProvider>
-        <TestComponent />
-      </ThemeProvider>
-    )
-
-    const darkButton = screen.getByTestId('dark-btn')
-    const yellowButton = screen.getByTestId('yellow-btn')
-    const whiteButton = screen.getByTestId('white-btn')
-
-    fireEvent.click(darkButton)
-    await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('dark')
-    })
-
-    fireEvent.click(yellowButton)
-    await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('yellow')
-    })
-
-    fireEvent.click(whiteButton)
-    await waitFor(() => {
-      expect(screen.getByTestId('current-theme')).toHaveTextContent('white')
-    })
+  it('throws when used outside the provider', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    expect(() => render(<Probe />)).toThrow('useTheme must be used within a ThemeProvider')
+    spy.mockRestore()
   })
 })

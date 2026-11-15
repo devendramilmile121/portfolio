@@ -1,11 +1,11 @@
 ---
-title: "Your AI Is Writing Terrible Angular Code — Here's the One-Time Setup That Fixes It Forever"
+title: "Teaching AI Coding Assistants to Write Modern Angular"
 date: "2026-05-24"
-summary: "A tool-agnostic guide to teaching any AI — Claude Code, GitHub Copilot, Cursor, or Codex — to write modern Angular on the first try. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks, and the DDD folder structure that makes it all click."
+summary: "A tool-agnostic setup for getting AI assistants (Claude Code, GitHub Copilot, Cursor or Codex) to write modern Angular. Covers AGENTS.md, specialized agents, prompt templates, skills, MCP servers, pre-commit hooks and the DDD folder structure that ties it together."
 tags: ["Angular", "AI", "Claude Code", "GitHub Copilot", "MCP", "Cursor", "TypeScript", "Developer Tools"]
 ---
 
-## Your AI Is Writing Terrible Angular Code — Here's the One-Time Setup That Fixes It Forever
+## Teaching AI Coding Assistants to Write Modern Angular
 
 You asked your AI to generate an Angular component. It came back with this:
 

@@ -1,37 +1,28 @@
 import { useEffect, useRef } from "react";
-import { useTheme } from "@/hooks/use-theme";
+import { useTheme, type Theme } from "@/lib/theme";
 
 interface GiscusCommentsProps {
   slug: string;
 }
 
-type Theme = 'github' | 'dark' | 'yellow' | 'green' | 'white';
-
-// Map portfolio themes to Giscus themes
-const mapThemeToGiscus = (theme: Theme): 'light' | 'dark' => {
-  switch (theme) {
-    case 'dark':
-    case 'github':
-    case 'yellow':
-    case 'green':
-      return 'dark';
-    case 'white':
-      return 'light';
-    default:
-      return 'light';
-  }
-};
+// Giscus ships matching 'light' and 'dark' themes, so the site theme passes straight through
+const mapThemeToGiscus = (theme: Theme): Theme => theme;
 
 export function GiscusComments({ slug }: GiscusCommentsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const { theme } = useTheme();
+  const themeRef = useRef(theme);
+  // Declared before the loader effect, so it runs first and the loader sees the current theme
+  useEffect(() => {
+    themeRef.current = theme;
+  }, [theme]);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Map the current theme to Giscus theme
-    const giscusTheme = mapThemeToGiscus(theme as Theme);
+    // Read through a ref: theme changes are handled by the effect below, not by reloading Giscus
+    const giscusTheme = mapThemeToGiscus(themeRef.current);
 
     // Function to send theme change message to Giscus iframe
     const updateGiscusTheme = () => {
@@ -65,7 +56,9 @@ export function GiscusComments({ slug }: GiscusCommentsProps) {
     scriptElement.dataset.repoId = "R_kgDOPTs4XQ";
     scriptElement.dataset.category = "Blog Comments";
     scriptElement.dataset.categoryId = "DIC_kwDOPTs4Xc4Cg7-i";
-    scriptElement.dataset.mapping = "og:title";
+    // One thread per URL. (It used to map by og:title, which was the same on every post, so all
+    // posts shared a single thread; pathname also survives title edits.)
+    scriptElement.dataset.mapping = "pathname";
     scriptElement.dataset.strict = "0";
     scriptElement.dataset.reactionsEnabled = "1";
     scriptElement.dataset.emitMetadata = "0";
@@ -98,7 +91,7 @@ export function GiscusComments({ slug }: GiscusCommentsProps) {
     const container = containerRef.current;
     if (!container) return;
 
-    const giscusTheme = mapThemeToGiscus(theme as Theme);
+    const giscusTheme = mapThemeToGiscus(theme);
 
     // Only update theme if Giscus is already loaded
     const giscusDiv = container.querySelector(".giscus");
@@ -118,7 +111,6 @@ export function GiscusComments({ slug }: GiscusCommentsProps) {
     <div 
       ref={containerRef} 
       className="w-full giscus-wrapper"
-      data-theme={theme}
     />
   );
 }

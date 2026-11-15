@@ -7,7 +7,6 @@ interface SEOProps {
   image?: string;
   url?: string;
   type?: string;
-  twitterHandle?: string;
 }
 
 export const useMetaTags = ({
@@ -16,8 +15,7 @@ export const useMetaTags = ({
   keywords = "Full Stack Developer, Angular Developer, .NET Core Developer, Devendra Milmile, Web Developer",
   image = "https://devendramilmile.com/og-image.png",
   url = "https://devendramilmile.com",
-  type = "website",
-  twitterHandle = "@devendramilmile"
+  type = "website"
 }: SEOProps = {}) => {
   useEffect(() => {
     // Update title
@@ -54,7 +52,6 @@ export const useMetaTags = ({
     updateMetaTag('twitter:title', title);
     updateMetaTag('twitter:description', description);
     updateMetaTag('twitter:image', image);
-    updateMetaTag('twitter:creator', twitterHandle);
     updateMetaTag('twitter:card', 'summary_large_image');
 
     // Update canonical URL
@@ -65,12 +62,12 @@ export const useMetaTags = ({
       document.head.appendChild(canonical);
     }
     canonical.href = url;
-  }, [title, description, keywords, image, url, type, twitterHandle]);
+  }, [title, description, keywords, image, url, type]);
 };
 
 // Hook for adding JSON-LD structured data
 interface JSONLDProps {
-  schema: Record<string, any>;
+  schema: Record<string, unknown>;
 }
 
 export const useJsonLD = ({ schema }: JSONLDProps) => {

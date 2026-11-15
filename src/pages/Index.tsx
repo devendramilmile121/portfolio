@@ -1,59 +1,50 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Hero } from "@/components/Hero";
-import { Skills } from "@/components/Skills";
-import { Experience } from "@/components/Experience";
 import { Projects } from "@/components/Projects";
-import { Education } from "@/components/Education";
+import { Experience } from "@/components/Experience";
+import { Writing } from "@/components/Writing";
+import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
-import { useEffect } from "react";
 
 const Index = () => {
-  useScrollToTop();
   const { config } = usePortfolioConfig();
-  
-  // Set document title dynamically from config
+  const { hash, key } = useLocation();
+
   useEffect(() => {
-    if (config?.seo?.title) {
-      document.title = config.seo.title;
-    }
+    if (config?.seo?.title) document.title = config.seo.title;
   }, [config]);
-  
+
+  // Sections render after the config loads, so scroll to a #hash once they exist,
+  // and again on every navigation to a hash (key changes even when the hash doesn't)
+  useEffect(() => {
+    if (!config) return;
+    if (!hash) {
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    document.getElementById(decodeURIComponent(hash.slice(1)))?.scrollIntoView();
+  }, [config, hash, key]);
+
   return (
-    <div className="min-h-screen bg-background glass:bg-transparent">
+    <div className="min-h-screen">
       <Navigation />
-      
       <main>
-        <section id="hero">
-          <Hero />
-        </section>
-        
-        <section id="skills">
-          <Skills />
-        </section>
-        
-        <section id="experience">
-          <Experience />
-        </section>
-        
-        {config?.projects && config.projects.length > 0 && (
-          <section id="projects">
+        <Hero />
+        {config && (
+          <>
             <Projects />
-          </section>
+            <Experience />
+            <Writing />
+            <About />
+            <Contact />
+          </>
         )}
-        
-        <section id="education">
-          <Education />
-        </section>
-        
-        <section id="contact">
-          <Contact />
-        </section>
       </main>
-      
-      <Footer />
+      {config && <Footer />}
     </div>
   );
 };

@@ -2,522 +2,308 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Liquid Glass light intensity. Registered so it can transition: hover fades the specular light in, press blooms it. */
-@property --glass-light {
-  syntax: "<number>";
-  inherits: true;
-  initial-value: 0;
-}
-
-/* Parallax: wallpaper glows rise at their layer's speed as the page scrolls */
-@keyframes glass-drift {
-  to {
-    translate: 0 var(--drift);
-  }
-}
-
-/* Parallax: hero content recedes slower than the page scrolls, then fades before it reaches the section edge */
-@keyframes glass-hero-recede {
-  from {
-    opacity: 1;
-    animation-timing-function: ease-in;
-  }
-  75% {
-    opacity: 0;
-  }
-  to {
-    translate: 0 20vh;
-    scale: 0.95;
-    opacity: 0;
-  }
-}
-
-/* Glass surfaces form as they scroll into view: implicit `to` keyframe, so nothing lingers once it finishes */
-@keyframes glass-materialize {
-  from {
-    opacity: 0;
-    scale: 0.92;
-    translate: 0 32px;
-  }
-}
-
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
+/*
+  Design system — editorial.
+  Paper and ink, hairline rules, one accent red taken from the portrait.
+  Newsreader for display and reading, Inter for interface text, IBM Plex Mono for metadata.
+  All colors are HSL channels so Tailwind can apply opacity (hsl(var(--x) / 0.5)).
 */
-
 @layer base {
-
-  /* Default theme fallback - GitHub Dark */
   :root {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 88%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 88%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 88%;
-    --primary: 0 0% 92%;
-    --primary-foreground: 0 0% 6%;
-    --secondary: 0 0% 16%;
-    --secondary-foreground: 0 0% 88%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 58%;
-    --accent: 0 0% 100%;
-    --accent-foreground: 0 0% 6%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 0 0% 92%;
-    --radius: 0.75rem;
-    --gradient-primary: linear-gradient(135deg, hsl(0 0% 92%), hsl(0 0% 100%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 12%));
-    --shadow-glow: 0 0 40px hsl(0 0% 92% / 0.1);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.6);
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-  
-  /* GitHub Dark Theme (Default) */
-  .theme-github {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 88%;
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 88%;
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 88%;
-    --primary: 0 0% 92%;
-    --primary-foreground: 0 0% 6%;
-    --secondary: 0 0% 16%;
-    --secondary-foreground: 0 0% 88%;
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 58%;
-    --accent: 0 0% 100%;
-    --accent-foreground: 0 0% 6%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --border: 0 0% 14%;
-    --input: 0 0% 14%;
-    --ring: 0 0% 92%;
-    --gradient-primary: linear-gradient(135deg, hsl(0 0% 92%), hsl(0 0% 100%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 10%), hsl(0 0% 12%));
-    --shadow-glow: 0 0 40px hsl(0 0% 92% / 0.1);
-    --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.6);
+    --background: 40 23% 95%;
+    --foreground: 30 10% 9%;
+    --card: 40 23% 97%;
+    --card-foreground: 30 10% 9%;
+    --popover: 40 23% 97%;
+    --popover-foreground: 30 10% 9%;
+    --primary: 356 78% 42%;
+    --primary-foreground: 40 23% 97%;
+    --secondary: 38 16% 90%;
+    --secondary-foreground: 30 10% 9%;
+    --muted: 38 16% 90%;
+    --muted-foreground: 30 5% 36%;
+    --accent: 38 16% 90%;
+    --accent-foreground: 30 10% 9%;
+    --destructive: 356 78% 42%;
+    --destructive-foreground: 40 23% 97%;
+    --border: 35 12% 82%;
+    --input: 35 12% 78%;
+    --ring: 356 78% 42%;
+    --rule: 35 12% 82%;
+    --radius: 0.25rem;
+    color-scheme: light;
   }
 
-  /* Dark Blue Theme */
-  .theme-dark {
-    --background: 220 26% 8%;
-    --foreground: 210 40% 98%;
-    --card: 220 26% 10%;
-    --card-foreground: 210 40% 98%;
-    --popover: 220 26% 10%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 200 100% 60%;
-    --primary-foreground: 220 26% 8%;
-    --secondary: 220 26% 14%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 220 26% 14%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 195 100% 50%;
-    --accent-foreground: 220 26% 8%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 220 26% 18%;
-    --input: 220 26% 18%;
-    --ring: 200 100% 60%;
-    --gradient-primary: linear-gradient(135deg, hsl(200 100% 60%), hsl(195 100% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(220 26% 10%), hsl(220 26% 12%));
-    --shadow-glow: 0 0 40px hsl(200 100% 60% / 0.15);
-    --shadow-card: 0 8px 32px hsl(220 26% 6% / 0.8);
+  .dark {
+    --background: 30 5% 7%;
+    --foreground: 40 18% 91%;
+    --card: 30 5% 9%;
+    --card-foreground: 40 18% 91%;
+    --popover: 30 5% 9%;
+    --popover-foreground: 40 18% 91%;
+    --primary: 356 88% 64%;
+    --primary-foreground: 30 5% 7%;
+    --secondary: 30 4% 14%;
+    --secondary-foreground: 40 18% 91%;
+    --muted: 30 4% 14%;
+    --muted-foreground: 35 5% 63%;
+    --accent: 30 4% 14%;
+    --accent-foreground: 40 18% 91%;
+    --destructive: 356 88% 64%;
+    --destructive-foreground: 30 5% 7%;
+    --border: 30 4% 20%;
+    --input: 30 4% 26%;
+    --ring: 356 88% 64%;
+    --rule: 30 4% 20%;
+    color-scheme: dark;
   }
 
-  /* Sunny Yellow Theme */
-  .theme-yellow {
-    --background: 45 25% 12%;
-    --foreground: 45 20% 95%;
-    --card: 45 25% 15%;
-    --card-foreground: 45 20% 95%;
-    --popover: 45 25% 15%;
-    --popover-foreground: 45 20% 95%;
-    --primary: 45 100% 65%;
-    --primary-foreground: 45 25% 12%;
-    --secondary: 45 25% 18%;
-    --secondary-foreground: 45 20% 95%;
-    --muted: 45 25% 18%;
-    --muted-foreground: 45 15% 65%;
-    --accent: 50 100% 60%;
-    --accent-foreground: 45 25% 12%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 45 20% 95%;
-    --border: 45 25% 22%;
-    --input: 45 25% 22%;
-    --ring: 45 100% 65%;
-    --gradient-primary: linear-gradient(135deg, hsl(45 100% 65%), hsl(50 100% 60%));
-    --gradient-card: linear-gradient(145deg, hsl(45 25% 15%), hsl(45 25% 17%));
-    --shadow-glow: 0 0 40px hsl(45 100% 65% / 0.15);
-    --shadow-card: 0 8px 32px hsl(45 25% 8% / 0.8);
+  html {
+    @apply bg-background text-foreground font-sans antialiased;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "cv11", "ss01";
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 5rem;
   }
 
-  /* Nature Green Theme */
-  .theme-green {
-    --background: 140 25% 8%;
-    --foreground: 140 20% 95%;
-    --card: 140 25% 10%;
-    --card-foreground: 140 20% 95%;
-    --popover: 140 25% 10%;
-    --popover-foreground: 140 20% 95%;
-    --primary: 140 70% 55%;
-    --primary-foreground: 140 25% 8%;
-    --secondary: 140 25% 14%;
-    --secondary-foreground: 140 20% 95%;
-    --muted: 140 25% 14%;
-    --muted-foreground: 140 15% 65%;
-    --accent: 135 70% 50%;
-    --accent-foreground: 140 25% 8%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 140 20% 95%;
-    --border: 140 25% 18%;
-    --input: 140 25% 18%;
-    --ring: 140 70% 55%;
-    --gradient-primary: linear-gradient(135deg, hsl(140 70% 55%), hsl(135 70% 50%));
-    --gradient-card: linear-gradient(145deg, hsl(140 25% 10%), hsl(140 25% 12%));
-    --shadow-glow: 0 0 40px hsl(140 70% 55% / 0.15);
-    --shadow-card: 0 8px 32px hsl(140 25% 6% / 0.8);
-  }
-
-  /* Clean White Theme */
-  .theme-white {
-    --background: 0 0% 98%;
-    --foreground: 0 0% 15%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 15%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 15%;
-    --primary: 210 100% 50%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 95%;
-    --secondary-foreground: 0 0% 15%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 45%;
-    --accent: 210 100% 45%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 210 100% 50%;
-    --gradient-primary: linear-gradient(135deg, hsl(210 100% 50%), hsl(210 100% 45%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(0 0% 98%));
-    --shadow-glow: 0 0 40px hsl(210 100% 50% / 0.15);
-    --shadow-card: 0 8px 32px hsl(0 0% 85% / 0.3);
-  }
-
-  /* Liquid Glass themes — frosted translucent surfaces floating over a vivid wallpaper */
-  .theme-glass-light,
-  .theme-glass-dark {
-    --radius: 1.25rem;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 100%;
-    --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
-  }
-
-  @supports (transition-timing-function: linear(0, 1)) {
-    .theme-glass-light,
-    .theme-glass-dark {
-      /* Damped spring (ζ≈0.65, ~7% overshoot): the gel-like bounce of Liquid Glass controls */
-      --ease-spring: linear(0, 0.031 2.5%, 0.111 5%, 0.219 7.5%, 0.589 15%, 0.699 17.5%, 0.795 20%, 0.875 22.5%, 0.939 25%, 0.988 27.5%, 1.023 30%, 1.047 32.5%, 1.061 35%, 1.068 40%, 0.996 72.5%, 1);
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
     }
   }
 
-  /* Liquid Glass Light — clear glass over a pastel sky/lilac/peach/mint wallpaper */
-  .theme-glass-light {
-    --background: 210 40% 96%;
-    --foreground: 222 47% 11%;
-    --card: 0 0% 100%;
-    --card-foreground: 222 47% 11%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222 47% 11%;
-    --primary: 211 100% 45%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 214 32% 91%;
-    --secondary-foreground: 222 47% 11%;
-    --muted: 214 32% 91%;
-    --muted-foreground: 220 14% 34%;
-    --accent: 262 70% 52%;
-    --accent-foreground: 0 0% 100%;
-    --border: 215 25% 70%;
-    --input: 215 25% 78%;
-    --ring: 211 100% 45%;
-    --gradient-primary: linear-gradient(135deg, hsl(211 100% 48%), hsl(262 80% 58%) 55%, hsl(330 85% 55%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.55), hsl(0 0% 100% / 0.15) 55%, hsl(0 0% 100% / 0.3));
-    --shadow-glow: inset 0 1px 0 hsl(0 0% 100% / 0.9), 0 0 40px hsl(211 100% 50% / 0.25);
-    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.9), inset 0 -1px 0 hsl(0 0% 100% / 0.3), 0 0 0 1px hsl(220 30% 40% / 0.06), 0 12px 40px -12px hsl(220 40% 30% / 0.25);
-    --glass-blob-1: hsl(200 95% 70% / 0.6);
-    --glass-blob-2: hsl(270 85% 80% / 0.55);
-    --glass-blob-3: hsl(20 95% 78% / 0.55);
-    --glass-blob-4: hsl(160 70% 70% / 0.5);
+  body {
+    @apply bg-background text-foreground;
   }
 
-  /* Liquid Glass Dark — the light theme's sky/lilac/peach/mint glows at night, under smoked glass */
-  .theme-glass-dark {
-    --background: 228 40% 7%;
-    --foreground: 220 30% 97%;
-    --card: 228 30% 13%;
-    --card-foreground: 220 30% 97%;
-    --popover: 228 30% 11%;
-    --popover-foreground: 220 30% 97%;
-    --primary: 211 100% 68%;
-    --primary-foreground: 228 40% 8%;
-    --secondary: 228 25% 24%;
-    --secondary-foreground: 220 30% 97%;
-    --muted: 228 25% 18%;
-    --muted-foreground: 225 20% 78%;
-    --accent: 270 90% 80%;
-    --accent-foreground: 228 40% 8%;
-    --border: 228 20% 55%;
-    --input: 228 20% 35%;
-    --ring: 211 100% 68%;
-    --gradient-primary: linear-gradient(135deg, hsl(205 100% 72%), hsl(265 95% 80%) 55%, hsl(330 95% 78%));
-    --gradient-card: linear-gradient(145deg, hsl(0 0% 100% / 0.12), hsl(0 0% 100% / 0.03) 55%, hsl(0 0% 100% / 0.06));
-    --shadow-glow: inset 0 1px 0 hsl(0 0% 100% / 0.3), 0 0 40px hsl(211 100% 68% / 0.25);
-    --shadow-card: inset 0 1px 0 hsl(0 0% 100% / 0.22), inset 0 -1px 0 hsl(0 0% 100% / 0.05), 0 12px 40px -12px hsl(228 60% 2% / 0.7);
-    --glass-blob-1: hsl(205 95% 58% / 0.45);
-    --glass-blob-2: hsl(270 85% 65% / 0.42);
-    --glass-blob-3: hsl(18 95% 62% / 0.35);
-    --glass-blob-4: hsl(160 75% 48% / 0.32);
+  ::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--primary-foreground));
+  }
+
+  :focus-visible {
+    outline: 2px solid hsl(var(--ring));
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  h1, h2, h3, h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
   }
 }
 
 @layer components {
-  /*
-   * Wallpaper the glass refracts (rendered by LiquidGlassEffects), split into depth layers for parallax:
-   * far glows barely move, mid glows drift, near glows rise through the page, and every layer shifts
-   * against the pointer by its depth. It never animates on its own, so blurred surfaces only re-render
-   * while the visitor scrolls or moves the mouse.
-   */
-  .glass-wallpaper {
-    position: fixed;
-    inset: 0;
-    z-index: -1;
-    overflow: hidden;
-    pointer-events: none;
-    background: hsl(var(--background));
+  /* Small uppercase mono label used for section names and metadata keys */
+  .label {
+    @apply font-mono text-[0.6875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground;
   }
 
-  /* Each glow fades to transparent at its own edge, so moving it never exposes a hard line */
-  .glass-wallpaper > div {
-    position: absolute;
-    left: calc(var(--x) - var(--w) / 2);
-    top: calc(var(--y) - var(--h) / 2);
-    width: var(--w);
-    height: var(--h);
-    background: radial-gradient(closest-side, var(--blob), transparent);
-    transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Text link whose underline draws in from the left */
+  .link {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 250ms ease, color 150ms ease;
+  }
+  .link:hover,
+  .link:focus-visible {
+    background-size: 100% 1px;
   }
 
-  /* Far */
-  .glass-wallpaper > :nth-child(1) { --blob: var(--glass-blob-1); --x: 12vw; --y: 8vh; --w: 77vw; --h: 63vh; --depth: 10; --drift: -12vh; }
-  .glass-wallpaper > :nth-child(2) { --blob: var(--glass-blob-3); --x: 78vw; --y: 88vh; --w: 70vw; --h: 63vh; --depth: 10; --drift: -12vh; }
-  /* Mid */
-  .glass-wallpaper > :nth-child(3) { --blob: var(--glass-blob-2); --x: 88vw; --y: 18vh; --w: 63vw; --h: 56vh; --depth: 24; --drift: -45vh; }
-  .glass-wallpaper > :nth-child(4) { --blob: var(--glass-blob-4); --x: 8vw; --y: 92vh; --w: 63vw; --h: 63vh; --depth: 24; --drift: -45vh; }
-  /* Near: start below the fold and pass through the viewport as the page scrolls */
-  .glass-wallpaper > :nth-child(5) { --blob: var(--glass-blob-2); --x: 30vw; --y: 150vh; --w: 56vw; --h: 50vh; --depth: 44; --drift: -190vh; }
-  .glass-wallpaper > :nth-child(6) { --blob: var(--glass-blob-1); --x: 75vw; --y: 240vh; --w: 56vw; --h: 50vh; --depth: 44; --drift: -190vh; }
-
-  @media (prefers-reduced-motion: no-preference) {
-    /* --glass-px / --glass-py (-1..1) come from the pointer; glows move against it, nearer ones further */
-    .glass-wallpaper > div {
-      transform: translate(calc(var(--glass-px, 0) * var(--depth) * -1px), calc(var(--glass-py, 0) * var(--depth) * -1px));
-    }
+  /* Text link that is always underlined, in the rule color, turning red on hover */
+  .link-quiet {
+    text-decoration: underline;
+    text-decoration-color: hsl(var(--rule));
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color 150ms ease, text-decoration-color 150ms ease;
+  }
+  .link-quiet:hover {
+    color: hsl(var(--primary));
+    text-decoration-color: currentColor;
   }
 
-  @supports (animation-timeline: scroll()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .glass-wallpaper > div {
-        animation: glass-drift linear both;
-        animation-timeline: scroll(root);
-      }
-
-      :is(.theme-glass-light, .theme-glass-dark) .glass-hero-parallax {
-        animation: glass-hero-recede linear both;
-        animation-timeline: scroll(root);
-        animation-range: 0 100vh;
-      }
-    }
+  /* Long-form article body */
+  .article {
+    @apply font-serif text-[1.1875rem] leading-[1.7] text-foreground;
+    font-optical-sizing: auto;
   }
-
-  /* Liquid Glass material. Inert outside the glass themes, so shared components can carry it. */
-  :where(.theme-glass-light, .theme-glass-dark) .liquid-glass {
-    position: relative;
+  .article > * + * {
+    margin-top: 1.25em;
   }
-
-  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
-    background-color: hsl(var(--card) / var(--glass-alpha, 0.42));
-    background-image: var(--gradient-card);
-    border-color: transparent;
-    box-shadow: var(--shadow-card);
-    backdrop-filter: blur(24px) saturate(180%);
-    isolation: isolate;
-    transition:
-      scale 600ms var(--ease-spring),
-      translate 600ms var(--ease-spring),
-      transform 600ms var(--ease-spring),
-      --glass-light 400ms ease,
-      background-color 300ms ease,
-      border-color 300ms ease,
-      box-shadow 300ms ease,
-      color 300ms ease;
+  .article h2 {
+    @apply font-serif text-[1.75rem] leading-tight font-medium;
+    margin-top: 2.2em;
   }
-
-  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass:hover {
-    --glass-light: 1;
+  .article h3 {
+    @apply font-serif text-[1.375rem] leading-snug font-medium;
+    margin-top: 1.8em;
   }
-
-  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass:active {
-    --glass-light: 1.8;
+  .article h4,
+  .article h5,
+  .article h6 {
+    @apply font-sans text-base font-semibold;
+    margin-top: 1.6em;
   }
-
-  /* Specular glow under the pointer; LiquidGlassEffects feeds --glass-x / --glass-y */
-  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    border-radius: inherit;
-    background: radial-gradient(240px circle at var(--glass-x, 50%) var(--glass-y, 0%), hsl(0 0% 100% / calc(0.14 * var(--glass-light))), transparent 70%);
-    pointer-events: none;
+  .article h2 + *,
+  .article h3 + *,
+  .article h4 + * {
+    margin-top: 0.6em;
   }
-
-  /* Specular rim: bright where light catches the top-left and bottom-right edges, and wherever the pointer is */
-  :is(.theme-glass-light, .theme-glass-dark) .liquid-glass::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    padding: 1px;
-    border-radius: inherit;
-    background:
-      radial-gradient(180px circle at var(--glass-x, 50%) var(--glass-y, 0%), hsl(0 0% 100% / calc(0.8 * var(--glass-light))), transparent 70%),
-      linear-gradient(135deg, hsl(0 0% 100% / 0.55), hsl(0 0% 100% / 0.08) 35%, hsl(0 0% 100% / 0) 60%, hsl(0 0% 100% / 0.25));
-    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    -webkit-mask-composite: xor;
-    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-    mask-composite: exclude;
-    pointer-events: none;
+  .article a {
+    @apply link-quiet;
   }
-
-  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
-      background-color: hsl(var(--card) / 0.92);
-    }
+  .article strong {
+    @apply font-semibold;
   }
-
-  @media (prefers-reduced-transparency: reduce) {
-    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
-      background-color: hsl(var(--card) / 0.96);
-      backdrop-filter: none;
-    }
+  .article ul,
+  .article ol {
+    padding-left: 1.25em;
   }
-
-  @media (prefers-reduced-motion: no-preference) {
-    /* iOS-style bar minimize: the floating nav tucks away while scrolling down, springs back on scroll up */
-    :is(.theme-glass-light, .theme-glass-dark)[data-glass-minimized] nav.liquid-glass {
-      scale: 0.94;
-      translate: 0 -6px;
-    }
+  .article ul {
+    list-style: disc;
   }
-
-  @supports (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      :is(.theme-glass-light, .theme-glass-dark) .glass-reveal {
-        animation: glass-materialize ease-out both;
-        animation-timeline: view();
-        animation-range: entry 10% cover 25%;
-      }
-    }
+  .article ol {
+    list-style: decimal;
   }
-
-  @media (prefers-reduced-motion: reduce) {
-    :is(.theme-glass-light, .theme-glass-dark) .liquid-glass {
-      transition: --glass-light 200ms ease;
-    }
+  .article li + li {
+    margin-top: 0.4em;
+  }
+  .article li::marker {
+    color: hsl(var(--muted-foreground));
+  }
+  .article blockquote {
+    @apply border-l-2 border-primary pl-5 italic text-muted-foreground;
+  }
+  .article hr {
+    @apply border-rule;
+    margin: 2.5em 0;
+  }
+  .article img {
+    @apply rounded-sm;
+  }
+  .article :not(pre) > code {
+    @apply font-mono text-[0.85em] rounded-sm bg-secondary px-[0.35em] py-[0.1em];
+  }
+  .article pre {
+    @apply font-mono text-[0.8125rem] leading-relaxed overflow-x-auto rounded-sm border border-rule bg-card p-5;
+    margin-top: 1.6em;
+    margin-bottom: 1.6em;
+  }
+  .article pre code {
+    background: none;
+    padding: 0;
+  }
+  .article table {
+    @apply w-full font-sans text-sm border-collapse;
+  }
+  .article th,
+  .article td {
+    @apply border-b border-rule py-2 pr-4 text-left align-top;
+  }
+  .article th {
+    @apply font-mono text-[0.6875rem] font-medium uppercase tracking-[0.08em] text-muted-foreground;
   }
 }
 
-@layer base {
-  html {
-    @apply bg-background text-foreground;
-    transition: background-color 0.3s ease, color 0.3s ease;
+/* Syntax highlighting (highlight.js classes), drawn from the site palette instead of a CDN theme */
+@layer components {
+  .hljs-comment,
+  .hljs-quote {
+    color: hsl(var(--muted-foreground));
+    font-style: italic;
+  }
+  .hljs-keyword,
+  .hljs-selector-tag,
+  .hljs-built_in,
+  .hljs-meta .hljs-keyword {
+    color: hsl(var(--primary));
+  }
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-attribute {
+    color: hsl(150 35% 30%);
+  }
+  .dark .hljs-string,
+  .dark .hljs-regexp,
+  .dark .hljs-addition,
+  .dark .hljs-attribute {
+    color: hsl(140 30% 68%);
+  }
+  .hljs-number,
+  .hljs-literal,
+  .hljs-symbol,
+  .hljs-variable.language_ {
+    color: hsl(30 70% 32%);
+  }
+  .dark .hljs-number,
+  .dark .hljs-literal,
+  .dark .hljs-symbol,
+  .dark .hljs-variable.language_ {
+    color: hsl(35 70% 66%);
+  }
+  .hljs-title,
+  .hljs-title.function_,
+  .hljs-title.class_,
+  .hljs-section {
+    color: hsl(var(--foreground));
+    font-weight: 600;
+  }
+  .hljs-attr,
+  .hljs-property,
+  .hljs-type,
+  .hljs-params,
+  .hljs-meta,
+  .hljs-tag,
+  .hljs-name {
+    color: hsl(var(--muted-foreground));
+  }
+  .hljs-deletion {
+    color: hsl(var(--primary));
+  }
+}
+
+/* Print (the résumé PDF, or anyone printing a page): A4, always the light palette, no shadows */
+@page {
+  size: A4;
+  margin: 14mm 16mm;
+}
+
+@media print {
+  :root {
+    --background: 0 0% 100%;
   }
 
-  /* Smooth animations */
-  @keyframes gradient-shift {
-    0%, 100% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
+  .dark {
+    --background: 0 0% 100%;
+    --foreground: 30 10% 9%;
+    --muted: 38 16% 90%;
+    --muted-foreground: 30 5% 36%;
+    --primary: 356 78% 42%;
+    --rule: 35 12% 82%;
+    --border: 35 12% 82%;
+    color-scheme: light;
   }
 
-  @keyframes text-shimmer {
-    0% {
-      background-position: -1000px 0;
-    }
-    100% {
-      background-position: 1000px 0;
-    }
+  html,
+  body {
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
+}
 
-  /* Smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-
-  /* Stagger animation delays */
-  .animate-delay-100 {
-    animation-delay: 100ms;
-  }
-  .animate-delay-200 {
-    animation-delay: 200ms;
-  }
-  .animate-delay-300 {
-    animation-delay: 300ms;
-  }
-  .animate-delay-400 {
-    animation-delay: 400ms;
-  }
-  .animate-delay-500 {
-    animation-delay: 500ms;
-  }
-  .animate-delay-600 {
-    animation-delay: 600ms;
-  }
-
-  /* Enhanced hover effects */
-  button, a, [role="button"] {
-    @apply transition-all duration-300 ease-out;
-  }
-
-  /* Cards animation */
-  .card-animate {
-    @apply animate-fade-in-up transition-all duration-500 hover:shadow-glow;
-  }
-
-  /* Glow effect on hover */
-  .glow-on-hover:hover {
-    @apply shadow-glow;
-  }
-
-  /* Smooth transitions for theme */
-  * {
-    @apply transition-colors duration-300;
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
   }
 }

@@ -10,15 +10,15 @@ A modern, feature-rich portfolio template built with React, TypeScript, and Tail
 ## ✨ Features
 
 - ⚡ **Lightning-Fast** - Built with Vite for instant dev server and optimized production builds
-- 🎨 **Beautiful Design** - Powered by Tailwind CSS and shadcn/ui components
-- 🌙 **Dark Mode Support** - Seamless theme switching with persistent preferences
+- 🎨 **Editorial Design** - Paper-and-ink layout on a 12-column grid, with Newsreader, Inter and IBM Plex Mono
+- 🌙 **Light and Dark** - Follows the system setting, with a toggle that remembers the visitor's choice
 - 📱 **Fully Responsive** - Mobile-first design that works on all devices
 - 🔧 **Easy Customization** - Configure everything via simple JSON config file
 - 📝 **Integrated Blog** - Write and publish blog posts in Markdown
 - 💬 **Comments Section** - Built-in Giscus comments for user engagement
 - 🚀 **Free Hosting** - Deploy to your custom domain using GitHub Pages
 - 🧪 **Production-Ready** - 100% TypeScript, Jest testing, ESLint configured
-- 📊 **SEO Optimized** - Meta tags, Open Graph, and structured data support
+- 📊 **Pre-rendered and SEO Ready** - Every page is rendered to static HTML at build time with its own meta tags, Open Graph and structured data; `sitemap.xml` is generated from the posts (`scripts/prerender.mjs`)
 - 🖼️ **Image Optimization** - Automatic image optimization for better performance
 - ✅ **Test Coverage** - Unit tests for all components
 
@@ -262,42 +262,32 @@ portfolio/
 
 ## 🎨 Customization Guide
 
-### Change Colors & Theme
+### Change Colors
 
-Edit `tailwind.config.ts` to customize colors:
+Colors are HSL tokens in `src/index.css`: `:root` holds the light palette and `.dark` the dark one.
+The accent is `--primary`; `--rule` is the hairline color between rows.
 
-```typescript
-export default {
-  theme: {
-    extend: {
-      colors: {
-        primary: "#your-color",
-        secondary: "#your-color",
-      },
-    },
-  },
-};
+```css
+:root {
+  --background: 40 23% 95%;  /* paper */
+  --foreground: 30 10% 9%;   /* ink */
+  --primary: 356 78% 42%;    /* accent red */
+}
 ```
+
+Check any new pair against WCAG AA (4.5:1) in both themes.
 
 ### Add More Sections
 
 1. Create a new component in `src/components/`
-2. Add it to `src/App.tsx`
+2. Wrap it in `<Section>` and add it to `src/pages/Index.tsx`
 3. Add config to `portfolio.json`
 
 ### Customize Fonts
 
-Add to `src/index.css`:
-
-```css
-@import url('https://fonts.googleapis.com/css2?family=YourFont:wght@400;600;700&display=swap');
-
-@layer base {
-  body {
-    @apply font-serif;
-  }
-}
-```
+Fonts are self-hosted through Fontsource packages, imported in `src/main.tsx`, and mapped to
+`font-serif`, `font-sans` and `font-mono` in `tailwind.config.ts`. To swap one, install its
+`@fontsource` package, change the import, and update the family name in the Tailwind config.
 
 ---
 
@@ -383,8 +373,7 @@ Built with:
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - [Vite](https://vitejs.dev/) - Build tool
 - [Tailwind CSS](https://tailwindcss.com/) - Styling
-- [shadcn/ui](https://ui.shadcn.com/) - Component library
-- [Radix UI](https://www.radix-ui.com/) - Primitives
+- [Fontsource](https://fontsource.org/) - Self-hosted fonts
 - [Jest](https://jestjs.io/) - Testing
 
 ---

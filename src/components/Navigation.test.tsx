@@ -1,254 +1,69 @@
-import '@testing-library/jest-dom';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { BrowserRouter } from 'react-router-dom';
+import { fireEvent, render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import { Navigation } from './Navigation';
-import * as usePortfolioConfigModule from '@/hooks/usePortfolioConfig';
+import { ThemeProvider } from '@/hooks/use-theme';
+import { mockConfig, mockPortfolioConfig } from '@/test/fixtures';
 
-jest.mock('lucide-react', () => ({
-  Menu: () => <div data-testid="menu-icon">Menu</div>,
-  X: () => <div data-testid="x-icon">X</div>,
-}));
-
-jest.mock('./ThemeSwitch', () => ({
-  ThemeSwitch: () => <div data-testid="theme-switch">Theme Switch</div>,
-}));
-
-const mockConfig = {
-  navigation: [
-    { id: 'skills', label: 'Skills' },
-    { id: 'experience', label: 'Experience' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'education', label: 'Education' },
-  ],
-  hero: { name: 'John Doe', title: 'Developer' },
-  skills: { description: '', categories: [] },
-  experience: { description: '', jobs: [] },
-  projects: [],
-  education: { degrees: [] },
-  blogs: { enabled: true },
-  contact: { heading: 'Contact', description: '', info: [], social: [], ctaText: '', ctaLink: '' },
-  footer: { copyrightYear: 2024, socialLinks: [] },
-};
-
-const renderWithRouter = (component: React.ReactElement) => {
-  return render(
-    <BrowserRouter>
-      {component}
-    </BrowserRouter>
+const renderAt = (path = '/') =>
+  render(
+    <MemoryRouter initialEntries={[path]}>
+      <ThemeProvider>
+        <Navigation />
+      </ThemeProvider>
+    </MemoryRouter>
   );
-};
 
 describe('Navigation', () => {
   beforeEach(() => {
-    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
-      config: mockConfig,
-      loading: false,
-      error: '',
-    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
+    localStorage.clear();
+    document.documentElement.className = '';
+  });
+  afterEach(() => jest.restoreAllMocks());
+
+  it('links sections on the home page and routes elsewhere', () => {
+    mockPortfolioConfig();
+    renderAt();
+
+    expect(screen.getByRole('link', { name: 'Jane Doe' })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: 'Work' })).toHaveAttribute('href', '/#work');
+    expect(screen.getByRole('link', { name: 'Writing' })).toHaveAttribute('href', '/blogs');
   });
 
-  afterEach(() => {
-    jest.clearAllMocks();
+  it('marks the current route', () => {
+    mockPortfolioConfig();
+    renderAt('/blogs/some-post');
+    expect(screen.getByRole('link', { name: 'Writing' })).toHaveAttribute('aria-current', 'page');
   });
 
-  it('should render navigation with logo', () => {
-    renderWithRouter(<Navigation />);
-
-    // Logo is the initials of hero.name
-    const logo = screen.getByText('JD');
-    expect(logo).toBeInTheDocument();
+  it('hides Writing when blogs are disabled', () => {
+    mockPortfolioConfig({ ...mockConfig, blogs: { enabled: false } });
+    renderAt();
+    expect(screen.queryByRole('link', { name: 'Writing' })).not.toBeInTheDocument();
   });
 
-  it('should render all navigation items on desktop', () => {
-    renderWithRouter(<Navigation />);
+  it('toggles between light and dark', () => {
+    mockPortfolioConfig();
+    renderAt();
 
-    expect(screen.getByText('Skills')).toBeInTheDocument();
-    expect(screen.getByText('Experience')).toBeInTheDocument();
-    expect(screen.getByText('Projects')).toBeInTheDocument();
-    expect(screen.getByText('Education')).toBeInTheDocument();
+    const toggle = screen.getByRole('button', { name: 'Toggle dark theme' });
+    fireEvent.click(toggle);
+    expect(document.documentElement).toHaveClass('dark');
+    expect(localStorage.getItem('portfolio-theme')).toBe('dark');
+
+    fireEvent.click(toggle);
+    expect(document.documentElement).not.toHaveClass('dark');
   });
 
-  it('should render Blogs link', () => {
-    renderWithRouter(<Navigation />);
+  it('opens and closes the mobile menu', () => {
+    mockPortfolioConfig();
+    renderAt();
 
-    const blogsLink = screen.getAllByText('Blogs')[0];
-    expect(blogsLink).toBeInTheDocument();
-  });
+    const toggle = screen.getByRole('button', { name: 'Menu' });
+    fireEvent.click(toggle);
+    expect(toggle).toHaveAttribute('aria-expanded', 'true');
+    expect(document.getElementById('mobile-menu')).toBeInTheDocument();
 
-  it('should render Hire Me button', () => {
-    renderWithRouter(<Navigation />);
-
-    const hireButton = screen.getAllByText('Hire Me')[0];
-    expect(hireButton).toBeInTheDocument();
-  });
-
-  it('should render theme switch', () => {
-    renderWithRouter(<Navigation />);
-
-    const themeSwitches = screen.getAllByTestId('theme-switch');
-    expect(themeSwitches.length).toBeGreaterThan(0);
-  });
-
-  it('should render mobile menu button', () => {
-    renderWithRouter(<Navigation />);
-
-    const menuButton = screen.getByTestId('menu-icon');
-    expect(menuButton).toBeInTheDocument();
-  });
-
-  it('should toggle mobile menu on button click', async () => {
-    renderWithRouter(<Navigation />);
-
-    const menuButtons = screen.getAllByRole('button');
-    const mobileMenuButton = menuButtons.find(btn => 
-      btn.querySelector('[data-testid="menu-icon"]') || btn.querySelector('[data-testid="x-icon"]')
-    );
-
-    expect(mobileMenuButton).toBeInTheDocument();
-
-    if (mobileMenuButton) {
-      fireEvent.click(mobileMenuButton);
-
-      // Wait for mobile menu to appear
-      await waitFor(() => {
-        const mobileMenuItems = screen.getAllByText('Skills');
-        expect(mobileMenuItems.length).toBeGreaterThan(1); // Desktop + Mobile
-      });
-    }
-  });
-
-  it('should close mobile menu when menu item is clicked', async () => {
-    renderWithRouter(<Navigation />);
-
-    // Open mobile menu
-    const menuButtons = screen.getAllByRole('button');
-    const mobileMenuButton = menuButtons.find(btn => 
-      btn.querySelector('[data-testid="menu-icon"]') || btn.querySelector('[data-testid="x-icon"]')
-    );
-
-    if (mobileMenuButton) {
-      fireEvent.click(mobileMenuButton);
-
-      // Verify menu is open by checking for X icon
-      await waitFor(() => {
-        expect(screen.getByTestId('x-icon')).toBeInTheDocument();
-      });
-    }
-  });
-
-  it('should render loading state when config is loading', () => {
-    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
-      config: null,
-      loading: true,
-      error: '',
-    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
-
-    const { container } = renderWithRouter(<Navigation />);
-
-    // Skeleton keeps the bar's space with a placeholder logo and no nav items
-    expect(container.querySelector('nav')).toBeInTheDocument();
-    expect(screen.getByText('...')).toBeInTheDocument();
-    expect(screen.queryByText('Skills')).not.toBeInTheDocument();
-  });
-
-  it('should render nothing when config is null and not loading', () => {
-    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
-      config: null,
-      loading: false,
-      error: '',
-    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
-
-    const { container } = renderWithRouter(<Navigation />);
-
-    const nav = container.querySelector('nav');
-    expect(nav).not.toBeInTheDocument();
-  });
-
-  it('should render navigation items as links with proper styling', () => {
-    renderWithRouter(<Navigation />);
-
-    const skillsButtons = screen.getAllByText('Skills');
-    expect(skillsButtons.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('should handle scroll events', () => {
-    renderWithRouter(<Navigation />);
-
-    // Simulate scroll event
-    fireEvent.scroll(window, { y: 100 });
-
-    expect(screen.getByText('JD')).toBeInTheDocument();
-  });
-
-  it('should render navigation in fixed position', () => {
-    const { container } = renderWithRouter(<Navigation />);
-
-    const nav = container.querySelector('nav');
-    expect(nav).toHaveClass('fixed');
-  });
-
-  it('should apply transition classes for smooth animations', () => {
-    const { container } = renderWithRouter(<Navigation />);
-
-    const nav = container.querySelector('nav');
-    expect(nav).toHaveClass('transition-all', 'duration-300');
-  });
-
-  it('should hide Blogs link when blogs are disabled', () => {
-    jest.spyOn(usePortfolioConfigModule, 'usePortfolioConfig').mockReturnValue({
-      config: { ...mockConfig, blogs: { enabled: false } },
-      loading: false,
-      error: '',
-    } as unknown as ReturnType<typeof usePortfolioConfigModule.usePortfolioConfig>);
-
-    renderWithRouter(<Navigation />);
-
-    expect(screen.queryByText('Blogs')).not.toBeInTheDocument();
-  });
-
-  it('should render Blogs link on desktop and mobile', async () => {
-    renderWithRouter(<Navigation />);
-
-    const blogsLinks = screen.getAllByText('Blogs');
-    expect(blogsLinks.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('should handle navigation items click', async () => {
-    renderWithRouter(<Navigation />);
-
-    const skillsButtons = screen.getAllByText('Skills');
-    expect(skillsButtons[0]).toBeInTheDocument();
-
-    fireEvent.click(skillsButtons[0]);
-    expect(screen.getByText('JD')).toBeInTheDocument();
-  });
-
-  it('should render all ThemeSwitch instances', () => {
-    renderWithRouter(<Navigation />);
-
-    const themeSwitches = screen.getAllByTestId('theme-switch');
-    expect(themeSwitches.length).toBeGreaterThanOrEqual(1);
-  });
-
-  it('should have proper z-index for fixed positioning', () => {
-    const { container } = renderWithRouter(<Navigation />);
-
-    const nav = container.querySelector('nav');
-    expect(nav).toHaveClass('z-50');
-  });
-
-  it('should render container with proper spacing', () => {
-    const { container } = renderWithRouter(<Navigation />);
-
-    const containerDiv = container.querySelector('.container');
-    expect(containerDiv).toHaveClass('mx-auto', 'px-6');
-  });
-
-  it('should render all nav items with proper gap spacing', () => {
-    const { container } = renderWithRouter(<Navigation />);
-
-    const desktopNav = container.querySelector('.hidden.md\\:flex');
-    expect(desktopNav).toHaveClass('space-x-8');
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+    expect(document.getElementById('mobile-menu')).not.toBeInTheDocument();
   });
 });

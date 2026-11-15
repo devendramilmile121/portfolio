@@ -1,184 +1,127 @@
-import { Button } from "@/components/ui/button";
-import { Github, Linkedin, Mail, ExternalLink } from "lucide-react";
-import heroBg from "@/assets/hero-bg.webp";
-import heroBg480 from "@/assets/hero-bg-480.webp";
-import heroBg768 from "@/assets/hero-bg-768.webp";
-import heroBg1200 from "@/assets/hero-bg-1200.webp";
-import heroBg1920 from "@/assets/hero-bg-1920.webp";
+import { Fragment, useEffect, useState } from "react";
+import portrait480 from "@/assets/portrait-480.webp";
+import portrait960 from "@/assets/portrait-960.webp";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
-import { useEffect } from 'react';
+import { formatPuneTime } from "@/lib/format";
+
+const SOCIAL_LABELS: Record<string, string> = {
+  email: "Email",
+  github: "GitHub",
+  linkedin: "LinkedIn",
+  npm: "npm",
+  resume: "Résumé",
+};
+
+// Text wrapped in *asterisks* in the config renders as an italic accent
+function renderEmphasis(text: string) {
+  return text.split(/(\*[^*]+\*)/g).map((part, i) =>
+    part.startsWith("*") && part.endsWith("*") ? (
+      <em key={`${i}:${part}`} className="italic text-primary">
+        {part.slice(1, -1)}
+      </em>
+    ) : (
+      <Fragment key={`${i}:${part}`}>{part}</Fragment>
+    )
+  );
+}
+
+function useClock() {
+  const [time, setTime] = useState(() => formatPuneTime());
+  useEffect(() => {
+    const id = window.setInterval(() => setTime(formatPuneTime()), 15_000);
+    return () => window.clearInterval(id);
+  }, []);
+  return time;
+}
 
 export const Hero = () => {
-  const { config, loading } = usePortfolioConfig();
+  const { config } = usePortfolioConfig();
+  const time = useClock();
 
-  useEffect(() => {
-    // Preload hero background with high priority for LCP
-    try {
-      const link = document.createElement('link');
-      link.rel = 'preload';
-      link.as = 'image';
-      link.href = heroBg;
-      link.fetchPriority = 'high';
-      link.imageSrcset = `${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`;
-      link.imageSizes = '(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px';
-      link.type = 'image/webp';
-      document.head.appendChild(link);
-      return () => { if (link.parentNode) link.parentNode.removeChild(link); };
-    } catch (e) {
-      // ignore
-    }
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  // Render skeleton while loading to prevent layout shift
   if (!config) {
-    if (loading) {
-      return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-          <picture className="absolute inset-0 w-full h-full glass:hidden">
-            <source
-              srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
-              sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
-              type="image/webp"
-            />
-            <img
-              src={heroBg1200}
-              alt="Hero background"
-              className="absolute inset-0 w-full h-full object-cover"
-              width={1920}
-              height={1080}
-              loading="eager"
-            />
-          </picture>
-          <div className="absolute inset-0 bg-background/80 backdrop-blur-sm glass:hidden" />
-        </section>
-      );
-    }
-    return null;
+    // Reserve the hero's height while the config loads, so nothing jumps
+    return <div className="min-h-[70vh]" aria-hidden="true" />;
   }
 
-  const heroData = config.hero;
-  const backgroundImage = heroData.heroBackground || heroBg1200;
-
-  const getSocialIcon = (iconName: string) => {
-    switch (iconName) {
-      case 'github':
-        return Github;
-      case 'linkedin':
-        return Linkedin;
-      case 'email':
-      case 'mail':
-        return Mail;
-      default:
-        return Mail;
-    }
-  };
+  const hero = config.hero;
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      {heroData.heroBackground ? (
-        <img
-          src={backgroundImage}
-          alt="Hero background"
-          className="absolute inset-0 w-full h-full object-cover glass:hidden"
-          loading="eager"
-          fetchPriority="high"
-        />
-      ) : (
-        <picture className="absolute inset-0 w-full h-full glass:hidden">
-          <source
-            srcSet={`${heroBg480} 480w, ${heroBg768} 768w, ${heroBg1200} 1200w, ${heroBg1920} 1920w`}
-            sizes="(max-width: 640px) 100vw, (max-width: 1200px) 100vw, 1200px"
-            type="image/webp"
-          />
-          <img
-            src={heroBg1200}
-            alt="Hero background"
-            className="absolute inset-0 w-full h-full object-cover"
-            width={1920}
-            height={1080}
-            loading="eager"
-            fetchPriority="high"
-          />
-        </picture>
-      )}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm glass:hidden" />
-      
-      {/* Content */}
-      <div className="glass-hero-parallax relative z-10 container mx-auto px-6 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 p-3 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
-            {heroData.name}
+    <section id="top" aria-label="Introduction" className="mx-auto max-w-page px-5 pb-16 pt-12 sm:px-8 md:pb-24 md:pt-20">
+      {/* Three grid items. Mobile stacks them as a feature opener: headline, full-width portrait, intro.
+          Desktop puts headline and intro in the left eight columns and the portrait beside both. */}
+      <div className="grid gap-x-8 md:grid-cols-12">
+        <div className="md:col-span-8 md:row-start-1">
+          <p className="label">
+            {hero.role ?? "Engineer"} <span aria-hidden="true">·</span> {hero.contact.location}
+          </p>
+          <h1 className="mt-5 font-serif text-[2.5rem] font-normal leading-[1.04] tracking-[-0.02em] sm:text-6xl md:mt-6 lg:text-[4.75rem]">
+            <span className="sr-only">{hero.name}. </span>
+            {renderEmphasis(hero.title)}
           </h1>
-          
-          <h2 className="text-2xl md:text-3xl font-semibold text-muted-foreground mb-4 animate-fade-in-up animate-delay-100">
-            {heroData.title}
-          </h2>
-          
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-200">
-            {heroData.description}
+        </div>
+
+        <figure className="mt-10 md:col-span-4 md:col-start-9 md:row-span-2 md:row-start-1 md:mt-0 md:self-start md:pt-2">
+          <img
+            src={portrait480}
+            srcSet={`${portrait480} 480w, ${portrait960} 960w`}
+            sizes="(min-width: 768px) 22rem, 100vw"
+            alt={`Illustrated portrait of ${hero.name}`}
+            width={480}
+            height={640}
+            fetchPriority="high"
+            className="aspect-[4/5] w-full rounded-sm object-cover object-[50%_25%] md:aspect-[3/4]"
+          />
+          <figcaption className="label mt-3 flex justify-between">
+            <span>{hero.contact.location.split(",")[0]}</span>
+            <span>
+              {/* Built at deploy time, corrected on load */}
+              <time suppressHydrationWarning>{time}</time> IST
+            </span>
+          </figcaption>
+        </figure>
+
+        <div className="md:col-span-8 md:row-start-2">
+          <p className="mt-8 max-w-[36rem] text-[1.0625rem] leading-relaxed text-muted-foreground md:text-lg">
+            {hero.description}
           </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 animate-fade-in-up animate-delay-300">
-            <Button 
-              variant="default" 
-              size="lg" 
-              className="bg-gradient-primary border-0 shadow-glow hover:shadow-glow/50 transition-all duration-300 hover:scale-105 active:scale-95"
-              onClick={() => scrollToSection(heroData.ctaPrimaryTarget)}
-            >
-              <Mail className="mr-2 h-5 w-5" />
-              {heroData.ctaPrimary}
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="lg" 
-              className="border-primary/30 hover:border-primary hover:bg-primary/10 transition-all duration-300 hover:scale-105 active:scale-95"
-              onClick={() => scrollToSection(heroData.ctaSecondaryTarget)}
-            >
-              <ExternalLink className="mr-2 h-5 w-5" />
-              {heroData.ctaSecondary}
-            </Button>
-          </div>
-          
-          {/* Social Links */}
-          <div className="flex justify-center space-x-6 animate-fade-in-up animate-delay-400">
-            {heroData.social.map((social, index) => {
-              const IconComponent = getSocialIcon(social.name);
-              return (
-                <a 
-                  key={social.name}
+
+          <ul className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[0.9375rem] md:mt-10">
+            {hero.social.map((social) => (
+              <li key={social.name}>
+                <a
                   href={social.url}
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-muted-foreground hover:text-primary transition-all duration-300 transform hover:scale-125 hover:rotate-6"
-                  style={{ animationDelay: `${(index + 4) * 100}ms` }}
+                  className="link"
+                  {...(/^(mailto:|\/)/.test(social.url) ? {} : { target: "_blank", rel: "noopener noreferrer" })}
                 >
-                  <IconComponent className="h-6 w-6" />
+                  {SOCIAL_LABELS[social.name] ?? social.name}
+                  <span aria-hidden="true" className="ml-0.5 text-muted-foreground">
+                    ↗
+                  </span>
                 </a>
-              );
-            })}
-          </div>
-          
-          {/* Location */}
-          <p className="text-sm text-muted-foreground mt-8 animate-fade-in-up animate-delay-500">
-            📍 {heroData.contact.location} | 📞 {heroData.contact.phone}
-          </p>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
-      
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none glass:hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-      </div>
+
+      {hero.now && hero.now.length > 0 && (
+        <dl className="mt-14 grid gap-x-8 gap-y-5 border-t border-rule pt-6 sm:grid-cols-3 md:mt-24">
+          {hero.now.map((item) => (
+            <div key={item.label}>
+              <dt className="label">{item.label}</dt>
+              <dd className="mt-2 text-[0.9375rem] leading-snug">
+                {item.link ? (
+                  <a href={item.link} target="_blank" rel="noopener noreferrer" className="link-quiet">
+                    {item.text}
+                  </a>
+                ) : (
+                  item.text
+                )}
+              </dd>
+            </div>
+          ))}
+        </dl>
+      )}
     </section>
   );
 };

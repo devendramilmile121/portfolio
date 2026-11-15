@@ -1,170 +1,139 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Calendar } from "lucide-react";
+import { useState } from "react";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
+import { formatYears } from "@/lib/format";
+import { cn } from "@/lib/utils";
+import { Section } from "./Section";
+
+const LINK_LABELS: Record<string, string> = { demo: "Live demo", website: "Website", github: "Source", npm: "npm" };
 
 export const Projects = () => {
-  const { config, loading } = usePortfolioConfig();
+  const { config } = usePortfolioConfig();
+  // The first project starts open so the index shows what's inside a row
+  const [open, setOpen] = useState<Set<string>>(() => new Set(config?.projects?.[0] ? [config.projects[0].title] : []));
 
-  // Render skeleton while loading
-  if (!config) {
-    if (loading) {
-      return (
-        <section className="py-20 px-6">
-          <div className="container mx-auto">
-            <div className="text-center mb-16">
-              <div className="h-10 bg-gradient-primary/20 rounded-lg mx-auto w-40 mb-6"></div>
-              <div className="h-6 bg-muted rounded-lg mx-auto w-96"></div>
-            </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {[...Array(4)].map((_, i) => (
-                <Card key={i} className="bg-gradient-card border-border/40">
-                  <CardHeader>
-                    <div className="space-y-2 mb-3">
-                      <div className="h-6 bg-muted rounded w-32"></div>
-                      <div className="h-20 bg-muted/30 rounded"></div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex gap-2">
-                      {[...Array(3)].map((_, j) => (
-                        <div key={j} className="h-6 bg-muted/50 rounded px-3"></div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </div>
-        </section>
-      );
-    }
-    return null;
-  }
+  const projects = config?.projects ?? [];
+  if (projects.length === 0) return null;
 
-  const projects = config.projects;
-
-  // Don't render if no projects exist
-  if (!projects || projects.length === 0) {
-    return null;
-  }
+  const toggle = (title: string) =>
+    setOpen((current) => {
+      const next = new Set(current);
+      if (next.has(title)) next.delete(title);
+      else next.add(title);
+      return next;
+    });
 
   return (
-    <section className="py-20 px-6">
-      <div className="container mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-primary bg-clip-text text-transparent animate-fade-in-down">
-            Featured Projects
-          </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto animate-fade-in-up animate-delay-100">
-            Showcase of impactful projects spanning enterprise platforms, open source contributions, and innovative solutions.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {projects.map((project, index) => (
-            <Card 
-              key={project.title}
-              className="bg-gradient-card border-border/40 shadow-card hover:shadow-glow/20 transition-all duration-500 transform hover:scale-[1.02] animate-bounce-in"
-              style={{ animationDelay: `${index * 150}ms` }}
-            >
-              <CardHeader>
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-4">
-                  <Badge variant="outline" className="border-accent/30 text-accent bg-accent/5 text-xs px-2 py-1 w-fit hover:scale-110 transition-transform duration-300">
-                    {project.type}
-                  </Badge>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors duration-300">
-                    <Calendar className="h-4 w-4 animate-pulse" />
-                    {project.period}
-                  </div>
-                </div>
-                
-                <CardTitle className="text-xl md:text-2xl text-primary mb-3 hover:text-accent transition-colors duration-300">
-                  {project.title}
-                </CardTitle>
-                
-                <p className="text-muted-foreground leading-relaxed">
-                  {project.description}
-                </p>
-              </CardHeader>
-              
-              <CardContent>
-                <div className="mb-6">
-                  <h4 className="font-semibold text-foreground mb-3">Key Achievements:</h4>
-                  <ul className="space-y-2">
-                    {project.highlights.map((highlight, idx) => (
-                      <li key={idx} className="text-muted-foreground flex items-start gap-2 hover:translate-x-1 transition-transform duration-300">
-                        <span className="text-primary mt-1 text-xs animate-pulse-slow">•</span>
-                        <span>{highlight}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {project.technologies.map((tech, techIndex) => (
-                      <Badge 
-                        key={tech}
-                        variant="secondary" 
-                        className="bg-secondary/20 text-secondary-foreground border border-secondary/30 text-xs px-2 py-1 hover:scale-110 hover:shadow-glow/30 transition-all duration-300 cursor-pointer"
-                        style={{ animationDelay: `${(index * 150) + (techIndex * 50)}ms` }}
-                      >
-                        {tech}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-                
-                {project.links && (
-                  <div className="flex gap-3">
-                    {project.links.website && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="border-primary/30 hover:border-primary hover:bg-primary/10"
-                        asChild
-                      >
-                        <a href={project.links.website} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          Website
-                        </a>
-                      </Button>
+    <Section id="work" index="01" title="Selected work" aside={<p>My own product and libraries first, then client platforms.</p>}>
+      <ol className="border-t border-rule">
+        {projects.map((project, i) => {
+          const isOpen = open.has(project.title);
+          const panelId = `project-${i}`;
+          const links = Object.entries(project.links ?? {}).filter(([, url]) => Boolean(url));
+          return (
+            <li key={project.title} className="border-b border-rule">
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => toggle(project.title)}
+                  aria-expanded={isOpen}
+                  aria-controls={panelId}
+                  className="group grid w-full grid-cols-[2rem_1fr_auto] items-baseline gap-x-4 py-5 text-left sm:grid-cols-[2.5rem_minmax(0,1fr)_minmax(0,1fr)_5rem_1rem]"
+                >
+                  <span className="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
+                  <span className="min-w-0">
+                    <span className="block font-serif text-[1.5rem] leading-tight transition-colors group-hover:text-primary sm:text-[1.75rem]">
+                      {project.title}
+                    </span>
+                    {project.summary && (
+                      <span className="mt-1 block text-sm text-muted-foreground sm:hidden">{project.summary}</span>
                     )}
-                    {project.links.github && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="border-primary/30 hover:border-primary hover:bg-primary/10"
-                        asChild
-                      >
-                        <a href={project.links.github} target="_blank" rel="noopener noreferrer">
-                          <Github className="h-4 w-4 mr-2" />
-                          GitHub
-                        </a>
-                      </Button>
+                  </span>
+                  <span className="hidden text-[0.9375rem] text-muted-foreground sm:block">{project.summary}</span>
+                  <span className="font-mono text-xs text-muted-foreground sm:text-right">{formatYears(project.period)}</span>
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "hidden font-mono text-muted-foreground transition-transform duration-300 sm:block",
+                      isOpen && "rotate-45 text-foreground"
                     )}
-                    {project.links.npm && (
-                      <Button 
-                        variant="outline" 
-                        size="sm"
-                        className="border-primary/30 hover:border-primary hover:bg-primary/10"
-                        asChild
-                      >
-                        <a href={project.links.npm} target="_blank" rel="noopener noreferrer">
-                          <ExternalLink className="h-4 w-4 mr-2" />
-                          NPM
-                        </a>
-                      </Button>
-                    )}
-                  </div>
+                  >
+                    +
+                  </span>
+                </button>
+              </h3>
+
+              <div
+                id={panelId}
+                className={cn(
+                  "grid transition-[grid-template-rows] duration-300 ease-out",
+                  isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
                 )}
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </section>
+                inert={!isOpen || undefined}
+              >
+                <div className="overflow-hidden">
+                  <div className="grid gap-8 pb-10 sm:ml-[3.5rem] lg:grid-cols-[minmax(0,1fr)_16rem]">
+                    {project.image && (
+                      <img
+                        src={project.image.src}
+                        alt={project.image.alt}
+                        width={project.image.width}
+                        height={project.image.height}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-auto w-full rounded-sm border border-rule lg:col-span-2"
+                      />
+                    )}
+                    <div>
+                      <p className="max-w-measure text-[1.0625rem] leading-relaxed">{project.description}</p>
+                      {project.highlights.length > 0 && (
+                        <ul className="mt-5 max-w-measure space-y-2 text-[0.9375rem] text-muted-foreground">
+                          {project.highlights.map((highlight) => (
+                            <li key={highlight} className="grid grid-cols-[1rem_1fr]">
+                              <span aria-hidden="true">–</span>
+                              <span>{highlight}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+
+                    <dl className="grid content-start gap-4 text-sm">
+                      {project.role && (
+                        <div>
+                          <dt className="label">Role</dt>
+                          <dd className="mt-1">{project.role}</dd>
+                        </div>
+                      )}
+                      {project.client && project.client !== project.title && (
+                        <div>
+                          <dt className="label">Client</dt>
+                          <dd className="mt-1">{project.client}</dd>
+                        </div>
+                      )}
+                      <div>
+                        <dt className="label">Stack</dt>
+                        <dd className="mt-1 text-muted-foreground">{project.technologies.join(", ")}</dd>
+                      </div>
+                      {links.length > 0 && (
+                        <div>
+                          <dt className="label">Links</dt>
+                          <dd className="mt-1 flex flex-wrap gap-x-4">
+                            {links.map(([kind, url]) => (
+                              <a key={kind} href={url} target="_blank" rel="noopener noreferrer" className="link-quiet">
+                                {LINK_LABELS[kind] ?? kind} <span aria-hidden="true">↗</span>
+                              </a>
+                            ))}
+                          </dd>
+                        </div>
+                      )}
+                    </dl>
+                  </div>
+                </div>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </Section>
   );
 };

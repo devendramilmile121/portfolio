@@ -1,11 +1,12 @@
 import matter from 'gray-matter';
 import { Buffer } from 'buffer';
 
-// Make Buffer globally available
-if (typeof global === 'undefined') {
-  (window as any).global = window;
+// gray-matter expects Node's Buffer; give the browser a polyfill (Node, during pre-rendering, has its own)
+if (typeof window !== 'undefined') {
+  const w = window as unknown as { global?: unknown; Buffer?: typeof Buffer };
+  w.global ??= window;
+  w.Buffer ??= Buffer;
 }
-(window as any).Buffer = Buffer;
 
 export interface BlogPost {
   slug: string;
@@ -14,97 +15,65 @@ export interface BlogPost {
   summary: string;
   tags: string[];
   body: string;
+  /** Still served at its URL, but left out of lists and the sitemap and marked noindex */
+  unlisted: boolean;
 }
 
 interface FrontMatter {
   title: string;
-  date: string;
+  date: string | Date;
   summary: string;
-  tags: string[];
+  tags?: string[];
+  unlisted?: boolean;
 }
 
-// Dynamic blog files loader using Vite's import.meta.glob()
-// This automatically discovers all .md files in the blogs directory
-const blogModules = import.meta.glob<string>('../blogs/**/*.md', { 
-  query: '?raw', 
+// Every .md file under src/blogs, bundled at build time
+const blogModules = import.meta.glob<string>('../blogs/**/*.md', {
+  query: '?raw',
   import: 'default',
-  eager: true 
+  eager: true,
 });
 
 let cachedBlogs: BlogPost[] | null = null;
 
 /**
- * Load and parse all blog posts dynamically from the blogs directory
+ * All posts, newest first. Synchronous because the files are bundled, which lets pages render
+ * their content on the first pass, including during build-time pre-rendering.
  */
-export async function loadBlogs(): Promise<BlogPost[]> {
-  if (cachedBlogs) {
-    return cachedBlogs;
-  }
+export function getAllBlogs(): BlogPost[] {
+  if (cachedBlogs) return cachedBlogs;
 
-  const blogPosts: BlogPost[] = [];
-
+  const posts: BlogPost[] = [];
   for (const [filePath, rawContent] of Object.entries(blogModules)) {
     try {
-      // Extract filename from path (e.g., '../blogs/getting-started-with-react.md' -> 'getting-started-with-react')
-      const filename = filePath.split('/').pop() || '';
-      const slug = filename.replace('.md', '').toLowerCase();
-
-      // Content is already a string from import.meta.glob with ?raw
-      const content = String(rawContent);
-
-      // Parse frontmatter and body using gray-matter
-      const { data, content: body } = matter(content);
-
-      const frontmatter = data as FrontMatter;
-
-      blogPosts.push({
+      const slug = (filePath.split('/').pop() ?? '').replace(/\.md$/, '').toLowerCase();
+      const { data, content } = matter(String(rawContent));
+      const front = data as FrontMatter;
+      posts.push({
         slug,
-        title: frontmatter.title,
-        date: frontmatter.date,
-        summary: frontmatter.summary,
-        tags: frontmatter.tags || [],
-        body,
+        title: front.title,
+        // YAML may parse an unquoted date into a Date object
+        date: front.date instanceof Date ? front.date.toISOString().slice(0, 10) : String(front.date),
+        summary: front.summary,
+        tags: front.tags ?? [],
+        body: content,
+        unlisted: front.unlisted === true,
       });
-      
     } catch (error) {
       console.error(`[Blogs] Error loading blog ${filePath}:`, error);
     }
   }
 
-  // Sort by date (newest first)
-  blogPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  cachedBlogs = blogPosts;
-  return blogPosts;
+  posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  cachedBlogs = posts;
+  return posts;
 }
 
-/**
- * Get a single blog post by slug
- */
-export async function getBlogBySlug(slug: string): Promise<BlogPost | undefined> {
-  const blogs = await loadBlogs();
-  const found = blogs.find(blog => {
-    return blog.slug === slug;
-  });
-  return found;
+/** Posts to show in lists: everything except unlisted ones */
+export function getListedBlogs(): BlogPost[] {
+  return getAllBlogs().filter((post) => !post.unlisted);
 }
 
-/**
- * Get blogs filtered by tag
- */
-export async function getBlogsByTag(tag: string): Promise<BlogPost[]> {
-  const blogs = await loadBlogs();
-  return blogs.filter(blog => blog.tags.includes(tag));
-}
-
-/**
- * Get all unique tags from all blogs
- */
-export async function getAllTags(): Promise<string[]> {
-  const blogs = await loadBlogs();
-  const tags = new Set<string>();
-  blogs.forEach(blog => {
-    blog.tags.forEach(tag => tags.add(tag));
-  });
-  return Array.from(tags).sort();
+export function getBlogSync(slug: string): BlogPost | undefined {
+  return getAllBlogs().find((post) => post.slug === slug);
 }

@@ -1,84 +1,38 @@
-import { createContext, useContext, useLayoutEffect, useState } from 'react'
-
-const themes = ['github', 'dark', 'yellow', 'green', 'white', 'glass-light', 'glass-dark'] as const
-
-type Theme = (typeof themes)[number]
+import { useCallback, useLayoutEffect, useMemo, useState } from 'react'
+import { ThemeContext, getInitialTheme, type Theme, type ThemeState } from '@/lib/theme'
 
 type ThemeProviderProps = {
   children: React.ReactNode
-  defaultTheme?: Theme
   storageKey?: string
 }
 
-type ThemeProviderState = {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-}
+export function ThemeProvider({ children, storageKey = 'portfolio-theme' }: Readonly<ThemeProviderProps>) {
+  const [theme, setThemeState] = useState<Theme>(() => getInitialTheme(storageKey))
 
-const initialState: ThemeProviderState = {
-  theme: 'glass-dark',
-  setTheme: () => null,
-}
-
-const ThemeProviderContext = createContext<ThemeProviderState>(initialState)
-const themeClasses = themes.map((theme) => `theme-${theme}`)
-
-const isTheme = (value: string | null): value is Theme =>
-  value !== null && themes.includes(value as Theme)
-
-// Bump the version whenever the default theme changes, so returning visitors see the new default once
-const getThemeMigrationKey = (storageKey: string) => `${storageKey}-default-theme-v3`
-
-const getInitialTheme = (defaultTheme: Theme, storageKey: string): Theme => {
-  const migrationKey = getThemeMigrationKey(storageKey)
-  const hasAppliedDefaultTheme = localStorage.getItem(migrationKey) === 'true'
-
-  if (!hasAppliedDefaultTheme) {
-    localStorage.setItem(storageKey, defaultTheme)
-    localStorage.setItem(migrationKey, 'true')
-    return defaultTheme
-  }
-
-  const storedTheme = localStorage.getItem(storageKey)
-  return isTheme(storedTheme) ? storedTheme : defaultTheme
-}
-
-export function ThemeProvider({
-  children,
-  defaultTheme = 'glass-dark',
-  storageKey = 'portfolio-theme',
-  ...props
-}: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => getInitialTheme(defaultTheme, storageKey))
-
-  // Layout effect: the theme class must land before first paint, or the default theme flashes in late
   useLayoutEffect(() => {
-    const root = window.document.documentElement
-
-    root.classList.remove(...themeClasses)
-    root.classList.add(`theme-${theme}`)
+    document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
-  const value = {
-    theme,
-    setTheme: (theme: Theme) => {
-      localStorage.setItem(storageKey, theme)
-      setTheme(theme)
+  const setTheme = useCallback(
+    (next: Theme) => {
+      try {
+        localStorage.setItem(storageKey, next)
+      } catch {
+        // Storage blocked: the choice still applies for this visit
+      }
+      setThemeState(next)
     },
-  }
-
-  return (
-    <ThemeProviderContext.Provider {...props} value={value}>
-      {children}
-    </ThemeProviderContext.Provider>
+    [storageKey]
   )
-}
 
-export const useTheme = () => {
-  const context = useContext(ThemeProviderContext)
+  const value = useMemo<ThemeState>(
+    () => ({
+      theme,
+      setTheme,
+      toggleTheme: () => setTheme(theme === 'dark' ? 'light' : 'dark'),
+    }),
+    [theme, setTheme]
+  )
 
-  if (context === undefined)
-    throw new Error('useTheme must be used within a ThemeProvider')
-
-  return context
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

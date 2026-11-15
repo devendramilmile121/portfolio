@@ -1,11 +1,11 @@
 ---
-title: "Angular Component Communication: Complete Guide with Best Practices"
+title: "Angular Component Communication: Patterns and Best Practices"
 date: "2025-11-23"
-summary: "Master component communication in Angular with real-world examples covering parent-child communication, shared services, RxJS patterns, and advanced techniques."
-tags: ["Angular", "TypeScript", "Component Communication", "RxJS", "Angular", "Best Practices"]
+summary: "How Angular components talk to each other: inputs and outputs between parent and child, shared services, RxJS patterns and the more advanced techniques, with real-world examples."
+tags: ["Angular", "TypeScript", "Component Communication", "RxJS", "Best Practices"]
 ---
 
-# Angular Component Communication: Complete Guide with Best Practices
+# Angular Component Communication: Patterns and Best Practices
 
 Component communication is one of the most fundamental concepts in Angular. Whether you're building a small application or a large-scale enterprise system, understanding how components interact is crucial. In this comprehensive guide, we'll explore all the patterns and best practices for component communication in Angular.
 

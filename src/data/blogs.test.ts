@@ -13,6 +13,7 @@ describe('Blog Data Module', () => {
         summary: 'Test summary',
         tags: ['test'],
         body: 'Test content',
+        unlisted: false,
       };
 
       expect(mockBlog.slug).toBeDefined();
@@ -31,6 +32,7 @@ describe('Blog Data Module', () => {
         summary: 'Test summary',
         tags: ['test', 'blog'],
         body: 'Test content',
+        unlisted: false,
       };
 
       expect(typeof mockBlog.slug).toBe('string');
@@ -49,6 +51,7 @@ describe('Blog Data Module', () => {
         summary: 'Summary',
         tags: ['react', 'typescript', 'javascript', 'web'],
         body: 'Content',
+        unlisted: false,
       };
 
       expect(mockBlog.tags.length).toBe(4);
@@ -64,6 +67,7 @@ describe('Blog Data Module', () => {
         summary: 'Summary',
         tags: [],
         body: 'Content',
+        unlisted: false,
       };
 
       expect(mockBlog.tags.length).toBe(0);
@@ -81,6 +85,7 @@ describe('Blog Data Module', () => {
           summary: 'Summary',
           tags: [],
           body: 'Content',
+          unlisted: false,
         };
         
         expect(mockBlog.slug).toBe(slug);
@@ -95,6 +100,7 @@ describe('Blog Data Module', () => {
         summary: 'Summary',
         tags: [],
         body: 'Content',
+        unlisted: false,
       };
       
       expect(mockBlog.date).toMatch(/\d{4}-\d{2}-\d{2}/);

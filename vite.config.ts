@@ -1,4 +1,4 @@
-import { defineConfig, type UserConfig } from "vite";
+import { defineConfig, type PluginOption, type UserConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 // Note: visualizer is loaded dynamically below only when ANALYZE=true to avoid requiring
@@ -6,19 +6,17 @@ import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig(async (): Promise<UserConfig> => {
-  const plugins: any[] = [react()];
+  const plugins: PluginOption[] = [react()];
   if (process.env.ANALYZE === 'true') {
     // Dynamically import the visualizer plugin only when requested.
   try {
-  // Dynamically import the visualizer plugin only when requested.
-  // @ts-ignore - the optional devDependency and its types may not be present on all machines.
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-  const { visualizer } = await import('vite-plugin-visualizer');
+  // Imported by a variable name so TypeScript doesn't require this optional devDependency to exist.
+  const optionalPlugin = 'vite-plugin-visualizer';
+  const { visualizer } = await import(/* @vite-ignore */ optionalPlugin);
       plugins.push(visualizer({ filename: './dist/bundle-visualizer.html', open: false }));
     } catch (e) {
       // If the package isn't installed, warn and continue without failing the build.
       // This keeps builds stable on CI or developer machines where the plugin isn't present.
-      // eslint-disable-next-line no-console
       console.warn('vite-plugin-visualizer not installed; skipping bundle analysis.');
     }
   }

@@ -1,11 +1,11 @@
 ---
-title: "YARP Reverse Proxy — What It Is, How to Use It, and When It Matters"
+title: "YARP Reverse Proxy: What It Is, How to Use It, and When It Matters"
 date: "2025-12-09"
 summary: "YARP is a reverse proxy library for .NET that handles routing, load balancing, and request transformation. Learn how it works, see practical code examples, and understand what makes it useful and what to watch out for."
 tags: ["YARP", "Reverse Proxy", "Load Balancing", ".NET", "API Gateway", "Microservices"]
 ---
 
-# YARP Reverse Proxy — What It Is, How to Use It, and When It Matters
+# YARP Reverse Proxy: What It Is, How to Use It, and When It Matters
 
 YARP stands for Yet Another Reverse Proxy. It's a reverse proxy library built on top of .NET that lets you route incoming requests to backend services, transform them, and send responses back to clients.
 
