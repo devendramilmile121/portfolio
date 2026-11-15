@@ -48,4 +48,29 @@ describe('Projects', () => {
     const { container } = render(<Projects />);
     expect(container).toBeEmptyDOMElement();
   });
+
+  it('labels live projects', () => {
+    mockPortfolioConfig();
+    render(<Projects />);
+    expect(screen.getByRole('button', { name: /Samyo\s*Live/ })).toBeInTheDocument();
+  });
+
+  it('plays a project video only while its panel is open', () => {
+    // play/pause are shared prototype stubs (test-setup.ts); earlier tests may have called them
+    (HTMLMediaElement.prototype.play as jest.Mock).mockClear();
+    (HTMLMediaElement.prototype.pause as jest.Mock).mockClear();
+    mockPortfolioConfig();
+    render(<Projects />);
+
+    const video = screen.getByLabelText('CLARIO demo') as HTMLVideoElement;
+    expect(video).toHaveAttribute('preload', 'none');
+    expect(video.play).not.toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: /CLARIO/ }));
+    expect(video).toHaveAttribute('preload', 'auto');
+    expect(video.play).toHaveBeenCalled();
+
+    fireEvent.click(screen.getByRole('button', { name: /CLARIO/ }));
+    expect(video.pause).toHaveBeenCalled();
+  });
 });

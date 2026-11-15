@@ -33,7 +33,14 @@ export interface PortfolioConfig {
     id: string;
   }>;
   about?: {
+    /** Paragraphs; may contain [link text](url) and *emphasis* */
     bio: string[];
+    highlights?: Array<{
+      title: string;
+      detail: string;
+      org: string;
+      year?: string;
+    }>;
   };
   resume?: {
     headline: string;
@@ -69,11 +76,21 @@ export interface PortfolioConfig {
     highlights: string[];
     technologies: string[];
     type: string;
+    /** live: running and public; retired: no longer maintained */
+    status?: 'live' | 'retired';
     image?: {
       src: string;
       alt: string;
       width: number;
       height: number;
+    };
+    /** Short silent loop shown instead of the image; plays only while the panel is open */
+    video?: {
+      src: string;
+      poster: string;
+      width: number;
+      height: number;
+      label: string;
     };
     links?: {
       demo?: string;

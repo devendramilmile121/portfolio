@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { usePortfolioConfig, type PortfolioConfig } from "@/hooks/usePortfolioConfig";
+import { renderRich } from "@/lib/rich";
 import { Section } from "./Section";
 
 const yearOf = (text: string) => text.match(/\d{4}/g)?.pop() ?? text;
@@ -42,8 +43,29 @@ export const About = () => {
       {about?.bio && (
         <div className="max-w-[44rem] space-y-5 font-serif text-[1.3125rem] leading-[1.55] sm:text-[1.4375rem]">
           {about.bio.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{renderRich(paragraph)}</p>
           ))}
+        </div>
+      )}
+
+      {about?.highlights && about.highlights.length > 0 && (
+        <div className="mt-16">
+          <h3 className="label">Highlights</h3>
+          <ul className="mt-4 border-t border-rule">
+            {about.highlights.map((item) => (
+              <li
+                key={item.title}
+                className="grid gap-x-8 gap-y-1 border-b border-rule py-4 sm:grid-cols-[minmax(0,15rem)_minmax(0,1fr)_auto]"
+              >
+                <p className="text-[0.9375rem] font-medium">{item.title}</p>
+                <p className="text-[0.9375rem] text-muted-foreground">{item.detail}</p>
+                <p className="font-mono text-xs text-muted-foreground sm:text-right">
+                  {item.org}
+                  {item.year && <span> · {item.year}</span>}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
       )}
 

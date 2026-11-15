@@ -1,10 +1,62 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { usePrefersReducedMotion } from "@/hooks/usePrefersReducedMotion";
+import type { PortfolioConfig } from "@/hooks/usePortfolioConfig";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 import { formatYears } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { Section } from "./Section";
 
 const LINK_LABELS: Record<string, string> = { demo: "Live demo", website: "Website", github: "Source", npm: "npm" };
+
+type Project = NonNullable<PortfolioConfig["projects"]>[number];
+
+const STATUS_LABELS: Record<NonNullable<Project["status"]>, string> = { live: "Live", retired: "Retired" };
+
+function StatusLabel({ status }: Readonly<{ status: Project["status"] }>) {
+  if (!status) return null;
+  return (
+    <span
+      className={cn(
+        "ml-3 inline-flex items-center gap-1.5 whitespace-nowrap align-middle font-mono text-[0.625rem] font-medium uppercase tracking-[0.08em]",
+        status === "live" ? "text-primary" : "text-muted-foreground"
+      )}
+    >
+      {status === "live" && <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full bg-primary" />}
+      {STATUS_LABELS[status]}
+    </span>
+  );
+}
+
+/** Silent loop that plays only while its panel is open, and never on its own for reduced-motion visitors */
+function ProjectVideo({ video, active }: Readonly<{ video: NonNullable<Project["video"]>; active: boolean }>) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const reduceMotion = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (active && !reduceMotion) el.play().catch(() => undefined); // autoplay can be refused; the poster stays
+    else el.pause();
+  }, [active, reduceMotion]);
+
+  return (
+    <video
+      ref={ref}
+      poster={video.poster}
+      width={video.width}
+      height={video.height}
+      muted
+      loop
+      playsInline
+      preload={active ? "auto" : "none"}
+      controls={reduceMotion}
+      aria-label={video.label}
+      className="h-auto w-full rounded-sm border border-rule bg-card lg:col-span-2"
+    >
+      <source src={video.src} type="video/mp4" />
+    </video>
+  );
+}
 
 export const Projects = () => {
   const { config } = usePortfolioConfig();
@@ -41,8 +93,9 @@ export const Projects = () => {
                 >
                   <span className="font-mono text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
                   <span className="min-w-0">
-                    <span className="block font-serif text-[1.5rem] leading-tight transition-colors group-hover:text-primary sm:text-[1.75rem]">
-                      {project.title}
+                    <span className="block font-serif text-[1.5rem] leading-tight sm:text-[1.75rem]">
+                      <span className="transition-colors group-hover:text-primary">{project.title}</span>
+                      <StatusLabel status={project.status} />
                     </span>
                     {project.summary && (
                       <span className="mt-1 block text-sm text-muted-foreground sm:hidden">{project.summary}</span>
@@ -72,7 +125,9 @@ export const Projects = () => {
               >
                 <div className="overflow-hidden">
                   <div className="grid gap-8 pb-10 sm:ml-[3.5rem] lg:grid-cols-[minmax(0,1fr)_16rem]">
-                    {project.image && (
+                    {project.video ? (
+                      <ProjectVideo video={project.video} active={isOpen} />
+                    ) : project.image && (
                       <img
                         src={project.image.src}
                         alt={project.image.alt}

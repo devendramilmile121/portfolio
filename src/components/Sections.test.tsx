@@ -32,6 +32,9 @@ describe('About', () => {
     render(<About />);
 
     expect(screen.getByText('First paragraph of the bio.')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Samyo' })).toHaveAttribute('href', 'https://samyo.in');
+    expect(screen.getByText('Hackathon proposal adopted')).toBeInTheDocument();
+    expect(screen.getByText('Going on the roadmap')).toBeInTheDocument();
     expect(screen.getByRole('heading', { name: 'Frontend' })).toBeInTheDocument();
     expect(screen.getByText('TypeScript')).toBeInTheDocument();
     expect(screen.getByText('MCA')).toBeInTheDocument();

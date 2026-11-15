@@ -24,7 +24,10 @@ export const mockConfig: PortfolioConfig = {
     { label: 'Writing', id: '/blogs' },
     { label: 'Contact', id: 'contact' },
   ],
-  about: { bio: ['First paragraph of the bio.', 'Second paragraph.'] },
+  about: {
+    bio: ['First paragraph of the bio.', 'I build [Samyo](https://samyo.in) and [write](/blogs).'],
+    highlights: [{ title: 'Hackathon proposal adopted', detail: 'Going on the roadmap', org: 'Acme', year: '2026' }],
+  },
   skills: {
     description: 'What I use',
     categories: [
@@ -63,6 +66,7 @@ export const mockConfig: PortfolioConfig = {
       highlights: ['Works offline'],
       technologies: ['Angular', '.NET'],
       type: 'SaaS',
+      status: 'live',
       links: { website: 'https://samyo.in' },
       image: { src: '/projects/samyo.webp', alt: 'Samyo dashboard', width: 1600, height: 1000 },
     },
@@ -75,6 +79,7 @@ export const mockConfig: PortfolioConfig = {
       highlights: [],
       technologies: ['.NET 8', 'YARP'],
       type: 'Enterprise',
+      video: { src: '/demo.mp4', poster: '/demo.webp', width: 1142, height: 682, label: 'CLARIO demo' },
     },
   ],
   education: {

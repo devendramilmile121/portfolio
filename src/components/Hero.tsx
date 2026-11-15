@@ -1,8 +1,9 @@
-import { Fragment, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import portrait480 from "@/assets/portrait-480.webp";
 import portrait960 from "@/assets/portrait-960.webp";
 import { usePortfolioConfig } from "@/hooks/usePortfolioConfig";
 import { formatPuneTime } from "@/lib/format";
+import { renderRich } from "@/lib/rich";
 
 const SOCIAL_LABELS: Record<string, string> = {
   email: "Email",
@@ -11,19 +12,6 @@ const SOCIAL_LABELS: Record<string, string> = {
   npm: "npm",
   resume: "Résumé",
 };
-
-// Text wrapped in *asterisks* in the config renders as an italic accent
-function renderEmphasis(text: string) {
-  return text.split(/(\*[^*]+\*)/g).map((part, i) =>
-    part.startsWith("*") && part.endsWith("*") ? (
-      <em key={`${i}:${part}`} className="italic text-primary">
-        {part.slice(1, -1)}
-      </em>
-    ) : (
-      <Fragment key={`${i}:${part}`}>{part}</Fragment>
-    )
-  );
-}
 
 function useClock() {
   const [time, setTime] = useState(() => formatPuneTime());
@@ -56,7 +44,7 @@ export const Hero = () => {
           </p>
           <h1 className="mt-5 font-serif text-[2.5rem] font-normal leading-[1.04] tracking-[-0.02em] sm:text-6xl md:mt-6 lg:text-[4.75rem]">
             <span className="sr-only">{hero.name}. </span>
-            {renderEmphasis(hero.title)}
+            {renderRich(hero.title, { emphasisClassName: "italic text-primary" })}
           </h1>
         </div>
 
@@ -95,7 +83,7 @@ export const Hero = () => {
                 >
                   {SOCIAL_LABELS[social.name] ?? social.name}
                   <span aria-hidden="true" className="ml-0.5 text-muted-foreground">
-                    ↗
+                    {social.url.startsWith("/") ? "→" : "↗"}
                   </span>
                 </a>
               </li>
